@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Header, Login, Dashboard, Footer, Session } from "./components";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   if (Session.getSession()) {
@@ -28,7 +30,7 @@ function App() {
         </Router>
       </div>
       */
-      <h1>App - No session</h1>
+      <Login></Login>
     );
   }
 }
