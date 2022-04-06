@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Header, Login, Dashboard, Footer, Session } from "./components";
+import { Header, Login, Dashboard, Footer, Session } from "./components"
+import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 function App() {
   if (Session.getSession()) {
@@ -16,9 +16,13 @@ function App() {
         </Router>
       </div>
       */
-      <h1>App - Session</h1>
+      
+      //<h1>App - Session</h1>
+      <button>Iniciar yjasgxyagdyajgdxaj</button>
+      
+
     );
-  }
+  } 
   else {
     return (
       /*
@@ -30,7 +34,12 @@ function App() {
         </Router>
       </div>
       */
-      <Login></Login>
+      <div>
+        {/* <h1>App - No session</h1> */}
+        <div><Dashboard/></div>
+
+      </div>
+      
     );
   }
 }
