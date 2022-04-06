@@ -14,9 +14,13 @@ function App() {
         </Router>
       </div>
       */
-      <h1>App - Session</h1>
+      
+      //<h1>App - Session</h1>
+      <button>Iniciar</button>
+      
+
     );
-  }
+  } 
   else {
     return (
       /*
