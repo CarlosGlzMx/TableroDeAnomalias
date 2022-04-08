@@ -23,8 +23,11 @@ function App() {
         </Router>
       </div>
       */
-
-            <h1>App - Session</h1>
+            <div>
+                <Header />
+                <h1>App - Session</h1>
+                <Footer />
+            </div>
         );
     } else {
         return (
@@ -38,8 +41,10 @@ function App() {
       </div>
       */
             <div>
+                <Header />
                 {/* <h1>App - No session</h1> */}
                 <Dashboard />
+                <Footer />
             </div>
         );
     }

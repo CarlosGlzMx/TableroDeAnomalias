@@ -16,7 +16,6 @@ function Dashboard() {
 	return (
 
 		<div className="Dashboard">
-			<Header></Header>
 			<main class="container">
 				<div class="c1">
 					<img src="https://cdn.pixabay.com/photo/2021/11/22/22/53/dot-6817557__480.png" alt="" />
@@ -37,7 +36,6 @@ function Dashboard() {
 					<img src="https://cdn.pixabay.com/photo/2021/11/09/00/15/trend-6780399__480.png" alt="" />
 				</div>
 			</main>
-			<Footer></Footer>
 		</div>
 	);
 }
