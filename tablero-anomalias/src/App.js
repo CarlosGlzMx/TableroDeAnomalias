@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import {
     Header,
     Login,
@@ -14,38 +14,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
     if (Session.getSession()) {
         return (
-            /*
-      <div className="App">
-        <Router>
-          <Header />
-          <Route path="/" exact component={() => <Dashboard />} />
-          <Footer />
-        </Router>
-      </div>
-      */
-            <div>
-                <Header />
-                <h1>App - Session</h1>
-                <Footer />
-            </div>
+            <div></div>
+            // <>
+            //     <Router>
+            //         <Header />
+            //         <Route path="/" exact component={() => <Login />} />
+            //         <Footer />
+            //     </Router>
+            // </>
         );
     } else {
         return (
-            /*
-      <div className="App">
-        <Router>
-          <Header />
-          <Route path="/" exact component={() => <Login />} />
-          <Footer />
-        </Router>
-      </div>
-      */
-            <div>
+            <Router>
                 <Header />
-                {/* <h1>App - No session</h1> */}
-                <Dashboard />
+                <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/upload" element={<Upload />} />
+                </Routes>
                 <Footer />
-            </div>
+            </Router>
         );
     }
 }

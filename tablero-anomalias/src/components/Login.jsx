@@ -1,7 +1,5 @@
 import React from "react";
 import { Button } from 'react-bootstrap';
-import Header from "./Header";
-import Footer from "./Footer";
 
 const Login = () => {
 

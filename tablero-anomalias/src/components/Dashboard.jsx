@@ -1,7 +1,5 @@
 import React from "react";
 import { Chart } from "react-google-charts";
-import Header from "./Header";
-import Footer from "./Footer";
 
 <Chart
 	chartType="ScatterChart"
