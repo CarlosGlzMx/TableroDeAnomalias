@@ -1,10 +1,12 @@
 from flask import Flask, request, render_template
+from db_manager import *
 app = Flask(__name__)
 
 # Ruta por defecto con instrucciones de uso
 @app.route("/")
 def default():
     return render_template('map.html')
+
 
 # Carga de nuevos archivos a la base de datos
 # Incluye la llamada al modelo de inteligencia artificial
@@ -45,3 +47,7 @@ def modify_board():
         # Responder un error si surge algún problema
         print("tablero borrado")
         return "tablero borrado"
+
+if __name__ == "__main__":
+    db_connect()
+    app.run(debug = False)
