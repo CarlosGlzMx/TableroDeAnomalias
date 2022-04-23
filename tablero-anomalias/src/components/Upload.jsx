@@ -10,23 +10,17 @@ function Upload() {
 
 
 	useEffect(() => {
-		console.log(type);
 		if (type !== "") {
-			if (type === "application/pdf") {
-				console.log("es de tipo pdf");
+			if (type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || type === "text/csv") {
 				setIsValid(true);
 			}
 			else {
-				console.log("no es del tipo valido")
 				setIsValid(false);
 			}
 		}
 		else {
-			console.log("no hay archivo");
 			setIsValid(undefined);
 		}
-
-		console.log(isValid);
 
 	}, [type, isValid]);
 
@@ -39,7 +33,7 @@ function Upload() {
 						<Form.Control isInvalid={ isValid === undefined ? null : !isValid} type="file" onChange={ (e) => setType(e.target.files[0].type)} required />
 
 						<Form.Control.Feedback type="invalid">
-							Por favor, elige un archivo que sea .pdf
+							Por favor, elige un archivo que sea .csv o .xlsx
 						</Form.Control.Feedback>
 					</Form.Group>
 				</Form>
