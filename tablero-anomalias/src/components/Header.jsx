@@ -16,7 +16,7 @@ function Header() {
 						className="d-inline-block align-top"
 					/>
 				</Navbar.Brand>
-				<Navbar.Text>
+				<Navbar.Text className="fw-bold fs-5">
 					Panel de Anomalias
 				</Navbar.Text>
 				<Navbar.Toggle aria-controls="offcanvasNavbar" />
