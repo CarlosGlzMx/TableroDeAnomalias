@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
 function Upload() {
 
@@ -37,6 +37,10 @@ function Upload() {
 						</Form.Control.Feedback>
 					</Form.Group>
 				</Form>
+
+				<Button  style={{ backgroundColor: "#ff8300", border: "none" }} size="lg" disabled={ isValid === undefined ? true : !isValid}> 
+					Enviar
+				</Button>
 			</div>
 		</div>
 	);
