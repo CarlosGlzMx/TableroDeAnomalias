@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+
 
 function Upload() {
 
 	const [isValid, setIsValid] = useState();
 	const [type, setType] = useState("");
+
+	// Archivo .csv o .xlsx
+	const [data, setData] = useState();
 
 
 	useEffect(() => {
@@ -21,16 +24,30 @@ function Upload() {
 		else {
 			setIsValid(undefined);
 		}
-
-	}, [type, isValid]);
+	}, [type, isValid, data]);
 
 	return (
 		<div className="Upload">
-			<div style={ { width: "50%	", height: "80vh", marginLeft: "25%", padding: "35vh 0" } }>
-				<Form  validated={isValid} >
+			<div
+				style={{
+					width: "50%",
+					height: "80vh",
+					marginLeft: "25%",
+					padding: "25vh 0"
+				}}>
+				<Form validated={isValid} >
 					<Form.Group controlId="formFile" className="mb-3">
 						<Form.Label>Carga un archivo de tipo .csv o .xlsx</Form.Label>
-						<Form.Control isInvalid={ isValid === undefined ? null : !isValid} type="file" onChange={ (e) => setType(e.target.files[0].type)} required />
+
+						<Form.Control
+							isInvalid={
+								isValid === undefined ? null : !isValid
+							}
+							type="file"
+							onChange={(e) => {
+								setType(e.target.files[0].type);
+								setData(e.target.files[0]);
+							}} required />
 
 						<Form.Control.Feedback type="invalid">
 							Por favor, elige un archivo que sea .csv o .xlsx
@@ -38,9 +55,21 @@ function Upload() {
 					</Form.Group>
 				</Form>
 
-				<Button  style={{ backgroundColor: "#ff8300", border: "none" }} size="lg" disabled={ isValid === undefined ? true : !isValid}> 
-					Enviar
-				</Button>
+				<Link
+					to="/selectColumn"
+					state={{ data: data }}>
+					<Button
+						style={{
+							backgroundColor: "#ff8300",
+							border: "none"
+						}}
+						size="sm"
+						disabled={
+							isValid === undefined ? true : !isValid
+						}>
+						Seleccionar Columnas
+					</Button>
+				</Link>			
 			</div>
 		</div>
 	);

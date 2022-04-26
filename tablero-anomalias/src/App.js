@@ -7,6 +7,7 @@ import {
     Footer,
     Session,
     Upload,
+    SelectColumn
 } from "./components";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -30,6 +31,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/upload" element={<Upload />} />
+                    <Route path="/selectColumn" element={<SelectColumn />} />
                 </Routes>
                 <Footer />
             </Router>
