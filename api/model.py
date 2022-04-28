@@ -1,8 +1,8 @@
 from sklearn.ensemble import IsolationForest
 import pandas as pd
 
-def run_model(df, columns):
-    X = df[columns]
+def run_model(df):
+    X = df.copy()
     model = IsolationForest().fit(X)
     df['scores'] = model.decision_function(X)
     df['anomaly_score'] = model.predict(X)
