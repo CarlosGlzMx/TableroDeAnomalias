@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from 'react-bootstrap';
 
 const Column = (props) => {
+
+    const [checked, setChecked] = useState(true);
 
 
     return (
@@ -24,7 +26,8 @@ const Column = (props) => {
                     <Form.Check
                         type="checkbox"
                         id={`default-checkbox`}
-                        checked={true}
+                        checked={checked}
+                        onClick={() => setChecked(!checked)}
                     />
                 </div>
             </div>
