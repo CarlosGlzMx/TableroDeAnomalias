@@ -4,7 +4,7 @@ export async function getCargas(id_usuario) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: id_usuario,
+            "id_usuario": id_usuario,
         },
     }).then((response) => response.json());
 }
@@ -15,7 +15,7 @@ export async function postCarga(archivo) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: id_usuario,
+            "id_usuario": id_usuario,
         },
     }).then((response) => response.json());
 }
@@ -26,8 +26,8 @@ export async function postCarga(archivo) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: id_usuario,
-            id_carga: id_carga,
+            "id_usuario": id_usuario,
+            "id_carga": id_carga,
         },
     }).then((response) => response.json());
 }
@@ -40,8 +40,8 @@ export async function deleteCarga(id_usuario, id_carga) {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: id_usuario,
-            id_carga: id_carga,
+            "id_usuario": id_usuario,
+            "id_carga": id_carga,
         },
     }).then((response) => response.json());
 }
@@ -52,8 +52,8 @@ export async function postTablero(id_usuario, id_carga, tablero) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: id_usuario,
-            id_carga: id_carga,
+            "id_usuario": id_usuario,
+            "id_carga": id_carga,
         },
         body: JSON.stringify(tablero),
     }).then((response) => response.json());
@@ -65,9 +65,9 @@ export async function getTablero(id_usuario, id_carga, id_tablero) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: id_usuario,
-            id_carga: id_carga,
-            id_tablero: id_tablero,
+            "id_usuario": id_usuario,
+            "id_carga": id_carga,
+            "id_tablero": id_tablero,
         },
     }).then((response) => response.json());
 }
@@ -78,9 +78,9 @@ export async function deleteTablero(id_usuario, id_carga, id_tablero) {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: id_usuario,
-            id_carga: id_carga,
-            id_tablero: id_tablero,
+            "id_usuario": id_usuario,
+            "id_carga": id_carga,
+            "id_tablero": id_tablero,
         },
     }).then((response) => response.json());
 }
