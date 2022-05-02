@@ -10,18 +10,11 @@ const Column = (props) => {
                 <h6>{props.index}  {props.name}</h6>
             </div>
             <div className="d-flex flex-row justify-content-between">
-                <div className="me-3">
-                    <h6>Agente Interno</h6>
-                </div>
-                <div>
-                    <Form.Check
-                        type="switch"
-                        id="custom-switch"
-                    />
-                </div>
-                <div className="ms-2">
-                    <h6>Agente Externo</h6>
-                </div>
+                <Form.Select>
+                    <option selected={true} value="N-A">Agente no asignado</option>
+                    <option value="A-I">Agente Interno</option>
+                    <option value="A-E">Agente Externo</option>
+                </Form.Select>
             </div>
             <div className="d-flex flex-row">
                 <div className="me-3">
@@ -31,6 +24,7 @@ const Column = (props) => {
                     <Form.Check
                         type="checkbox"
                         id={`default-checkbox`}
+                        checked={true}
                     />
                 </div>
             </div>
