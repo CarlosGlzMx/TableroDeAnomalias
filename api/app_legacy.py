@@ -17,3 +17,7 @@ def upload_data():
         print(categorized_data.head())
         model.run_model(pd.read_csv("examples/clean_data.csv"))
         return Response(json.dumps({"carga_id" : "1"}), 200)
+
+
+# Devuelve el nuevo id para que el usuario pueda hacer un GET de manera consecutiva
+# return Response(json.dumps({"id_carga" : new_id}), 200)

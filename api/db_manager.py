@@ -41,11 +41,11 @@ def save_data(upload_name, user_id, df, base_columns):
 
     # Ejecuta el stored procedure de MySQL que borra la carga
     cursor.callproc("crea_carga", (user_id, upload_name, ",".join(base_columns)))
-    for result in cursor.stored_results():
-        print(result.fetchall())
+    created_id = next(cursor.stored_results()).fetchall()[0][0]
     cnx.commit()
     cursor.close()
     cnx.close()
+    return created_id
 
 # Llama a un Stored Procedure que devuelve los registros de una carga en un dataframe, junto con info adicional
 def get_data(upload_id, user_id):

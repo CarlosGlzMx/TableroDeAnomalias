@@ -1,4 +1,6 @@
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from pandas.api.types import is_string_dtype
 
 # Limpia del documento subido las columnas de datos inadecuadas
 def clean(df):
@@ -21,5 +23,9 @@ def slice_columns(df, columns_kept):
 
 # Convierte datos en formatos no numéricos en datos numericos
 def categorize(df):
+    for column in df:
+        if is_string_dtype(df[column]):
+            # Crea la nueva columna con el sufijo num
+            df[str(column) + "_num"] = LabelEncoder().fit_transform(df[column])
+            df.drop(columns = column, inplace = True)
     return df
-

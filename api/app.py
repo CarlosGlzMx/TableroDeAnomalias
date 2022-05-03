@@ -5,6 +5,7 @@
 # Bibliotecas estándar para el manejo del API y los datos
 from flask import Flask, request, render_template, abort, Response, send_file
 import pandas as pd
+import json
 
 # Modulos del equipo de trabajo para seccionamiento de tareas
 import model
@@ -42,7 +43,8 @@ def methods_uploads():
     if request.method == "POST":
         # Verifica que venga un usuario y una clasificación de columnas del archivo
         user_id = request.headers.get("id_usuario")
-        columns = ["empresa_id", "chofer_id", "fecha_captura", "peso"]
+        columns = ["D_UBICACION", "ID_TRANSPORTISTA", "NOM_APE_COND", "weightDifference"]
+        
         if user_id is None or columns is None:
             return Response("No se ha proporcionado un id de usuario o detallado columnas", 400)
 
@@ -53,11 +55,27 @@ def methods_uploads():
         # Lee los contenidos del archivo a un df de pandas. Puede tardar un par de minutos
         file_received = request.files["archivo_registros"]
         file_name = file_received.filename
+
+        # all_columns = request.form["columnas"]
+        # print(request.form)
+
+        # Manejo de datos previo al modelo de inteligencia artificial
+        file_df = pd.read_csv(file_received) if ".csv" in file_name else pd.read_excel(file_received)
+        clean_data = processing.clean(file_df)
+        sliced_data = processing.slice_columns(clean_data, columns)
+        categorized_data = processing.categorize(sliced_data)
+        resulting_data = model.run_model(categorized_data)
         
-        # file_df = pd.read_csv(file_received) if ".csv" in file_name else pd.read_excel(file_received)
-        try: db_manager.save_data(file_name, user_id, "", columns)
+        # Se guardan
+        try: new_id = db_manager.save_data(file_name, user_id, "", columns)
         except Exception as e: return Response("Error en el guardado de datos: " + str(e), 500)
-        return "post"
+
+        # Regreso de datos
+        # Configura la respuesta al sitio web
+        response_to_web = Response(resulting_data.to_csv(index = False), 200)
+        response_to_web.headers["Content-Type"] = "text/csv"
+        response_to_web.headers["id_nueva"] = new_id
+        return response_to_web
     elif request.method == "GET":
         # Verifica que venga un usuario y un identificador de carga
         user_id = request.headers.get("id_usuario")
