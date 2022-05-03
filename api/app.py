@@ -4,6 +4,7 @@
 
 # Bibliotecas estándar para el manejo del API y los datos
 from flask import Flask, request, render_template, abort, Response, send_file
+from flask_cors import CORS, cross_origin
 import pandas as pd
 import json
 
@@ -13,6 +14,7 @@ import processing
 import db_manager
 
 app = Flask(__name__)
+cors = CORS(app)
 
 # Se numeran las rutas según su orden de uso por la aplicación
 # 1 - GET - Ruta por defecto con instrucciones de uso
@@ -22,6 +24,7 @@ def default():
 
 # 3 - GET - Devuelve una lista de nombres y ids de las cargas y tableros disponibles
 @app.route("/datos-disponibles/", methods = ["GET"])
+@cross_origin()
 def list_available_data():
     # Verifica que venga un usuario en la petición
     user_id = request.headers.get("id_usuario")
@@ -39,6 +42,7 @@ def list_available_data():
 # 4 - GET - Devuelve todos los datos asociados con una carga
 # 5 - DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
 @app.route("/cargas/", methods = ["POST", "GET", "DELETE"])
+@cross_origin()
 def methods_uploads():
     if request.method == "POST":
         # Verifica que venga un usuario y una clasificación de columnas del archivo
@@ -110,6 +114,7 @@ def methods_uploads():
 # 7 - GET - Devuelve un tablero guardado previamente
 # 8 - DELETE - Elimina un tablero de la base de datos
 @app.route("/tableros/", methods = ['POST', 'GET', 'DELETE'])
+@cross_origin()
 def methods_boards():
     if request.method == 'POST':
         # Lee el cuerpo y pasa a un diccionario de Python
