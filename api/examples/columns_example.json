@@ -1,0 +1,8 @@
+{
+    "usuario" : "ejemplo",
+	"col1_ejemplo": ["externo", "IA_NO"], 
+	"col2_ejemplo": ["interno", "IA_SI"],
+	"col3_ejemplo": ["externo", "IA_SI"],
+    "col4_ejemplo": ["interno", "IA_NO"],
+	"col5_ejemplo": ["externo", "IA_SI"]
+}
