@@ -8,24 +8,24 @@ import {
     Footer,
     Session,
     Upload,
-    SelectColumn
+    SelectColumn,
 } from "./components";
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css"; 
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
     return (
         <Router>
             <Header />
             <Routes>
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<Login />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/upload" element={<Upload />} />
                 <Route path="/selectColumn" element={<SelectColumn />} />
             </Routes>
-            {/* <Footer /> */}
+            <Footer />
         </Router>
     );
-    
 }
 
 export default App;
