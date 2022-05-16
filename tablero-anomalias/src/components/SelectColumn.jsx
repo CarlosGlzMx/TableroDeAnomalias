@@ -38,7 +38,7 @@ const SelectColumn = (props) => {
     }, [])
 
     return (
-        <div className="SelectColumn">
+        <div className="SelectColumn" style={{minHeight: "82vh"}}>
             <div
                 style={{
                     height: "20vh",

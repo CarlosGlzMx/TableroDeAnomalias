@@ -55,10 +55,10 @@ function Chart6() {
       ];
       const colors = scaleOrdinal(schemeCategory10).range();
 	return (
-        <ResponsiveContainer width="100%" height="100%">
-        <BarChart width={150} height={40} data={data6}>
-          <Bar dataKey="uv" fill="#ffba26" />
-        </BarChart>
+      <ResponsiveContainer width="100%" height="100%">
+      <BarChart width={150} height={40} data={data6}>
+        <Bar dataKey="uv" fill="#ffba26" />
+      </BarChart>
       </ResponsiveContainer>
 		
 	);

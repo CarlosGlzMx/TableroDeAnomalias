@@ -31,7 +31,7 @@ function Upload() {
 			<div
 				style={{
 					width: "50%",
-					height: "80vh",
+					height: "82vh",
 					marginLeft: "25%",
 					padding: "25vh 0"
 				}}>
