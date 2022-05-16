@@ -9,7 +9,7 @@ import Chart6 from "../components/Chart6";
 import Actions from "../components/Actions";
 
 
-const Dashboard = () => {
+const Dashboard = (user) => {
 
     return (
       <div className="Dashboard">
