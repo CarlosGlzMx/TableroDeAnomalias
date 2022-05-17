@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 
-
 function Upload() {
 
 	const [isValid, setIsValid] = useState();
@@ -57,19 +56,20 @@ function Upload() {
 
 				<Link
 					to="/selectColumn"
-					state={{ data: data }}>
+					state={{
+						data,
+						type
+					}}>
 					<Button
 						style={{
 							backgroundColor: "#ff8300",
 							border: "none"
 						}}
 						size="sm"
-						disabled={
-							isValid === undefined ? true : !isValid
-						}>
+						disabled={isValid === undefined ? true : !isValid} >
 						Seleccionar Columnas
 					</Button>
-				</Link>			
+				</Link>
 			</div>
 		</div>
 	);
