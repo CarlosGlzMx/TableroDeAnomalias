@@ -56,16 +56,17 @@ function Upload(user) {
 
 				<Link
 					to="/selectColumn"
-					state={ { data: data } }>
+					state={{
+						data,
+						type
+					}}>
 					<Button
 						style={ {
 							backgroundColor: "#ff8300",
 							border: "none"
 						} }
 						size="sm"
-						disabled={
-							isValid === undefined ? true : !isValid
-						}>
+						disabled={isValid === undefined ? true : !isValid} >
 						Seleccionar Columnas
 					</Button>
 				</Link>
