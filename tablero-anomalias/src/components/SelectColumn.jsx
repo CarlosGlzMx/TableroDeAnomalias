@@ -6,7 +6,7 @@ import { Form, Button } from 'react-bootstrap';
 // import readXlsxFile from 'read-excel-file';
 import * as XLSX from "xlsx";
 
-const SelectColumn = (props) => {
+const SelectColumn = (user) => {
 
     const location = useLocation();
 
@@ -85,7 +85,7 @@ const SelectColumn = (props) => {
     }
 
     return (
-        <div className="SelectColumn">
+        <div className="SelectColumn" style={{minHeight: "82vh"}}>
             <div
                 style={{
                     height: "20vh",

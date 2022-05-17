@@ -1,42 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import {
     Header,
     Login,
     Dashboard,
+    ListboxDashboard,
     Footer,
-    Session,
     Upload,
-    SelectColumn
+    SelectColumn,
 } from "./components";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-    if (Session.getSession()) {
-        return (
-            <div></div>
-            // <>
-            //     <Router>
-            //         <Header />
-            //         <Route path="/" exact component={() => <Login />} />
-            //         <Footer />
-            //     </Router>
-            // </>
-        );
-    } else {
-        return (
-            <Router>
-                <Header />
-                <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/upload" element={<Upload />} />
-                    <Route path="/selectColumn" element={<SelectColumn />} />
-                </Routes>
-                <Footer />
-            </Router>
-        );
-    } 
+    const [user] = useState("Charlie");
+
+    return (
+        <Router>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/dashboard" element={<Dashboard user={user} />} />
+                <Route path="/upload" element={<Upload user={user} />} />
+                <Route
+                    path="/selectColumn"
+                    element={<SelectColumn user={user} />}
+                />
+            </Routes>
+            <Footer />
+        </Router>
+    );
 }
 
 export default App;

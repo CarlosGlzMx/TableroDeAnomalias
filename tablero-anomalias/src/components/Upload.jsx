@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 
-function Upload() {
 
+function Upload(user) {
 	const [isValid, setIsValid] = useState();
 	const [type, setType] = useState("");
 
@@ -28,13 +28,13 @@ function Upload() {
 	return (
 		<div className="Upload">
 			<div
-				style={{
+				style={ {
 					width: "50%",
-					height: "80vh",
+					height: "82vh",
 					marginLeft: "25%",
 					padding: "25vh 0"
-				}}>
-				<Form validated={isValid} >
+				} }>
+				<Form validated={ isValid } >
 					<Form.Group controlId="formFile" className="mb-3">
 						<Form.Label>Carga un archivo de tipo .csv o .xlsx</Form.Label>
 
@@ -43,10 +43,10 @@ function Upload() {
 								isValid === undefined ? null : !isValid
 							}
 							type="file"
-							onChange={(e) => {
+							onChange={ (e) => {
 								setType(e.target.files[0].type);
 								setData(e.target.files[0]);
-							}} required />
+							} } required />
 
 						<Form.Control.Feedback type="invalid">
 							Por favor, elige un archivo que sea .csv o .xlsx
@@ -61,10 +61,10 @@ function Upload() {
 						type
 					}}>
 					<Button
-						style={{
+						style={ {
 							backgroundColor: "#ff8300",
 							border: "none"
-						}}
+						} }
 						size="sm"
 						disabled={isValid === undefined ? true : !isValid} >
 						Seleccionar Columnas
