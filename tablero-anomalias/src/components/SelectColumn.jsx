@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import Column from './Column';
 import { Form, Button } from 'react-bootstrap';
 
-const SelectColumn = (props) => {
+const SelectColumn = (user) => {
 
     const location = useLocation();
 
