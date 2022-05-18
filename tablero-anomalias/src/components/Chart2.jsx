@@ -1,56 +1,66 @@
 import {React} from "react";
 import {
-  ScatterChart,
-  Scatter,
-  XAxis,
-  YAxis,
-  ZAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+    Tooltip,
+    XAxis,
+    YAxis,
+    Legend,
+    CartesianGrid,
+    ResponsiveContainer,
+    LineChart,
+    Line,
+  } from "recharts";
 
 
 function Chart2() {
-  const data01 = [
-    { x: 100, y: 200, z: 200 },
-    { x: 120, y: 100, z: 260 },
-    { x: 170, y: 300, z: 400 },
-    { x: 140, y: 250, z: 280 },
-    { x: 150, y: 400, z: 500 },
-    { x: 110, y: 280, z: 200 },
-  ];
-  const data02 = [
-    { x: 200, y: 260, z: 240 },
-    { x: 240, y: 290, z: 220 },
-    { x: 190, y: 290, z: 250 },
-    { x: 198, y: 250, z: 210 },
-    { x: 180, y: 280, z: 260 },
-    { x: 210, y: 220, z: 230 },
-  ];
+    const data2 = [
+        {
+          name: 'Fecha A',
+          Anomalías: 4000,
+          Datos_Regulares: 2400,
+        },
+        {
+          name: 'Fecha B',
+          Anomalías: 3000,
+          Datos_Regulares: 1398,
+        },
+        {
+          name: 'Fecha C',
+          Anomalías: 2000,
+          Datos_Regulares: 9800,
+        },
+        {
+          name: 'Fecha D',
+          Anomalías: 2780,
+          Datos_Regulares: 3908,
+        },
+        {
+          name: 'Fecha E',
+          Anomalías: 1890,
+          Datos_Regulares: 4800,
+        },
+        {
+          name: 'Fecha F',
+          Anomalías: 2390,
+          Datos_Regulares: 3800,
+        },
+        {
+          name: 'Fecha G',
+          Anomalías: 3490,
+          Datos_Regulares: 4300,
+        },
+      ];
 	return (
-    <ResponsiveContainer width="100%" height="100%">
-    <ScatterChart
-      width={400}
-      height={400}
-      margin={{
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 20,
-      }}
-    >
-      <CartesianGrid />
-      <XAxis type="number" dataKey="x" name="stature" unit="" />
-      <YAxis type="number" dataKey="y" name="weight" unit="" />
-      <ZAxis type="number" dataKey="z" range={[60, 400]} name="score" unit="km" />
-      <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-      <Legend />
-      <Scatter name="Anomalia_1" data={data01} fill="#fe9000" shape="circle" />
-      <Scatter name="Anomalia_2" data={data02} fill="#ffba26" shape="circle" />
-    </ScatterChart>
-  </ResponsiveContainer>
+		<ResponsiveContainer width="100%" height="100%">
+      <LineChart width={500} height={300} data={data2}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" padding={{ left: 30, right: 30 }} />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="Datos_Regulares" stroke="#ff7304" activeDot={{ r: 8 }} />
+        <Line type="monotone" dataKey="Anomalías" stroke="#ffba26" />
+      </LineChart>
+    </ResponsiveContainer>
 	);
 }
 
