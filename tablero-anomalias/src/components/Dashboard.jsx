@@ -1,6 +1,7 @@
 import {React} from "react";
 import { Dropdown} from "react-bootstrap";
 import Chart1 from "../components/Chart1";
+import Chart2 from "../components/Chart2";
 import AnomaliesTable from "../components/AnomaliesTable";
 import Chart3 from "../components/Chart3";
 import Chart4 from "../components/Chart4";
@@ -20,7 +21,7 @@ const Dashboard = (user) => {
           </div>
 
           <div class="c5">
-            {<AnomaliesTable />}
+            {<Chart2 />}
           </div>
           
           <div class="c2">
@@ -96,7 +97,11 @@ const Dashboard = (user) => {
             </div>
             {<Chart6 />}
           </div>
+          
 
+        </div>
+        <div>
+          {<AnomaliesTable />}
         </div>
 
         <div class="action-bar" style={{height:"8vh"}}>
