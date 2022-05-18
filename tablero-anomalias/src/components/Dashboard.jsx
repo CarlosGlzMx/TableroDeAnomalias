@@ -106,7 +106,7 @@ const Dashboard = (user) => {
 
         <div class="action-bar" style={{height:"8vh"}}>
           {<Actions />}
-          </div>
+        </div>
 
       </div>
     );

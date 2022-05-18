@@ -31,26 +31,26 @@ function Chart2() {
   ];
 	return (
     <ResponsiveContainer width="100%" height="100%">
-    <ScatterChart
-      width={400}
-      height={400}
-      margin={{
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 20,
-      }}
-    >
-      <CartesianGrid />
-      <XAxis type="number" dataKey="x" name="stature" unit="" />
-      <YAxis type="number" dataKey="y" name="weight" unit="" />
-      <ZAxis type="number" dataKey="z" range={[60, 400]} name="score" unit="km" />
-      <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-      <Legend />
-      <Scatter name="Anomalia_1" data={data01} fill="#fe9000" shape="circle" />
-      <Scatter name="Anomalia_2" data={data02} fill="#ffba26" shape="circle" />
-    </ScatterChart>
-  </ResponsiveContainer>
+      <ScatterChart
+        width={400}
+        height={400}
+        margin={{
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 20,
+        }}
+        >
+        <CartesianGrid />
+        <XAxis type="number" dataKey="x" name="stature" unit="" />
+        <YAxis type="number" dataKey="y" name="weight" unit="" />
+        <ZAxis type="number" dataKey="z" range={[60, 400]} name="score" unit="km" />
+        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+        <Legend />
+        <Scatter name="Anomalia_1" data={data01} fill="#fe9000" shape="circle" />
+        <Scatter name="Anomalia_2" data={data02} fill="#ffba26" shape="circle" />
+      </ScatterChart>
+    </ResponsiveContainer>
 	);
 }
 
