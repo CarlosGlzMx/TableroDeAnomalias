@@ -9,11 +9,11 @@ import Chart6 from "../components/Chart6";
 import Actions from "../components/Actions";
 
 
-const Dashboard = () => {
+const Dashboard = (user) => {
 
     return (
       <div className="Dashboard">
-        <main class="container">
+        <div className="container p-0" style={{minHeight:"80vh"}}>
           
           <div class="c1">
               {<Chart1 />}
@@ -96,13 +96,13 @@ const Dashboard = () => {
             </div>
             {<Chart6 />}
           </div>
-           
-          <div class="action-bar">
-            
-            {<Actions />}
-            
+
+        </div>
+
+        <div class="action-bar" style={{height:"8vh"}}>
+          {<Actions />}
           </div>
-        </main>
+
       </div>
     );
 }
