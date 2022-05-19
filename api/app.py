@@ -45,6 +45,7 @@ def list_available_data():
 @cross_origin()
 def methods_uploads():
     if request.method == "POST":
+        print(request.form)
         # Verifica que venga un usuario y una clasificación de columnas del archivo
         user_id = request.headers.get("id_usuario")
         columns = ["D_UBICACION", "ID_TRANSPORTISTA", "NOM_APE_COND", "weightDifference"]
