@@ -4,7 +4,8 @@ import {
     PieChart,
     Pie,
     ResponsiveContainer,
-    Cell
+    Cell,
+    Legend
   } from "recharts";
 
 function Chart1() {
@@ -38,6 +39,7 @@ function Chart1() {
                         fill= "#fe9000"
                         paddingAngle={5}
                         dataKey="users"
+                        wrapperStyle={{ position: 'relative' }}
                         >
                         {data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

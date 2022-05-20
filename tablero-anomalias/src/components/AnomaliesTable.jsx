@@ -57,6 +57,13 @@ function AnomaliesTable() {
         name: "Anomalia 8",
         details: "Detalles de Anomalia 8"
       },
+
+      {
+
+        id: 9,
+        name: "Anomalia 9",
+        details: "Detalles de Anomalia 9"
+      },
       {
 
         id: 10,

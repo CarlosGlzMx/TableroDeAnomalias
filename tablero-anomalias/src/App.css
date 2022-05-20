@@ -158,9 +158,9 @@ th {
 .action-bar {
     width: 100%;
     background-color: #ff8300;
-    /*position: fixed;
+    position: fixed;
     left: 0;
-    bottom: 0;*/
+    bottom: 0;
 }
 
 .action {
