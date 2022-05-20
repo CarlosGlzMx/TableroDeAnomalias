@@ -5,6 +5,7 @@
 # Bibliotecas estándar para el manejo del API y los datos
 from flask import Flask, request, render_template, abort, Response, send_file
 from flask_cors import CORS, cross_origin
+from numpy import dtype
 import pandas as pd
 import json
 
@@ -47,10 +48,9 @@ def methods_uploads():
     if request.method == "POST":
         # Verifica que venga un usuario y una clasificación de columnas del archivo
         user_id = request.headers.get("id_usuario")
-        columns = ["D_UBICACION", "ID_TRANSPORTISTA", "NOM_APE_COND", "weightDifference"]
-        
-        if user_id is None or columns is None:
+        if user_id is None or request.form["columnas"] is None:
             return Response("No se ha proporcionado un id de usuario o detallado columnas", 400)
+        relevant_columns, AI_columns, date_column = processing.extract_columns(request.form["columnas"])
 
         # Verifica que venga un archivo y tenga contenidos
         if "archivo_registros" not in request.files or request.files["archivo_registros"].filename == "":
@@ -60,19 +60,21 @@ def methods_uploads():
         file_received = request.files["archivo_registros"]
         file_name = file_received.filename
 
-        # all_columns = request.form["columnas"]
-        # print(request.form)
-
         # Manejo de datos previo al modelo de inteligencia artificial
-        file_df = pd.read_csv(file_received) if ".csv" in file_name else pd.read_excel(file_received)
-        clean_data = processing.clean(file_df)
-        sliced_data = processing.slice_columns(clean_data, columns)
-        categorized_data = processing.categorize(sliced_data)
-        resulting_data = model.run_model(categorized_data)
+        if ".csv" in file_name:
+            temp_df = pd.read_csv(file_received, encoding='latin-1', low_memory=False)
+        else:
+            temp_df = pd.read_excel(file_received, encoding='latin-1', low_memory = False)
+        temp_df = processing.clean(temp_df)
+        sliced_data = processing.slice_columns(temp_df, relevant_columns + [date_column])
+        categorized_data = processing.categorize(sliced_data, AI_columns)
+        resulting_data = model.run_model(categorized_data, sliced_data)
         
-        # Se guardan
-        try: new_id = db_manager.save_data(file_name, user_id, "", columns)
-        except Exception as e: return Response("Error en el guardado de datos: " + str(e), 500)
+        # Se guardan los datos en la base de datos
+        # try: new_id = db_manager.save_data(file_name, user_id, resulting_data, relevant_columns, date_column)
+        # except Exception as e:
+        #   return Response("Error en el guardado de datos: " + str(e), 500)
+        new_id = 5
 
         # Regreso de datos
         # Configura la respuesta al sitio web

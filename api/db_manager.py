@@ -34,7 +34,7 @@ def get_data_names(user_id):
     return json.dumps({"cargas" : upload_list, "tableros" : board_list})
 
 # Llama a un Stored Procedure que guarda una nueva carga, como objeto y como agregración de registros
-def save_data(upload_name, user_id, df, base_columns):
+def save_data(upload_name, user_id, df, base_columns, date_column):
     # Conecta a la base de datos y crea un cursor
     cnx = db_connect()
     cursor = cnx.cursor()

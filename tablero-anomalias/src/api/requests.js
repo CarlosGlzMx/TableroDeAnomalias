@@ -4,19 +4,22 @@ export async function getDatosDisponibles(idUsuario) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: idUsuario,
+            id_usuario: idUsuario.user,
         },
     }).then((response) => response.json());
 }
 
 // POST - Crea una carga en la base de datos
-export async function postCarga(archivo, idUsuario) {
-    return await fetch(`http://127.0.0.1:5000/cargas/`, {
+export function postCarga(archivo, columnas, idUsuario) {
+    const formData = new FormData();
+    formData.append("archivo_registros", archivo);
+    formData.append("columnas", JSON.stringify(columnas));
+    return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-            id_usuario: idUsuario,
+            id_usuario: idUsuario.user,
         },
+        body: formData,
     }).then((response) => response.json());
 }
 
@@ -26,7 +29,7 @@ export async function getCarga(archivo, idUsuario, idCarga) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: idUsuario,
+            id_usuario: idUsuario.user,
             id_carga: idCarga,
         },
     }).then((response) => response.json());
