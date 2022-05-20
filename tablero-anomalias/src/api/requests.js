@@ -14,7 +14,6 @@ export function postCarga(archivo, columnas, idUsuario) {
     const formData = new FormData();
     formData.append("archivo_registros", archivo);
     formData.append("columnas", JSON.stringify(columnas));
-    console.log(archivo);
     return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "POST",
         headers: {

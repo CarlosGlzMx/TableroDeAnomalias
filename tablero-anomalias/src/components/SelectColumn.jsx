@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import Column from './Column';
 import { Form, Button } from 'react-bootstrap';
 import { postCarga } from "../api/requests"
 // import readXlsxFile from 'read-excel-file';
 import * as XLSX from "xlsx";
+import tempFile from "./test_results.csv";
 
 const SelectColumn = (user) => {
 
@@ -18,6 +19,9 @@ const SelectColumn = (user) => {
 
 	//State to store table Column name
 	const [tableRows, setTableRows] = useState([]);
+
+	//Temporary state to store processed data. Update when API sends response
+	const [processedData, setProcessedData] = useState([]);
 
 	useEffect(() => {
 		if (data !== undefined) {
@@ -76,7 +80,20 @@ const SelectColumn = (user) => {
 			})
 		}
 
-		await postCarga(data, columnas, user)
+		// await postCarga(data, columnas, user)
+		console.log(tempFile);
+		// Lectura temporal de archivo
+		if (type === "text/csv") {
+			// Passing file data (event.target.files[0]) to parse using Papa.parse
+			Papa.parse(tempFile[0], {
+				delimiter: ",",
+				header: true,
+				skipEmptyLines: true,
+				complete: function (results) {
+					console.log(results);
+				},
+			});
+		}
 	}
 
 	return (
@@ -115,6 +132,8 @@ const SelectColumn = (user) => {
 				</div>
 				<div className="mb-4 d-flex justify-content-center">
 					<Button
+						// as={ Link }
+						// to={ { pathname: "/dashboard", state: { processedData: processedData, } } }
 						style={ {
 							backgroundColor: "#ff8300",
 							border: "none"
