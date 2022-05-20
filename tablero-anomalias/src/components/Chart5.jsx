@@ -41,9 +41,50 @@ function Chart5() {
           //amt: 2000,
         }
       ];
+
+
+      const filters = [
+        {
+          id: 1,
+          name: "filtro 1",
+          details: "Detalles de Anomalia 1"
+        },
+        {
+          id: 2,
+          name: "filtro 2",
+          details: "Detalles de Anomalia 2"
+        },
+        {
+    
+          id: 3,
+          name: "filtro 3",
+          details: "Detalles de Anomalia 3"
+        },
+        {
+    
+          id: 46,
+          name: "filtro 4",
+          details: "Detalles de Anomalia 4"
+        },
+      ]
+    
+      const filterList = filters.map(filters => <option value={filters.id}>
+        {filters.name}</option>)
       
 	return (
-        <ResponsiveContainer>
+
+    <div class="c5">
+          <div class="horizontalFilters">
+            <select class="form-select" aria-label="Default select example">
+            <option selected>Filtrar por</option>
+              {filterList}
+            </select>
+            <select class="form-select" aria-label="Default select example">
+            <option selected>Filtrar por</option>
+              {filterList}
+            </select>
+          </div>
+          <ResponsiveContainer>
             <BarChart 
                 width={500}
                 height={300}
@@ -65,6 +106,8 @@ function Chart5() {
                 <Bar dataKey="Datos_Regulares" fill="#ffba26" stackId="stack" />
             </BarChart>
         </ResponsiveContainer>
+        </div>
+        
 
 	);
 }

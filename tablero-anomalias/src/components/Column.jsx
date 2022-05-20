@@ -4,14 +4,13 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 
 const Column = (props) => {
 
-    const [checkedBox, setCheckedBox] = useState(true);
+    const [checkedBox, setCheckedBox] = useState(false);
     const [checkedRadio, setCheckedRadio] = useState(false);
 
     const [select, setSelect] = useState('N-A');
 
     useEffect(() => {
-        console.log('Value:', select);
-    }, [select]);
+    }, [select, checkedBox, checkedRadio]);
 
 
     return (
@@ -26,9 +25,18 @@ const Column = (props) => {
             <Form.Group className="d-flex flex-row justify-content-between">
                 <Form.Select
                     as="select"
-                    id={`select-${props.key}`}
-                    onChange={(e) => setSelect(e.target.value)}>
-                    <option selected value="N-A" key="N-A">Agente no asignado</option>
+                    id={`select-${props.index - 1}`}
+                    defaultValue="N-A"
+                    onChange={(e) => {
+                        setSelect(e.target.value);
+                        if (e.target.value !== "N-A") {
+                            setCheckedBox(true);
+                        }
+                        else {
+                            setCheckedBox(false);
+                        }
+                    }}>
+                    <option value="N-A" key="N-A">Agente no asignado</option>
                     <option value="A-I" key="A-I">Agente Interno</option>
                     <option value="A-E" key="A-E">Agente Externo</option>
                 </Form.Select>
@@ -40,7 +48,7 @@ const Column = (props) => {
                 <div>
                     <Form.Check
                         type="checkbox"
-                        id={`default-checkbox-${props.key}`}
+                        id={`default-checkbox-${props.index - 1}`}
                         value={checkedBox}
                         disabled={select === "N-A" ? true : false}
                         checked={select === "N-A" ? false : checkedBox}
@@ -51,9 +59,9 @@ const Column = (props) => {
             <Form.Group className="d-flex flex-row" style={{ width: '4vw' }} >
                 <Form.Check
                     type='radio'
-                    id={`default-radio-${props.key}`}
+                    id={`default-radio-${props.index - 1}`}
                     value={checkedRadio}
-                    checked={checkedRadio}
+                    defaultChecked={checkedRadio}
                     onClick={() => setCheckedRadio(!checkedRadio)}
                 />
             </Form.Group>

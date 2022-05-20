@@ -3,7 +3,8 @@
 # Desarrollo por el equipo 4 del Tec de Monterrey, Carlos González para Ternium
 
 # Bibliotecas estándar para el manejo del API y los datos
-from flask import Flask, request, render_template, abort, Response, send_file
+from operator import index
+from flask import Flask, make_response, request, render_template, abort, Response, send_file
 from flask_cors import CORS, cross_origin
 from numpy import dtype
 import pandas as pd
@@ -78,7 +79,7 @@ def methods_uploads():
 
         # Regreso de datos
         # Configura la respuesta al sitio web
-        response_to_web = Response(resulting_data.to_csv(index = False), 200)
+        response_to_web = Response(resulting_data.to_json() , 200)
         response_to_web.headers["Content-Type"] = "text/csv"
         response_to_web.headers["id_nueva"] = new_id
         return response_to_web
