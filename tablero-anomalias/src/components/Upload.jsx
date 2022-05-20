@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import AnomalyBg from "../components/images/AnomalyBG.png";
+import BoardRow from "../components/BoardRow";
 
 function Upload(user) {
 	const [isValid, setIsValid] = useState();
@@ -26,12 +27,12 @@ function Upload(user) {
 	}, [type, isValid, data]);
 
 	return (
-		<div className="Upload" style={ { display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" } }>
-			<div className="p-4" style={ {
+		<div className="Upload" style={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
+			<div className="p-4" style={{
 				width: "40%", height: "66vh", margin: "8vh", border: "0.3rem dashed #6C757D",
 				borderRadius: "0.5rem", backgroundColor: "#EEEEEE"
-			} }>
-				<Form validated={ isValid } >
+			}}>
+				<Form validated={isValid} >
 					<Form.Group controlId="formFile" className="mb-3">
 						<Form.Label>Carga un archivo de tipo .csv o .xlsx</Form.Label>
 
@@ -41,10 +42,10 @@ function Upload(user) {
 							}
 							accept=".csv, .xlsx"
 							type="file"
-							onChange={ (e) => {
+							onChange={(e) => {
 								setType(e.target.files[0].type);
 								setData(e.target.files[0]);
-							} } required />
+							}} required />
 
 						<Form.Control.Feedback type="invalid">
 							Por favor, elige un archivo que sea .csv o .xlsx
@@ -53,36 +54,62 @@ function Upload(user) {
 				</Form>
 				<Link
 					to="/selectColumn"
-					state={ {
+					state={{
 						data,
 						type
-					} }>
+					}}>
 					<Button
-						style={ {
+						style={{
 							backgroundColor: "#ff8300",
 							border: "none"
-						} }
+						}}
 						size="sm"
-						disabled={ isValid === undefined ? true : !isValid } >
+						disabled={isValid === undefined ? true : !isValid} >
 						Seleccionar Columnas
 					</Button>
 				</Link>
 			</div>
-			<div style={ { width: "40%", height: "66vh", margin: "8vh", border: "0.3rem dashed #ff8300", borderRadius: "0.5rem", backgroundColor: "white" } }>
+			<div style={{
+				width: "40%",
+				height: "66vh",
+				margin: "8vh",
+				border: "0.3rem dashed #ff8300",
+				borderRadius: "0.5rem",
+				backgroundColor: "white"
+			}}>
 				<div className="w-100 h-50 p-4">
 					<div className="h4">Cargas disponibles</div>
-					<ul>
-						<div className="h6">Carga 1 - 17/10/2001</div>
-						<div className="h6">Carga 2 - 18/10/2001</div>
-						<div className="h6">Carga 3 - 19/10/2001</div>
+					<ul style={{
+						overflow: 'scroll',
+						maxHeight: '25vh',
+						overflowX: 'hidden'
+					}}>
+						{/* //TODO: Naturalmente aquí vendría un .map según los datos que devuelva la API */}
+						<BoardRow name="Carga 1 - 17/10/2001"></BoardRow>
+						<BoardRow name="Carga 2 - 18/10/2001"></BoardRow>
+						<BoardRow name="Carga 3 - 19/10/2001"></BoardRow>
+						<BoardRow name="Carga 1 - 17/10/2001"></BoardRow>
+						<BoardRow name="Carga 2 - 18/10/2001"></BoardRow>
+						<BoardRow name="Carga 3 - 19/10/2001"></BoardRow>
+						<BoardRow name="Carga 1 - 17/10/2001"></BoardRow>
+						<BoardRow name="Carga 2 - 18/10/2001"></BoardRow>
+						<BoardRow name="Carga 3 - 19/10/2001"></BoardRow>
 					</ul>
 				</div>
 				<div className="w-100 h-50 p-4">
 					<div className="h4">Tableros guardados</div>
-					<ul>
-						<div className="h6">Tablero 1 - 17/10/2001</div>
-						<div className="h6">Tablero 2 - 18/10/2001</div>
-						<div className="h6">Tablero 3 - 19/10/2001</div>
+					<ul style={{
+						overflow: 'scroll',
+						maxHeight: '20vh',
+						overflowX: 'hidden'
+					}}>
+						{/* //TODO: Naturalmente aquí vendría un .map según los datos que devuelva la API */}
+						<BoardRow name="Tablero 1 - 17/10/2001"></BoardRow>
+						<BoardRow name="Tablero 2 - 18/10/2001"></BoardRow>
+						<BoardRow name="Tablero 3 - 19/10/2001"></BoardRow>
+						<BoardRow name="Tablero 1 - 17/10/2001"></BoardRow>
+						<BoardRow name="Tablero 2 - 18/10/2001"></BoardRow>
+						<BoardRow name="Tablero 3 - 19/10/2001"></BoardRow>
 					</ul>
 				</div>
 			</div>
