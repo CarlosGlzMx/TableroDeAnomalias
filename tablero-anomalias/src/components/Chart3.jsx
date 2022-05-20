@@ -1,66 +1,66 @@
-import {React} from "react";
-import {
-    Tooltip,
-    XAxis,
-    YAxis,
-    Legend,
-    CartesianGrid,
-    ResponsiveContainer,
-    LineChart,
-    Line,
-  } from "recharts";
+import {React, useState} from "react";
+import { scaleOrdinal } from 'd3-scale';
+import { schemeCategory10 } from 'd3-scale-chromatic';
+import { BarChart, Bar, Cell,ResponsiveContainer } from "recharts";
 
 
+  
 function Chart3() {
-    const data2 = [
+    const [data, setData] = useState([{ Datos: "Anomalías", users: 1254 },
+      { Datos: "Datos regulares", users: 12536 }])
+
+      const data6 = [
         {
-          name: 'Fecha A',
-          Anomalías: 4000,
-          Datos_Regulares: 2400,
+          name: 'Page A',
+          uv: 4000,
+          pv: 2400,
+          amt: 2400,
         },
         {
-          name: 'Fecha B',
-          Anomalías: 3000,
-          Datos_Regulares: 1398,
+          name: 'Page B',
+          uv: 3000,
+          pv: 1398,
+          amt: 2210,
         },
         {
-          name: 'Fecha C',
-          Anomalías: 2000,
-          Datos_Regulares: 9800,
+          name: 'Page C',
+          uv: 2000,
+          pv: 9800,
+          amt: 2290,
         },
         {
-          name: 'Fecha D',
-          Anomalías: 2780,
-          Datos_Regulares: 3908,
+          name: 'Page D',
+          uv: 2780,
+          pv: 3908,
+          amt: 2000,
         },
         {
-          name: 'Fecha E',
-          Anomalías: 1890,
-          Datos_Regulares: 4800,
+          name: 'Page E',
+          uv: 1890,
+          pv: 4800,
+          amt: 2181,
         },
         {
-          name: 'Fecha F',
-          Anomalías: 2390,
-          Datos_Regulares: 3800,
+          name: 'Page F',
+          uv: 2390,
+          pv: 3800,
+          amt: 2500,
         },
         {
-          name: 'Fecha G',
-          Anomalías: 3490,
-          Datos_Regulares: 4300,
+          name: 'Page G',
+          uv: 3490,
+          pv: 4300,
+          amt: 2100,
         },
       ];
+      const colors = scaleOrdinal(schemeCategory10).range();
 	return (
-		<ResponsiveContainer width="100%" height="100%">
-      <LineChart width={500} height={300} data={data2}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" padding={{ left: 30, right: 30 }} />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="Datos_Regulares" stroke="#ff7304" activeDot={{ r: 8 }} />
-        <Line type="monotone" dataKey="Anomalías" stroke="#ffba26" />
-      </LineChart>
-    </ResponsiveContainer>
+      <ResponsiveContainer width="100%" height="100%">
+      <BarChart width={150} height={40} data={data6}>
+        <Bar dataKey="uv" fill="#ffba26" />
+      </BarChart>
+      </ResponsiveContainer>
+		
 	);
 }
 
