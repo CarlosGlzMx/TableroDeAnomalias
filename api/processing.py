@@ -1,6 +1,9 @@
-import pandas as pd
 from sklearn.preprocessing import LabelEncoder
+import json
+
+import pandas as pd
 from pandas.api.types import is_string_dtype
+pd.options.mode.chained_assignment = None
 
 # Limpia del documento subido las columnas de datos inadecuadas
 def clean(df):
@@ -22,10 +25,33 @@ def slice_columns(df, columns_kept):
     return df
 
 # Convierte datos en formatos no numéricos en datos numericos
-def categorize(df):
+def categorize(df, AI_columns):
     for column in df:
-        if is_string_dtype(df[column]):
-            # Crea la nueva columna con el sufijo num
-            df[str(column) + "_num"] = LabelEncoder().fit_transform(df[column])
+        if column in AI_columns:
+            if is_string_dtype(df[column]):
+                # Crea la nueva columna con el sufijo num
+                df[str(column) + "_IA"] = LabelEncoder().fit_transform(df[column])
+                df.drop(columns = column, inplace = True)
+        else:
             df.drop(columns = column, inplace = True)
     return df
+
+# Extrae de un JSON recibido desde el app las columnas con sus características
+def extract_columns(columns_text):
+    # Procesa una cadena JSON a un objeto de Python y lo itera
+    columns_list = json.loads(columns_text)
+    relevant_columns, AI_columns, date_column = [], [], []
+    for column in columns_list:
+        name = next(iter(column))
+        # Las columnas que utilizará el modelo las definió el usuario
+        if column[name]["ia"] == "true":
+            AI_columns.append(name)
+        # También definió sus columnas de interés (Agentes internos y externos)
+        if column[name]["column_type"] in ["A-I", "A-E"]:
+            relevant_columns.append(name)
+        # La fecha es incluída de igual manera, pues el app la necesita
+        if column[name]["date"] == "true":
+            # date_column = name
+            # Placeholder
+            date_column = "F_FECHA_INGRESO"
+    return relevant_columns, AI_columns, date_column
