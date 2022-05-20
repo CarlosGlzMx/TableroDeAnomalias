@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import { useLocation, Link } from "react-router-dom";
 import Column from './Column';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import { postCarga } from "../api/requests"
 // import readXlsxFile from 'read-excel-file';
 import * as XLSX from "xlsx";
@@ -97,54 +97,69 @@ const SelectColumn = (user) => {
 	}
 
 	return (
-		<div className="SelectColumn" style={ { minHeight: "82vh" } }>
+		<div className="SelectColumn" style={{ minHeight: "82vh" }}>
 			<div
-				style={ {
+				style={{
 					height: "20vh",
 					marginLeft: "25%",
 					padding: "5vh 0"
-				} }>
+				}}>
 				<h2>Define los actores para entrenar el modelo</h2>
 			</div>
-			<Form onSubmit={ submitHandler }>
-				<div className="">
-					<div className="mb-4 d-flex justify-content-between ms-5">
-						<div className="" style={ { width: '36vw' } }>
-							<h6>Nombre</h6>
-						</div>
-						<div className="d-flex flex-row justify-content-between" style={ { width: '15vw' } } >
-							<h6>Tipo de columna</h6>
-						</div>
-						<div className="d-flex flex-row" style={ { width: '13vw' } } >
-							<h6>Intelingecia artificial</h6>
-						</div>
-						<div className="d-flex flex-row pe-5">
-							<h6>Fecha Principal</h6>
-						</div>
-					</div >
-					{
-						tableRows.map((rows, index) => {
-							return <Column key={ index } index={ index + 1 } name={ rows } ></Column>
-						})
-					}
+			{tableRows.length !== 0 ?
+				<Form onSubmit={submitHandler}>
+					<div className="">
+						<div className="mb-4 d-flex justify-content-between ms-5">
+							<div className="" style={{ width: '36vw' }}>
+								<h6>Nombre</h6>
+							</div>
+							<div className="d-flex flex-row justify-content-between" style={{ width: '15vw' }} >
+								<h6>Tipo de columna</h6>
+							</div>
+							<div className="d-flex flex-row" style={{ width: '13vw' }} >
+								<h6>Intelingecia artificial</h6>
+							</div>
+							<div className="d-flex flex-row pe-5">
+								<h6>Fecha Principal</h6>
+							</div>
+						</div >
+						{
+							tableRows.map((rows, index) => {
+								return <Column key={index} index={index + 1} name={rows} ></Column>
+							})
+						}
 
 
+					</div>
+					<div className="mb-4 d-flex justify-content-center">
+						<Button
+							// as={ Link }
+							// to={ { pathname: "/dashboard", state: { processedData: processedData, } } }
+							style={{
+								backgroundColor: "#ff8300",
+								border: "none"
+							}}
+							className="mx-auto"
+							type={'submit'}
+							size="lg">
+							Seleccionar Columnas
+						</Button>
+					</div>
+				</Form>
+				:
+				<div
+					style={{
+						marginLeft: '40vw',
+						maxWidth: '20vw',
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center'
+
+					}}>
+					<Spinner animation="border" role="status" />
+					<h4>Leyendo Columnas...</h4>
 				</div>
-				<div className="mb-4 d-flex justify-content-center">
-					<Button
-						// as={ Link }
-						// to={ { pathname: "/dashboard", state: { processedData: processedData, } } }
-						style={ {
-							backgroundColor: "#ff8300",
-							border: "none"
-						} }
-						className="mx-auto"
-						type={ 'submit' }
-						size="lg">
-						Seleccionar Columnas
-					</Button>
-				</div>
-			</Form>
+			}
 		</div>
 	);
 };
