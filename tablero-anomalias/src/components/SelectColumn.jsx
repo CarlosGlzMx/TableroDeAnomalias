@@ -80,43 +80,30 @@ const SelectColumn = (user) => {
 			})
 		}
 
-		// await postCarga(data, columnas, user)
-		console.log(tempFile);
-		// Lectura temporal de archivo
-		if (type === "text/csv") {
-			// Passing file data (event.target.files[0]) to parse using Papa.parse
-			Papa.parse(tempFile[0], {
-				delimiter: ",",
-				header: true,
-				skipEmptyLines: true,
-				complete: function (results) {
-					console.log(results);
-				},
-			});
-		}
+		await postCarga(data, columnas, user)
 	}
 
 	return (
-		<div className="SelectColumn" style={{ minHeight: "82vh" }}>
+		<div className="SelectColumn" style={ { minHeight: "82vh" } }>
 			<div
-				style={{
+				style={ {
 					height: "20vh",
 					marginLeft: "25%",
 					padding: "5vh 0"
-				}}>
+				} }>
 				<h2>Define los actores para entrenar el modelo</h2>
 			</div>
-			{tableRows.length !== 0 ?
-				<Form onSubmit={submitHandler}>
+			{ tableRows.length !== 0 ?
+				<Form onSubmit={ submitHandler }>
 					<div className="">
 						<div className="mb-4 d-flex justify-content-between ms-5">
-							<div className="" style={{ width: '36vw' }}>
+							<div className="" style={ { width: '36vw' } }>
 								<h6>Nombre</h6>
 							</div>
-							<div className="d-flex flex-row justify-content-between" style={{ width: '15vw' }} >
+							<div className="d-flex flex-row justify-content-between" style={ { width: '15vw' } } >
 								<h6>Tipo de columna</h6>
 							</div>
-							<div className="d-flex flex-row" style={{ width: '13vw' }} >
+							<div className="d-flex flex-row" style={ { width: '13vw' } } >
 								<h6>Intelingecia artificial</h6>
 							</div>
 							<div className="d-flex flex-row pe-5">
@@ -125,7 +112,7 @@ const SelectColumn = (user) => {
 						</div >
 						{
 							tableRows.map((rows, index) => {
-								return <Column key={index} index={index + 1} name={rows} ></Column>
+								return <Column key={ index } index={ index + 1 } name={ rows } ></Column>
 							})
 						}
 
@@ -135,12 +122,12 @@ const SelectColumn = (user) => {
 						<Button
 							// as={ Link }
 							// to={ { pathname: "/dashboard", state: { processedData: processedData, } } }
-							style={{
+							style={ {
 								backgroundColor: "#ff8300",
 								border: "none"
-							}}
+							} }
 							className="mx-auto"
-							type={'submit'}
+							type={ 'submit' }
 							size="lg">
 							Seleccionar Columnas
 						</Button>
@@ -148,14 +135,14 @@ const SelectColumn = (user) => {
 				</Form>
 				:
 				<div
-					style={{
+					style={ {
 						marginLeft: '40vw',
 						maxWidth: '20vw',
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center'
 
-					}}>
+					} }>
 					<Spinner animation="border" role="status" />
 					<h4>Leyendo Columnas...</h4>
 				</div>
