@@ -7,9 +7,30 @@ import ShareImg from "../components/images/share_icon.png";
 import UploadImg from "../components/images/upload_icon.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Navbar } from "react-bootstrap";
+import html2canvas from "html2canvas";
+import jspdf from "jspdf";
 
 
 function Actions() {
+    function printPdf() {
+        const elements = document.querySelectorAll(".printable");
+        const pdf = new jspdf();
+        elements.forEach((item, i) => {
+            html2canvas(item).then((canvas) => {
+                const imagen = canvas.toDataURL("image/jpeg");
+                pdf.addImage(imagen, "JPEG", 0, 0, 100, 100);
+
+                const isFinished = elements.length === i + 1;
+                if (isFinished) {
+                    pdf.save("reporte.pdf");
+                }
+                else {
+                    pdf.addPage();
+                }
+            })
+        })
+    }
+
     return (
 
         <div class="d-flex justify-content-between">
@@ -61,7 +82,7 @@ function Actions() {
                     </svg>
                 </button>
 
-                <button class="btn btn-default">
+                <button class="btn btn-default" onClick={printPdf()}>
                     {/* <img src={DownloadImg} width="20" />  */}
                     <svg xmlns="http://www.w3.org/2000/svg" width="6vh" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
                         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
