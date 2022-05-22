@@ -14,19 +14,19 @@ const Dashboard = (user) => {
     <div className="Dashboard">
       <div className="container p-0" style={{ minHeight: "80vh" }}>
 
-        <div class="c1">
+        <div class="c1 printable">
           {<Chart1 />}
         </div>
 
-        <div class="c2">
+        <div class="c2 printable">
           {<Chart2 />}
         </div>
 
-        <div class="c3">
+        <div class="c3 printable">
           {<Chart3 />}
         </div>
 
-        <div class="c4">
+        <div class="c4 printable">
           <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               Filtrar
@@ -40,7 +40,7 @@ const Dashboard = (user) => {
           {<Chart4 />}
         </div>
 
-        <div class="c5">
+        <div class="c5 printable">
           <div class="horizontalFilters">
             <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic4-1">
@@ -66,7 +66,7 @@ const Dashboard = (user) => {
           {<Chart5 />}
         </div>
 
-        <div class="c6">
+        <div class="c6 printable">
           <div class="horizontalFilters">
             <Dropdown>
               <Dropdown.Toggle variant="success" id="dropdown-basic6-1">
