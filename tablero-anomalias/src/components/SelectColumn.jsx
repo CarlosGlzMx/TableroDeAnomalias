@@ -152,7 +152,7 @@ const SelectColumn = (user) => {
 								} }
 								className="mx-auto"
 								size="lg">
-								Continuar a dashboard
+								Continuar a Dashboard
 							</Button> }
 					</div>
 				</Form>
