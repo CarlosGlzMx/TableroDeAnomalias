@@ -21,6 +21,7 @@ cors = CORS(app)
 # Se numeran las rutas según su orden de uso por la aplicación
 # 1 - GET - Ruta por defecto con instrucciones de uso
 @app.route("/", methods = ["GET"])
+@cross_origin()
 def default():
     return render_template("guia.html")
 
@@ -44,7 +45,7 @@ def list_available_data():
 # 4 - GET - Devuelve todos los datos asociados con una carga
 # 5 - DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
 @app.route("/cargas/", methods = ["POST", "GET", "DELETE"])
-@cross_origin()
+@cross_origin(expose_headers="id_nueva")
 def methods_uploads():
     if request.method == "POST":
         # Verifica que venga un usuario y una clasificación de columnas del archivo

@@ -6,7 +6,6 @@ import { Form, Button, Spinner } from 'react-bootstrap';
 import { postCarga } from "../api/requests"
 // import readXlsxFile from 'read-excel-file';
 import * as XLSX from "xlsx";
-import tempFile from "./test_results.csv";
 
 const SelectColumn = (user) => {
 
@@ -20,8 +19,17 @@ const SelectColumn = (user) => {
 	//State to store table Column name
 	const [tableRows, setTableRows] = useState([]);
 
-	//Temporary state to store processed data. Update when API sends response
-	const [processedData, setProcessedData] = useState([]);
+	//State to store processed data. Update when API sends response
+	const [processedData, setProcessedData] = useState(undefined);
+
+	useEffect(() => {
+		if (processedData) {
+			console.log("Works");
+			console.log(processedData);
+		} else {
+			console.log("Does not work");
+		}
+	}, [processedData]);
 
 	useEffect(() => {
 		if (data !== undefined) {
@@ -66,9 +74,7 @@ const SelectColumn = (user) => {
 	async function submitHandler(event) {
 		event.preventDefault();
 
-		//TODO:
-		// Guardamos la info en formData para después se envíe
-		// async function postData() {
+		// Guardamos la info en columnas para después se envíe
 		let columnas = [];
 		for (let index = 0; index < tableRows.length; index++) {
 			columnas.push({
@@ -80,7 +86,9 @@ const SelectColumn = (user) => {
 			})
 		}
 
-		await postCarga(data, columnas, user)
+
+		setProcessedData(await postCarga(data, columnas, user));
+		console.log(processedData);
 	}
 
 	return (
@@ -119,18 +127,33 @@ const SelectColumn = (user) => {
 
 					</div>
 					<div className="mb-4 d-flex justify-content-center">
-						<Button
-							// as={ Link }
-							// to={ { pathname: "/dashboard", state: { processedData: processedData, } } }
-							style={ {
-								backgroundColor: "#ff8300",
-								border: "none"
-							} }
-							className="mx-auto"
-							type={ 'submit' }
-							size="lg">
-							Seleccionar Columnas
-						</Button>
+						{ processedData === undefined ?
+							<Button
+								// as={ Link }
+								// to="/dashboard"
+								// state={ { proccessedData: processedData } }
+								style={ {
+									backgroundColor: "#ff8300",
+									border: "none"
+								} }
+								className="mx-auto"
+								type={ 'submit' }
+								size="lg">
+								Seleccionar Columnas
+							</Button>
+							:
+							<Button
+								as={ Link }
+								to="/dashboard"
+								state={ { proccessedData: processedData } }
+								style={ {
+									backgroundColor: "#ff8300",
+									border: "none"
+								} }
+								className="mx-auto"
+								size="lg">
+								Continuar a dashboard
+							</Button> }
 					</div>
 				</Form>
 				:

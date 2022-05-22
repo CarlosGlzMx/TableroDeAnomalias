@@ -20,7 +20,12 @@ export function postCarga(archivo, columnas, idUsuario) {
             id_usuario: idUsuario.user,
         },
         body: formData,
-    }).then((response) => response.json());
+    }).then((response) =>
+        response.json().then((data) => ({
+            datos: { ...data },
+            idNuevo: response.headers.get("id_nueva"),
+        }))
+    );
 }
 
 // GET - Devuelve la totalidad de datos asociados con una carga
