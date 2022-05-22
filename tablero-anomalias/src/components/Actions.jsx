@@ -48,10 +48,12 @@ function Actions() {
             <div class="action-center">
                 <label for="start">Fecha inicial: </label>
                 <input className="m-2" type="date" name="start-date" />
-
                 <label for="end">Fecha final: </label>
-                <input className="m-2" type="date" name="final-date" />
-            </div>
+                <input className="m-2" type="date" name="final-date" min="2000-01-01" max="2022-05-20"/>
+                
+
+                
+                </div>
 
 
             <div class="action-right">

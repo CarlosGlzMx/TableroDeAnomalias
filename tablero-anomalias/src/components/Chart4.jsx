@@ -12,7 +12,7 @@ import {
     ResponsiveContainer,
   } from "recharts";
 
-  
+   
 function Chart4() {
 	const data3 = [
         {
@@ -40,30 +40,68 @@ function Chart4() {
           //amt: 2000,
         }
       ];
+
+
+      const filters = [
+        {
+          id: 1,
+          name: "filtro 1",
+          details: "Detalles de Anomalia 1"
+        },
+        {
+          id: 2,
+          name: "filtro 2",
+          details: "Detalles de Anomalia 2"
+        },
+        {
+    
+          id: 3,
+          name: "filtro 3",
+          details: "Detalles de Anomalia 3"
+        },
+        {
+    
+          id: 46,
+          name: "filtro 4",
+          details: "Detalles de Anomalia 4"
+        },
+      ]
+    
+      const filterList = filters.map(filters => <option value={filters.id}>
+        {filters.name}</option>)
+    
 	return (
-		<ResponsiveContainer>
+
+  <div class="c4">
+    <select class="form-select" aria-label="Default select example">
+      <option selected>Filtrar por</option>
+      {filterList}
+    </select>
+          
+    <ResponsiveContainer>
 			<BarChart 
 				width={500}
-                height={300}
-                data={data3}
-                layout="vertical" barCategoryGap={30}
-                margin={{
-                top: 15,
-            	right: 30,
-                left: 20,
-                bottom: 15,
-            	}}
-            >
-            	<CartesianGrid strokeDasharray="6 6" />
-            	<XAxis type="number" hide />
-            	<YAxis type="category" width={150} padding={{ left: 20 }} dataKey="name" />
-            	<Tooltip />
-            	<Legend />
-            	<Bar dataKey="Anomalías" fill="#ff7304" stackId="stack" />
-            	<Bar dataKey="Datos_Regulares" fill="#ffba26" stackId="stack" />
-            </BarChart>
-        </ResponsiveContainer>
-
+        height={300}
+        data={data3}
+        layout="vertical" barCategoryGap={30}
+        margin={{
+        top: 15,
+        right: 30,
+        left: 20,
+        bottom: 15,
+        }}
+      >
+        <CartesianGrid strokeDasharray="6 6" />
+        <XAxis type="number" hide />
+        <YAxis type="category" width={150} padding={{ left: 20 }} dataKey="name" />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="Anomalías" fill="#ff7304" stackId="stack" />
+        <Bar dataKey="Datos_Regulares" fill="#ffba26" stackId="stack" />
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+		
 	);
 }
 
