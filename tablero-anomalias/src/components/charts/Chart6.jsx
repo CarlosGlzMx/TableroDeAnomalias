@@ -60,7 +60,7 @@ function Chart6() {
     {filters.name}</option>)
 	return (
 
-    <div class="c6">
+    <div class="chart c6">
           <div class="horizontalFilters">
             <select class="form-select" aria-label="Default select example">
             <option selected>Filtrar por</option>

@@ -6,61 +6,38 @@ import jspdf from "jspdf";
 
 function Actions() {
     function printPdf() {
+        // Basado en código de Zolotarenko, E. https://start-up.house/en/blog/articles/converting-html-to-pdf
         // Crea el archivo PDF por llenar con componentes de manera personalizada
         const pdf = new jspdf({unit:"pt", format:"letter"});
 
-        // Agrega el encabezado
-        /*
-        const header = document.querySelectorAll(".c1");
-        console.log(header);
+        // Agrega el encabezado ajustado a un pdf tamaño carta
+        const [header_w, header_h] = [612, 33]
+        const header = document.querySelector(".header");
         html2canvas(header).then((canvas) => {
-            const img = canvas.toDataURL("image/jpeg")
-            pdf.addImage(img, "JPEG", 0, 0);
-            pdf.save("reporte.pdf");
-        });
-        */
-
-        let item = document.querySelector(".header");
-        html2canvas(item).then((canvas) => {
             const imagen = canvas.toDataURL("image/jpeg");
-            pdf.addImage(imagen, "JPEG", 0, 0, 612, 33);
+            pdf.addImage(imagen, "JPEG", 0, 0, header_w, header_h);
         })
 
-        item = document.querySelector(".c1");
-        html2canvas(item).then((canvas) => {
-            const imagen = canvas.toDataURL("image/jpeg");
-            pdf.addImage(imagen, "JPEG", 57, 58, 220, 220);
-        })
+        // Define los valores de tamaños y margenes para colocar las 6 gráficas
+        const [chart_w, chart_h, margin_hor, margin_ver] = [220, 220, 57.3, 24.75];
+        
+        // Itera los objetos HTML de gráficas
+        let charts = document.querySelectorAll(".chart");
+        console.log(charts);
+        charts.forEach((element, i) => {
+            html2canvas(element).then((canvas) => {
+                // Crea una imagen jpeg de la gráfica
+                const imagen = canvas.toDataURL("image/jpeg");
 
-        item = document.querySelector(".c2");
-        html2canvas(item).then((canvas) => {
-            const imagen = canvas.toDataURL("image/jpeg");
-            pdf.addImage(imagen, "JPEG", 57, 303, 220, 220);
-        })
+                // Calcula las coordenadas adecuadas para pegar el jpeg en el pdf
+                const new_x = (i % 2 + 1) * margin_hor + (i % 2) * chart_w;
+                const new_y = header_h + (Math.floor(i / 2) + 1) * margin_ver + (Math.floor(i / 2)) * chart_h;
+                pdf.addImage(imagen, "JPEG", new_x, new_y, chart_w, chart_h);
 
-        item = document.querySelector(".c3");
-        html2canvas(item).then((canvas) => {
-            const imagen = canvas.toDataURL("image/jpeg");
-            pdf.addImage(imagen, "JPEG", 57, 548, 220, 220);
-        })
-
-        item = document.querySelector(".c4");
-        html2canvas(item).then((canvas) => {
-            const imagen = canvas.toDataURL("image/jpeg");
-            pdf.addImage(imagen, "JPEG", 335, 58, 220, 220);
-        })
-
-        item = document.querySelector(".c5");
-        html2canvas(item).then((canvas) => {
-            const imagen = canvas.toDataURL("image/jpeg");
-            pdf.addImage(imagen, "JPEG", 335, 303, 220, 220);
-        })
-
-        item = document.querySelector(".c6");
-        html2canvas(item).then((canvas) => {
-            const imagen = canvas.toDataURL("image/jpeg");
-            pdf.addImage(imagen, "JPEG", 335, 548, 220, 220);
-            pdf.save("reporte.pdf");
+                // Guarda el pdf hasta terminar de recorrer la lista
+                const finished = charts.length === i + 1;
+                if (finished) { pdf.save("reporte.pdf"); }
+            })
         })
     }
         

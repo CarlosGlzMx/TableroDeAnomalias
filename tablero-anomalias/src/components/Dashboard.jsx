@@ -1,11 +1,11 @@
 import { React } from "react";
 import { useLocation } from "react-router-dom";
-import Chart1 from "../components/Chart1";
-import Chart2 from "../components/Chart2";
-import Chart3 from "../components/Chart3";
-import Chart4 from "../components/Chart4";
-import Chart5 from "../components/Chart5";
-import Chart6 from "../components/Chart6";
+import Chart1 from "./charts/Chart1";
+import Chart2 from "./charts/Chart2";
+import Chart3 from "./charts/Chart3";
+import Chart4 from "./charts/Chart4";
+import Chart5 from "./charts/Chart5";
+import Chart6 from "./charts/Chart6";
 import Actions from "../components/Actions";
 import AnomaliesTable from "../components/AnomaliesTable";
 
@@ -21,14 +21,14 @@ const Dashboard = (user) => {
 	return (
 		<div className="Dashboard">
 			<div className="container p-0" style={ { minHeight: "80vh" } }>
-				<div class="c1">
+				<div class="chart c1">
 					<div className="chartTitle" style={ { width: '100%', textAlign: 'center' } }>
 						Precisión del Modelo
 					</div>
 					{ <Chart1 /> }
 				</div>
 
-				<div class="c2">
+				<div class="chart c2">
 					<div style={ { width: '100%', textAlign: 'center' } }>
 						Chart 2
 					</div>
@@ -36,7 +36,7 @@ const Dashboard = (user) => {
 					{ <Chart2 /> }
 				</div>
 
-				<div class="c3">
+				<div class="chart c3">
 					<div style={ { width: '100%', textAlign: 'center' } }>
 						Chart 3
 					</div>

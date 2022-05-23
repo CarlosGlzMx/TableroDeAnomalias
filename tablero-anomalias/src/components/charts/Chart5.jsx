@@ -9,7 +9,7 @@ import {
     Bar,
     ResponsiveContainer,
   } from "recharts";
-import "../App.css";
+import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
@@ -73,7 +73,7 @@ function Chart5() {
       
 	return (
 
-    <div class="c5">
+    <div class="chart c5">
           <div class="horizontalFilters">
             <select class="form-select" aria-label="Default select example">
             <option selected>Filtrar por</option>

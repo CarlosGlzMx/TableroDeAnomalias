@@ -1,5 +1,5 @@
 import {React} from "react";
-import "../App.css";
+import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Tooltip,
@@ -72,7 +72,7 @@ function Chart4() {
     
 	return (
 
-  <div class="c4">
+  <div class="chart c4">
     <select class="form-select" aria-label="Default select example">
       <option selected>Filtrar por</option>
       {filterList}
