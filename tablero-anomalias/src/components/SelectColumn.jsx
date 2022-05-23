@@ -3,8 +3,7 @@ import Papa from "papaparse";
 import { useLocation, Link } from "react-router-dom";
 import Column from './Column';
 import { Form, Button, Spinner } from 'react-bootstrap';
-import { postCarga } from "../api/requests"
-// import readXlsxFile from 'read-excel-file';
+import { postCarga } from "../api/requests";
 import * as XLSX from "xlsx";
 import { DataContext } from "../App";
 
