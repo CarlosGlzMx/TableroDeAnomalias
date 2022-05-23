@@ -5,12 +5,10 @@ import AnomalyBg from "../components/images/AnomalyBG.png";
 import BoardRow from "../components/BoardRow";
 
 function Upload(user) {
+	// Archivo .csv o .xlsx
+	const [file, setFile] = useState();
 	const [isValid, setIsValid] = useState();
 	const [type, setType] = useState("");
-
-	// Archivo .csv o .xlsx
-	const [data, setData] = useState();
-
 
 	useEffect(() => {
 		if (type !== "") {
@@ -24,7 +22,7 @@ function Upload(user) {
 		else {
 			setIsValid(undefined);
 		}
-	}, [type, isValid, data]);
+	}, [type, isValid, file]);
 
 	return (
 		<div className="Upload" style={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
@@ -44,7 +42,7 @@ function Upload(user) {
 							type="file"
 							onChange={(e) => {
 								setType(e.target.files[0].type);
-								setData(e.target.files[0]);
+								setFile(e.target.files[0]);
 							}} required />
 
 						<Form.Control.Feedback type="invalid">
@@ -55,7 +53,7 @@ function Upload(user) {
 				<Link
 					to="/selectColumn"
 					state={{
-						data,
+						file,
 						type
 					}}>
 					<Button

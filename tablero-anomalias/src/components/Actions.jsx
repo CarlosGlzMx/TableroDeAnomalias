@@ -23,7 +23,6 @@ function Actions() {
         
         // Itera los objetos HTML de gráficas
         let charts = document.querySelectorAll(".chart");
-        console.log(charts);
         charts.forEach((element, i) => {
             html2canvas(element).then((canvas) => {
                 // Crea una imagen jpeg de la gráfica

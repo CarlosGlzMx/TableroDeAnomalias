@@ -1,4 +1,5 @@
 import {React} from "react";
+import { useLocation } from "react-router-dom";
 import {
     Tooltip,
     XAxis,
@@ -12,6 +13,9 @@ import {
 
 
 function Chart2() {
+
+  const location = useLocation();
+	// Data variable contains ids from the database and the proccessed data from the file
     const data2 = [
         {
           name: 'Fecha A',
