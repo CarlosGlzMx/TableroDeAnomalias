@@ -1,6 +1,8 @@
 
-import {React,useState} from "react";
+import {React, useState, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+// #1 Importar el contexto
+import { DataContext } from "../../App";
 import {
     PieChart,
     Pie,
@@ -12,6 +14,27 @@ import {
   } from "recharts";
 
 function Chart1() {
+    // #2 Llamar el contexto
+    const { anomalyData, setAnomalyData } = useContext(DataContext);
+
+    // #3 Observar cambios en el contexto (datos)
+    useEffect(() => {
+      // #4 Proceso de cada gráfica
+      const UMBRAL_ANOMALIA = 0;
+      let [normales, anomalias] = [0, 0];
+      for (const [key, value] of Object.entries(anomalyData["datos"]["scores"])) {
+        if (value >= UMBRAL_ANOMALIA) {
+          anomalias += 1;
+        }
+        else {
+          normales += 1;
+        }
+      }
+
+      // #5 Recargar la gráfica con los datos obtenidos
+      
+    }, [anomalyData]);
+  
 
   const location = useLocation();
 	// Data variable contains ids from the database and the proccessed data from the file

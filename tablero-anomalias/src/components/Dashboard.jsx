@@ -1,5 +1,5 @@
-import { React, useEffect} from "react";
-import { useLocation} from "react-router-dom";
+import { React, useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Chart1 from "./charts/Chart1";
 import Chart2 from "./charts/Chart2";
 import Chart3 from "./charts/Chart3";
@@ -8,22 +8,17 @@ import Chart5 from "./charts/Chart5";
 import Chart6 from "./charts/Chart6";
 import Actions from "../components/Actions";
 import AnomaliesTable from "../components/AnomaliesTable";
-
+import { DataContext } from "../App";
 
 const Dashboard = (user) => {
 
 	const location = useLocation();
 	// Data variable contains ids from the database and the proccessed data from the file
-	const processedData = location.state?.processedData;
-  console.log(processedData["datos"]["scores"]);
+	const { anomalyData, setAnomalyData } = useContext(DataContext);
 
-  useEffect(() => {
-    if (processedData){
-      
-    }
-  }, [processedData]);
-
-
+	useEffect(() => {
+		console.log(anomalyData["datos"]["scores"])
+	},[anomalyData]);
 
 	return (
 		<div className="Dashboard">
