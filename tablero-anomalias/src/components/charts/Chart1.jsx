@@ -1,5 +1,6 @@
 
 import {React,useState} from "react";
+import { useLocation } from "react-router-dom";
 import {
     PieChart,
     Pie,
@@ -9,6 +10,7 @@ import {
   } from "recharts";
 
 function Chart1() {
+
     const [data, setData] = useState([{ Datos: "Anomalías", users: 1254 },
       { Datos: "Datos regulares", users: 12536 }])
     const COLORS = ['#fe9000', '#ffba26'];

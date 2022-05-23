@@ -15,6 +15,7 @@ const Dashboard = (user) => {
 	const location = useLocation();
 	// Data variable contains ids from the database and the proccessed data from the file
 	const processedData = location.state?.processedData;
+  console.log(processedData);
 
 
 
@@ -60,6 +61,7 @@ const Dashboard = (user) => {
 			</div>
 
 		</div>
+    
 	);
 }
 
