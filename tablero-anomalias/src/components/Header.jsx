@@ -7,7 +7,7 @@ function Header() {
 	return (
 		<Navbar
 			style={ { backgroundColor: "#ff8300", height: "12vh"} }
-			expand={ false }>
+			expand={ false } className = "header">
 			<Container fluid>
 				<Navbar.Brand href="/">
 					<img alt="Logo Ternium" src={ Logo } className="d-inline-block align-top" width="100"/>

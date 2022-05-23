@@ -44,7 +44,8 @@ const Dashboard = (user) => {
         {<Chart6 />}
         
       </div>
-      <div>
+
+      <div style={{paddingBottom: "15vh"}}>
         {<AnomaliesTable />}
       </div>
 
