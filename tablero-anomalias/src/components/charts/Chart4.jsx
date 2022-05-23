@@ -73,22 +73,26 @@ function Chart4() {
 	return (
 
   <div class="chart c4">
+    <div class="chart_title">
+      Anomalías por una variable
+      </div>
     <select class="form-select" aria-label="Default select example">
       <option selected>Filtrar por</option>
       {filterList}
     </select>
+
           
     <ResponsiveContainer>
 			<BarChart 
 				width={500}
         height={300}
         data={data3}
-        layout="vertical" barCategoryGap={30}
+        layout="vertical" barCategoryGap={45}
         margin={{
         top: 15,
         right: 30,
-        left: 20,
-        bottom: 15,
+        left: 0,
+        bottom: 45,
         }}
       >
         <CartesianGrid strokeDasharray="6 6" />

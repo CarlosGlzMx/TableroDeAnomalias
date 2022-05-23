@@ -230,9 +230,6 @@ label {
 
 }
 
-
-
-
 #customRange1 {
     accent-color: #fe9000;
 }
@@ -245,4 +242,12 @@ input[type=range]::-webkit-slider-thumb {
 
 input[type=range]::-moz-range-thumb {
     background: black;
+}
+
+.chart_title{
+    width: '100%'; 
+    text-align: center;
+    font-weight: bolder;
+    font-size: 25px;
+
 }

@@ -5,7 +5,9 @@ import {
     Pie,
     ResponsiveContainer,
     Cell,
-    Legend
+    Tooltip,
+    Legend,
+    Sector
   } from "recharts";
 
 function Chart1() {
@@ -20,33 +22,46 @@ function Chart1() {
       const y = cy + radius * Math.sin(-midAngle * RADIAN);
       const title = "Grafica 5";
 
+      
+
       return (
       <text x={x} y={y} fill="black" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
         {`${(percent * 100).toFixed(0)}%`}
       </text>
   );
+  
 };
 
+
 	return (
-		<ResponsiveContainer width="100%" height="100%">
-                    <PieChart dataKey="c1data">
-                        <Pie
-                        data={data}
-                        innerRadius={80}
-                        outerRadius={120}
-                        labelLine={false}
-                        label={renderCustomizedLabel}
-                        fill= "#fe9000"
-                        paddingAngle={5}
-                        dataKey="users"
-                        wrapperStyle={{ position: 'relative' }}
-                        >
-                        {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                      ))}
-                      </Pie>
-                    </PieChart>
-                    </ResponsiveContainer>
+    <div class="chart c2">
+        <div class="chart_title">
+          Anomalías por fecha
+          </div>
+      <ResponsiveContainer width="100%" height="100%">
+                      <PieChart dataKey="c1data">
+                          <Pie
+                          data={data}
+                          innerRadius={80}
+                          outerRadius={120}
+                          labelLine={false}
+                          label={renderCustomizedLabel}
+                          fill= "#fe9000"
+                          paddingAngle={5}
+                          dataKey="users"
+                          wrapperStyle={{ position: 'relative' }}
+                          
+                          >
+                          <Tooltip />
+                          <Legend />
+                          {data.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                        </Pie>
+                        <Tooltip  />
+                      </PieChart>
+                      </ResponsiveContainer>
+                      </div>
 	);
 }
 
