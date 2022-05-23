@@ -41,8 +41,8 @@ function Chart1() {
 	const processedData = location.state?.processedData;
 
 
-    const [data, setData] = useState([{ Datos: "Anomalías", users: 1254 },
-      { Datos: "Datos regulares", users: 12536 }])
+    const [data, setData] = useState([{ Datos: "Anomalías", users: anomalias },
+      { Datos: "Datos regulares", users: normales }])
     const COLORS = ['#fe9000', '#ffba26'];
 
     const RADIAN = Math.PI / 180;
