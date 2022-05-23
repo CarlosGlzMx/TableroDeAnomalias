@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Papa from "papaparse";
 import { useLocation, Link } from "react-router-dom";
 import Column from './Column';
@@ -6,13 +6,15 @@ import { Form, Button, Spinner } from 'react-bootstrap';
 import { postCarga } from "../api/requests"
 // import readXlsxFile from 'read-excel-file';
 import * as XLSX from "xlsx";
+import { DataContext } from "../App";
+
 
 const SelectColumn = (user) => {
 
 	const location = useLocation();
 
 	// Archivo .csv o .xlsx
-	const data = location.state?.data;
+	const data = location.state?.file;
 
 	const type = location.state?.type;
 
@@ -20,16 +22,16 @@ const SelectColumn = (user) => {
 	const [tableRows, setTableRows] = useState([]);
 
 	//State to store processed data. Update when API sends response
-	const [processedData, setProcessedData] = useState(undefined);
+	const { anomalyData, setAnomalyData } = useContext(DataContext);
 
 	useEffect(() => {
-		if (processedData) {
+		if (anomalyData) {
 			console.log("Works");
-			console.log(processedData);
+			console.log(anomalyData["datos"]["scores"]);
 		} else {
 			console.log("Does not work");
 		}
-	}, [processedData]);
+	}, [anomalyData]);
 
 	useEffect(() => {
 		if (data !== undefined) {
@@ -87,8 +89,8 @@ const SelectColumn = (user) => {
 		}
 
 
-		setProcessedData(await postCarga(data, columnas, user));
-		console.log(processedData);
+		setAnomalyData(await postCarga(data, columnas, user));
+		console.log(anomalyData);
 	}
 
 	return (
@@ -127,11 +129,8 @@ const SelectColumn = (user) => {
 
 					</div>
 					<div className="mb-4 d-flex justify-content-center">
-						{ processedData === undefined ?
+						{ anomalyData === undefined ?
 							<Button
-								// as={ Link }
-								// to="/dashboard"
-								// state={ { proccessedData: processedData } }
 								style={ {
 									backgroundColor: "#ff8300",
 									border: "none"
@@ -145,7 +144,6 @@ const SelectColumn = (user) => {
 							<Button
 								as={ Link }
 								to="/dashboard"
-								state={ { proccessedData: processedData } }
 								style={ {
 									backgroundColor: "#ff8300",
 									border: "none"
