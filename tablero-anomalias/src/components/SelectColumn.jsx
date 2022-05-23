@@ -14,23 +14,16 @@ const SelectColumn = (user) => {
 
 	// Archivo .csv o .xlsx
 	const data = location.state?.file;
-
 	const type = location.state?.type;
 
 	//State to store table Column name
 	const [tableRows, setTableRows] = useState([]);
 
+	//State to set loading
+	const [loading, setLoading] = useState(false);
+
 	//State to store processed data. Update when API sends response
 	const { anomalyData, setAnomalyData } = useContext(DataContext);
-
-	useEffect(() => {
-		if (anomalyData) {
-			console.log("Works");
-			console.log(anomalyData["datos"]["scores"]);
-		} else {
-			console.log("Does not work");
-		}
-	}, [anomalyData]);
 
 	useEffect(() => {
 		if (data !== undefined) {
@@ -87,26 +80,58 @@ const SelectColumn = (user) => {
 			})
 		}
 
-
+		setLoading(true);
 		setAnomalyData(await postCarga(data, columnas, user));
-		console.log(anomalyData);
+		setLoading(false);
+	}
+
+	function Loading() {
+		return (
+			<>
+				{ (tableRows.length === 0 || loading) ?
+					<div
+						style={ {
+							marginLeft: '40vw',
+							maxWidth: '20vw',
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center'
+
+						} }>
+						<Spinner animation="border" role="status" />
+						<h4>Leyendo Información...</h4>
+					</div>
+					:
+					<div className="mb-4 d-flex justify-content-center">
+						<Button
+							as={ Link }
+							to="/dashboard"
+							style={ {
+								backgroundColor: "#ff8300",
+								border: "none"
+							} }
+							className="mx-auto"
+							size="lg">
+							Continuar a Dashboard
+						</Button>
+					</div>
+
+				}
+			</>
+		);
 	}
 
 	return (
 		<div className="SelectColumn" style={ { minHeight: "82vh" } }>
-			<div
-				style={ {
-					height: "20vh",
-					marginLeft: "25%",
-					padding: "5vh 0"
-				} }>
+			<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
 				<h2>Define los actores para entrenar el modelo</h2>
 			</div>
-			{ tableRows.length !== 0 ?
+
+			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ?
 				<Form onSubmit={ submitHandler }>
-					<div className="">
+					<div>
 						<div className="mb-4 d-flex justify-content-between ms-5">
-							<div className="" style={ { width: '36vw' } }>
+							<div style={ { width: '36vw' } }>
 								<h6>Nombre</h6>
 							</div>
 							<div className="d-flex flex-row justify-content-between" style={ { width: '15vw' } } >
@@ -124,49 +149,24 @@ const SelectColumn = (user) => {
 								return <Column key={ index } index={ index + 1 } name={ rows } ></Column>
 							})
 						}
-
-
 					</div>
 					<div className="mb-4 d-flex justify-content-center">
-						{ anomalyData === undefined ?
-							<Button
-								style={ {
-									backgroundColor: "#ff8300",
-									border: "none"
-								} }
-								className="mx-auto"
-								type={ 'submit' }
-								size="lg">
-								Seleccionar Columnas
-							</Button>
-							:
-							<Button
-								as={ Link }
-								to="/dashboard"
-								style={ {
-									backgroundColor: "#ff8300",
-									border: "none"
-								} }
-								className="mx-auto"
-								size="lg">
-								Continuar a Dashboard
-							</Button> }
+						<Button
+							style={ {
+								backgroundColor: "#ff8300",
+								border: "none"
+							} }
+							className="mx-auto"
+							type={ 'submit' }
+							size="lg">
+							Seleccionar Columnas
+						</Button>
 					</div>
 				</Form>
 				:
-				<div
-					style={ {
-						marginLeft: '40vw',
-						maxWidth: '20vw',
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center'
-
-					} }>
-					<Spinner animation="border" role="status" />
-					<h4>Leyendo Columnas...</h4>
-				</div>
+				<Loading />
 			}
+
 		</div>
 	);
 };
