@@ -74,6 +74,9 @@ function Chart5() {
 	return (
 
     <div class="chart c5">
+      <div class="chart_title">
+            Anomalías por dos variables
+            </div>
           <div class="horizontalFilters">
             <select class="form-select" aria-label="Default select example">
             <option selected>Filtrar por</option>
@@ -85,18 +88,18 @@ function Chart5() {
             </select>
           </div>
           <ResponsiveContainer>
-            <BarChart 
-                width={500}
-                height={300}
-                data={data3}
-                layout="vertical" barCategoryGap={30}
-                margin={{
-                top: 15,
-                right: 30,
-                left: 20,
-                bottom: 15,
-                }}
-            >
+          <BarChart 
+          width={500}
+          height={300}
+          data={data3}
+          layout="vertical" barCategoryGap={45}
+          margin={{
+          top: 15,
+          right: 30,
+          left: 0,
+          bottom: 45,
+        }}
+      >
                 <CartesianGrid strokeDasharray="6 6" />
                 <XAxis type="number" hide />
                 <YAxis type="category" width={150} padding={{ left: 20 }} dataKey="name" />

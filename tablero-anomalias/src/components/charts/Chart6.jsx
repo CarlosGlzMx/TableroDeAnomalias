@@ -61,6 +61,9 @@ function Chart6() {
 	return (
 
     <div class="chart c6">
+      <div class="chart_title">
+        Frecuencia de anomalías
+        </div>
           <div class="horizontalFilters">
             <select class="form-select" aria-label="Default select example">
             <option selected>Filtrar por</option>

@@ -22,28 +22,13 @@ const Dashboard = (user) => {
 	return (
 		<div className="Dashboard">
 			<div className="container p-0" style={ { minHeight: "80vh" } }>
-				<div class="chart c1">
-					<div className="chartTitle" style={ { width: '100%', textAlign: 'center' } }>
-						Precisión del Modelo
-					</div>
-					{ <Chart1 /> }
-				</div>
+				
+				{ <Chart1 /> }
 
-				<div class="chart c2">
-					<div style={ { width: '100%', textAlign: 'center' } }>
-						Chart 2
-					</div>
-					<div style={ { flex: 1, width: '100%', overflow: 'hidden' } }></div>
-					{ <Chart2 /> }
-				</div>
-
-				<div class="chart c3">
-					<div style={ { width: '100%', textAlign: 'center' } }>
-						Chart 3
-					</div>
-					{ <Chart3 /> }
-				</div>
-
+				{ <Chart2 /> }
+				
+				{ <Chart3 /> }
+				
 				{ <Chart4 /> }
 
 				{ <Chart5 /> }
