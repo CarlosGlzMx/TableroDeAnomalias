@@ -22,14 +22,14 @@ const SelectColumn = (user) => {
 	//State to store processed data. Update when API sends response
 	const [processedData, setProcessedData] = useState(undefined);
 
-	useEffect(() => {
-		if (processedData) {
-			console.log("Works");
-			console.log(processedData);
-		} else {
-			console.log("Does not work");
-		}
-	}, [processedData]);
+	// useEffect(() => {
+	// 	if (processedData) {
+	// 		console.log("Works");
+	// 		console.log(processedData);
+	// 	} else {
+	// 		console.log("Does not work");
+	// 	}
+	// }, [processedData]);
 
 	useEffect(() => {
 		if (data !== undefined) {
@@ -88,7 +88,6 @@ const SelectColumn = (user) => {
 
 
 		setProcessedData(await postCarga(data, columnas, user));
-		console.log(processedData);
 	}
 
 	return (

@@ -13,6 +13,11 @@ import {
 
 function Chart1() {
 
+  const location = useLocation();
+	// Data variable contains ids from the database and the proccessed data from the file
+	const processedData = location.state?.processedData;
+
+
     const [data, setData] = useState([{ Datos: "Anomalías", users: 1254 },
       { Datos: "Datos regulares", users: 12536 }])
     const COLORS = ['#fe9000', '#ffba26'];

@@ -1,5 +1,5 @@
-import { React } from "react";
-import { useLocation } from "react-router-dom";
+import { React, useEffect} from "react";
+import { useLocation} from "react-router-dom";
 import Chart1 from "./charts/Chart1";
 import Chart2 from "./charts/Chart2";
 import Chart3 from "./charts/Chart3";
@@ -15,7 +15,13 @@ const Dashboard = (user) => {
 	const location = useLocation();
 	// Data variable contains ids from the database and the proccessed data from the file
 	const processedData = location.state?.processedData;
-  console.log(processedData);
+  console.log(processedData["datos"]["scores"]);
+
+  useEffect(() => {
+    if (processedData){
+      
+    }
+  }, [processedData]);
 
 
 
