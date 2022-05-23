@@ -1,7 +1,9 @@
 import {React, useState} from "react";
 import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
-import { BarChart, Bar, Cell,ResponsiveContainer } from "recharts";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+
 
 
   
@@ -12,43 +14,43 @@ function Chart3() {
       const data6 = [
         {
           name: 'Page A',
-          uv: 4000,
+          Anomalías: 180,
           pv: 2400,
           amt: 2400,
         },
         {
           name: 'Page B',
-          uv: 3000,
+          Anomalías: 250,
           pv: 1398,
           amt: 2210,
         },
         {
           name: 'Page C',
-          uv: 2000,
+          Anomalías: 300,
           pv: 9800,
           amt: 2290,
         },
         {
           name: 'Page D',
-          uv: 2780,
+          Anomalías: 300,
           pv: 3908,
           amt: 2000,
         },
         {
           name: 'Page E',
-          uv: 1890,
+          Anomalías: 250,
           pv: 4800,
           amt: 2181,
         },
         {
           name: 'Page F',
-          uv: 2390,
+          Anomalías: 200,
           pv: 3800,
           amt: 2500,
         },
         {
           name: 'Page G',
-          uv: 3490,
+          Anomalías: 180,
           pv: 4300,
           amt: 2100,
         },
@@ -58,7 +60,7 @@ function Chart3() {
 
     <div class="chart c3">
       <div class="chart_title">
-        Anomalías por una variable
+        Comportamiento de los datos
         </div>
       
         <ResponsiveContainer width="100%" height="100%">
@@ -69,11 +71,14 @@ function Chart3() {
         margin={{
           top: 15,
           right: 10,
-          left: 40,
+          left: 20,
           bottom: 32,
         }}
         >
-          <Bar dataKey="uv" fill="#ffba26" />
+          <XAxis />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="Anomalías" fill="#ffba26" />
         </BarChart>
         </ResponsiveContainer>
         </div>

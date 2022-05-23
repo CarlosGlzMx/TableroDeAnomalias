@@ -36,7 +36,7 @@ function Chart1() {
 	return (
     <div class="chart c2">
         <div class="chart_title">
-          Anomalías por fecha
+          Cantidad de anomalías
           </div>
       <ResponsiveContainer width="100%" height="100%">
                       <PieChart dataKey="c1data">
