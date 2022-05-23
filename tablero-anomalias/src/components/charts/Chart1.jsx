@@ -22,17 +22,17 @@ function Chart1() {
       // #4 Proceso de cada gráfica
       const UMBRAL_ANOMALIA = 0;
       let [normales, anomalias] = [0, 0];
-      for (const [key, value] of Object.entries(anomalyData["datos"]["scores"])) {
+      for (const [key, value] of Object.entries(
+        anomalyData["datos"]["scores"]
+      )) {
         if (value >= UMBRAL_ANOMALIA) {
           anomalias += 1;
-        }
-        else {
+        } else {
           normales += 1;
         }
       }
 
       // #5 Recargar la gráfica con los datos obtenidos
-      
     }, [anomalyData]);
   
 
