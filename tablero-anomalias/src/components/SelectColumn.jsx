@@ -39,7 +39,7 @@ const SelectColumn = (user) => {
 						const valuesArray = [];
 
 						// Iterating data to get column name and their values
-						results.data.map((d) => {
+						results.data.forEach((d) => {
 							rowsArray.push(Object.keys(d));
 							valuesArray.push(Object.values(d));
 						});
@@ -59,12 +59,11 @@ const SelectColumn = (user) => {
 					const ws = wb.Sheets[wsname];
 					const f = XLSX.utils.sheet_to_json(ws, { header: 1 });
 					setTableRows(f[0]);
-					console.log(tableRows);
 				};
 				reader.readAsBinaryString(data);
 			}
 		}
-	}, []);
+	}, [data, type]);
 
 
 	async function submitHandler(event) {
@@ -148,7 +147,7 @@ const SelectColumn = (user) => {
 			<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
 				<h2>Define los actores para entrenar el modelo</h2>
 			</div>
-			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ? 
+			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ?
 				<Form
 					ref={ refForm }
 					onSubmit={ submitHandler }
@@ -161,7 +160,7 @@ const SelectColumn = (user) => {
 							<div className="d-flex flex-row justify-content-between" style={ { width: '15vw' } } >
 								<h6>Tipo de columna</h6>
 							</div>
-							<div className="d-flex flex-row" style={{ width: '13vw' }} >
+							<div className="d-flex flex-row" style={ { width: '13vw' } } >
 								<h6>Inteligencia artificial</h6>
 							</div>
 							<div className="d-flex flex-row pe-5">
