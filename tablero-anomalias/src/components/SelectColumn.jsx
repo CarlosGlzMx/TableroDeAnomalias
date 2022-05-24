@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Papa from "papaparse";
 import { useLocation, Link } from "react-router-dom";
 import Column from './Column';
@@ -22,6 +22,8 @@ const SelectColumn = (user) => {
 
 	//Temporary state to store processed data. Update when API sends response
 	const [processedData, setProcessedData] = useState([]);
+
+	const refForm = useRef();
 
 	useEffect(() => {
 		if (data !== undefined) {
@@ -96,6 +98,26 @@ const SelectColumn = (user) => {
 		}
 	}
 
+
+	const onChangeValue = (event) => {
+		event.preventDefault();
+
+		setTimeout(() => {
+			if (event.target.value === 'true') {
+				for (let index = 0; index < tableRows.length; index++) {
+					if (event.target.id !== `date-checkbox-${index}`) {
+						refForm.current[(index * 3) + 2].disabled = true
+					}
+				}
+			}
+			else {
+				for (let index = 0; index < tableRows.length; index++) {
+					refForm.current[(index * 3) + 2].disabled = false;
+				}
+			}
+		}, 300)
+	}
+
 	return (
 		<div className="SelectColumn" style={{ minHeight: "82vh" }}>
 			<div
@@ -107,7 +129,11 @@ const SelectColumn = (user) => {
 				<h2>Define los actores para entrenar el modelo</h2>
 			</div>
 			{tableRows.length !== 0 ?
-				<Form onSubmit={submitHandler}>
+				<Form
+					ref={refForm}
+					onSubmit={submitHandler}
+					onChange={onChangeValue}
+				>
 					<div className="">
 						<div className="mb-4 d-flex justify-content-between ms-5">
 							<div className="" style={{ width: '36vw' }}>
@@ -117,7 +143,7 @@ const SelectColumn = (user) => {
 								<h6>Tipo de columna</h6>
 							</div>
 							<div className="d-flex flex-row" style={{ width: '13vw' }} >
-								<h6>Intelingecia artificial</h6>
+								<h6>Inteligencia artificial</h6>
 							</div>
 							<div className="d-flex flex-row pe-5">
 								<h6>Fecha Principal</h6>

@@ -4,21 +4,19 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 
 const Column = (props) => {
 
-    const [checkedBox, setCheckedBox] = useState(false);
-    const [checkedRadio, setCheckedRadio] = useState(false);
-
+    const [checkedIA, setCheckedIA] = useState(false);
+    const [checkedDate, setCheckedDate] = useState(false);
     const [select, setSelect] = useState('N-A');
 
     useEffect(() => {
-    }, [select, checkedBox, checkedRadio]);
+        console.log(checkedDate)
+    }, [select, checkedIA, checkedDate]);
 
 
     return (
         <div
             className="mb-4 d-flex justify-content-between ms-5"
-            style={{
-                marginRight: '5vw'
-            }} >
+            style={{marginRight: '5vw'}} >
             <div style={{ width: '30vw' }} >
                 <h6>{props.index}  {props.name}</h6>
             </div>
@@ -30,15 +28,16 @@ const Column = (props) => {
                     onChange={(e) => {
                         setSelect(e.target.value);
                         if (e.target.value !== "N-A") {
-                            setCheckedBox(true);
+                            setCheckedIA(true);
                         }
                         else {
-                            setCheckedBox(false);
+                            setCheckedIA(false);
                         }
                     }}>
                     <option value="N-A" key="N-A">Agente no asignado</option>
                     <option value="A-I" key="A-I">Agente Interno</option>
                     <option value="A-E" key="A-E">Agente Externo</option>
+                    <option value="D-I" key="D-I">Dato Informativo</option>
                 </Form.Select>
             </Form.Group>
             <div className="d-flex flex-row" style={{ width: '10vw' }} >
@@ -48,21 +47,25 @@ const Column = (props) => {
                 <div>
                     <Form.Check
                         type="checkbox"
-                        id={`default-checkbox-${props.index - 1}`}
-                        value={checkedBox}
-                        disabled={select === "N-A" ? true : false}
-                        checked={select === "N-A" ? false : checkedBox}
-                        onChange={() => setCheckedBox(!checkedBox)}
+                        id={`ia-checkbox-${props.index - 1}`}
+                        value={checkedIA}
+                        checked={select === "N-A" || select === "D-I" ? false : true}
+                        onChange={() => setCheckedIA(!checkedIA)}
+                        disabled
                     />
                 </div>
             </div>
             <Form.Group className="d-flex flex-row" style={{ width: '4vw' }} >
                 <Form.Check
-                    type='radio'
-                    id={`default-radio-${props.index - 1}`}
-                    value={checkedRadio}
-                    defaultChecked={checkedRadio}
-                    onClick={() => setCheckedRadio(!checkedRadio)}
+                    type='checkbox'
+                    id={`date-checkbox-${props.index - 1}`}
+                    value={checkedDate}
+                    checked={checkedDate}
+                    onChange={() => {
+                        setTimeout(() => {
+                            setCheckedDate(!checkedDate);
+                        }, 100)                        
+                    }}
                 />
             </Form.Group>
         </div >
