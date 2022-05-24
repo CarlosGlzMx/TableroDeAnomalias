@@ -57,6 +57,13 @@ function AnomaliesTable() {
         name: "Anomalia 8",
         details: "Detalles de Anomalia 8"
       },
+
+      {
+
+        id: 9,
+        name: "Anomalia 9",
+        details: "Detalles de Anomalia 9"
+      },
       {
 
         id: 10,
@@ -79,7 +86,7 @@ function AnomaliesTable() {
     const anomaliesList = anomalies.map(anomalies => <ListGroup.Item variant="primary" onClick={handleShow}>
     {anomalies.name}</ListGroup.Item>)
 	return (
-    <div>
+    <div style={{padding:0}}>
       <h4>Tabla de anomalías encontradas</h4>
       <div class="anomaliesTable" className="m-4 p-2" style={{border:"0.3rem dashed #ff8300", borderRadius: "0.5rem"}}>
         <ListGroup defaultActiveKey="#link1">

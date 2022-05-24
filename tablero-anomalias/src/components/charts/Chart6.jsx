@@ -29,8 +29,52 @@ function Chart6() {
     { x: 180, y: 280, z: 260 },
     { x: 210, y: 220, z: 230 },
   ];
+
+
+  const filters = [
+    {
+      id: 1,
+      name: "filtro 1",
+      details: "Detalles de Anomalia 1"
+    },
+    {
+      id: 2,
+      name: "filtro 2",
+      details: "Detalles de Anomalia 2"
+    },
+    {
+
+      id: 3,
+      name: "filtro 35",
+      details: "Detalles de Anomalia 35"
+    },
+    {
+
+      id: 46,
+      name: "filtro 4",
+      details: "Detalles de Anomalia 4"
+    },
+  ]
+
+  const filterList = filters.map(filters => <option value={filters.id}>
+    {filters.name}</option>)
 	return (
-    <ResponsiveContainer width="100%" height="100%">
+
+    <div class="chart c6">
+      <div class="chart_title">
+        Frecuencia de anomalías
+        </div>
+          <div class="horizontalFilters">
+            <select class="form-select" aria-label="Default select example">
+            <option selected>Filtrar por</option>
+              {filterList}
+            </select>
+            <select class="form-select" aria-label="Default select example">
+            <option selected>Filtrar por</option>
+              {filterList}
+            </select>
+          </div>
+          <ResponsiveContainer width="100%" height="100%">
     <ScatterChart
       width={400}
       height={400}
@@ -51,6 +95,8 @@ function Chart6() {
       <Scatter name="Anomalia_2" data={data02} fill="#ffba26" shape="circle" />
     </ScatterChart>
   </ResponsiveContainer>
+    </div>
+    
 	);
 }
 

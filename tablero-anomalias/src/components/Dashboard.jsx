@@ -1,110 +1,54 @@
-import { React } from "react";
-import { Dropdown } from "react-bootstrap";
-import Chart1 from "../components/Chart1";
-import Chart2 from "../components/Chart2";
-import Chart3 from "../components/Chart3";
-import Chart4 from "../components/Chart4";
-import Chart5 from "../components/Chart5";
-import Chart6 from "../components/Chart6";
+import { React, useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import Chart1 from "./charts/Chart1";
+import Chart2 from "./charts/Chart2";
+import Chart3 from "./charts/Chart3";
+import Chart4 from "./charts/Chart4";
+import Chart5 from "./charts/Chart5";
+import Chart6 from "./charts/Chart6";
 import Actions from "../components/Actions";
 import AnomaliesTable from "../components/AnomaliesTable";
+import { DataContext } from "../App";
 
 const Dashboard = (user) => {
-  return (
-    <div className="Dashboard">
-      <div className="container p-0" style={{ minHeight: "80vh" }}>
 
-        <div class="c1">
-          {<Chart1 />}
-        </div>
+	const location = useLocation();
+	// Data variable contains ids from the database and the proccessed data from the file
+	const { anomalyData, setAnomalyData } = useContext(DataContext);
 
-        <div class="c2">
-          {<Chart2 />}
-        </div>
+	useEffect(() => {
+		console.log(anomalyData["datos"]["scores"])
+	},[anomalyData]);
 
-        <div class="c3">
-          {<Chart3 />}
-        </div>
+	return (
+		<div className="Dashboard">
+			<div className="container p-0" style={ { minHeight: "80vh" } }>
+				
+				{ <Chart1 /> }
 
-        <div class="c4">
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Filtrar
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          {<Chart4 />}
-        </div>
+				{ <Chart2 /> }
+				
+				{ <Chart3 /> }
+				
+				{ <Chart4 /> }
 
-        <div class="c5">
-          <div class="horizontalFilters">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic4-1">
-                Filtrar1
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic4-2">
-                Filtrar2
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          {<Chart5 />}
-        </div>
+				{ <Chart5 /> }
 
-        <div class="c6">
-          <div class="horizontalFilters">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic6-1">
-                Filtrar1
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+				{ <Chart6 /> }
 
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic6-2">
-                Filtrar2
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          {<Chart6 />}
-        </div>
+			</div>
 
+			<div style={{paddingBottom: "12vh"}}>
+				{ <AnomaliesTable /> }
+			</div>
 
-      </div>
-      <div>
-        {<AnomaliesTable />}
-      </div>
+			<div class="action-bar">
+				{ <Actions /> }
+			</div>
 
-      <div class="action-bar">
-        {<Actions />}
-      </div>
-
-    </div>
-  );
+		</div>
+    
+	);
 }
 
 export default Dashboard;

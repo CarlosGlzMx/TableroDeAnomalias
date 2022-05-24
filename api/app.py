@@ -3,7 +3,8 @@
 # Desarrollo por el equipo 4 del Tec de Monterrey, Carlos González para Ternium
 
 # Bibliotecas estándar para el manejo del API y los datos
-from flask import Flask, request, render_template, abort, Response, send_file
+from operator import index
+from flask import Flask, make_response, request, render_template, abort, Response, send_file
 from flask_cors import CORS, cross_origin
 from numpy import dtype
 import pandas as pd
@@ -20,6 +21,7 @@ cors = CORS(app)
 # Se numeran las rutas según su orden de uso por la aplicación
 # 1 - GET - Ruta por defecto con instrucciones de uso
 @app.route("/", methods = ["GET"])
+@cross_origin()
 def default():
     return render_template("guia.html")
 
@@ -43,7 +45,7 @@ def list_available_data():
 # 4 - GET - Devuelve todos los datos asociados con una carga
 # 5 - DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
 @app.route("/cargas/", methods = ["POST", "GET", "DELETE"])
-@cross_origin()
+@cross_origin(expose_headers="id_nueva")
 def methods_uploads():
     if request.method == "POST":
         # Verifica que venga un usuario y una clasificación de columnas del archivo
@@ -78,7 +80,7 @@ def methods_uploads():
 
         # Regreso de datos
         # Configura la respuesta al sitio web
-        response_to_web = Response(resulting_data.to_csv(index = False), 200)
+        response_to_web = Response(resulting_data.to_json() , 200)
         response_to_web.headers["Content-Type"] = "text/csv"
         response_to_web.headers["id_nueva"] = new_id
         return response_to_web

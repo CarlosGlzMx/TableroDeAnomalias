@@ -1,27 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Papa from "papaparse";
 import { useLocation, Link } from "react-router-dom";
 import Column from './Column';
 import { Form, Button, Spinner } from 'react-bootstrap';
-import { postCarga } from "../api/requests"
-// import readXlsxFile from 'read-excel-file';
+import { postCarga } from "../api/requests";
 import * as XLSX from "xlsx";
-import tempFile from "./test_results.csv";
+import { DataContext } from "../App";
+
 
 const SelectColumn = (user) => {
 
 	const location = useLocation();
 
 	// Archivo .csv o .xlsx
-	const data = location.state?.data;
-
+	const data = location.state?.file;
 	const type = location.state?.type;
 
 	//State to store table Column name
 	const [tableRows, setTableRows] = useState([]);
 
-	//Temporary state to store processed data. Update when API sends response
-	const [processedData, setProcessedData] = useState([]);
+	//State to set loading
+	const [loading, setLoading] = useState(false);
+
+	//State to store processed data. Update when API sends response
+	const { anomalyData, setAnomalyData } = useContext(DataContext);
 
 	const refForm = useRef();
 
@@ -68,9 +70,7 @@ const SelectColumn = (user) => {
 	async function submitHandler(event) {
 		event.preventDefault();
 
-		//TODO:
-		// Guardamos la info en formData para después se envíe
-		// async function postData() {
+		// Guardamos la info en columnas para después se envíe
 		let columnas = [];
 		for (let index = 0; index < tableRows.length; index++) {
 			columnas.push({
@@ -82,20 +82,45 @@ const SelectColumn = (user) => {
 			})
 		}
 
-		// await postCarga(data, columnas, user)
-		console.log(tempFile);
-		// Lectura temporal de archivo
-		if (type === "text/csv") {
-			// Passing file data (event.target.files[0]) to parse using Papa.parse
-			Papa.parse(tempFile[0], {
-				delimiter: ",",
-				header: true,
-				skipEmptyLines: true,
-				complete: function (results) {
-					console.log(results);
-				},
-			});
-		}
+		setLoading(true);
+		setAnomalyData(await postCarga(data, columnas, user));
+		setLoading(false);
+	}
+
+	function Loading() {
+		return (
+			<>
+				{ (tableRows.length === 0 || loading) ?
+					<div
+						style={ {
+							marginLeft: '40vw',
+							maxWidth: '20vw',
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center'
+
+						} }>
+						<Spinner animation="border" role="status" />
+						<h4>Leyendo Información...</h4>
+					</div>
+					:
+					<div className="mb-4 d-flex justify-content-center">
+						<Button
+							as={ Link }
+							to="/dashboard"
+							style={ {
+								backgroundColor: "#ff8300",
+								border: "none"
+							} }
+							className="mx-auto"
+							size="lg">
+							Continuar a Dashboard
+						</Button>
+					</div>
+
+				}
+			</>
+		);
 	}
 
 
@@ -119,27 +144,21 @@ const SelectColumn = (user) => {
 	}
 
 	return (
-		<div className="SelectColumn" style={{ minHeight: "82vh" }}>
-			<div
-				style={{
-					height: "20vh",
-					marginLeft: "25%",
-					padding: "5vh 0"
-				}}>
+		<div className="SelectColumn" style={ { minHeight: "82vh" } }>
+			<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
 				<h2>Define los actores para entrenar el modelo</h2>
 			</div>
-			{tableRows.length !== 0 ?
+			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ? 
 				<Form
-					ref={refForm}
-					onSubmit={submitHandler}
-					onChange={onChangeValue}
-				>
-					<div className="">
+					ref={ refForm }
+					onSubmit={ submitHandler }
+					onChange={ onChangeValue } >
+					<div>
 						<div className="mb-4 d-flex justify-content-between ms-5">
-							<div className="" style={{ width: '36vw' }}>
+							<div style={ { width: '36vw' } }>
 								<h6>Nombre</h6>
 							</div>
-							<div className="d-flex flex-row justify-content-between" style={{ width: '15vw' }} >
+							<div className="d-flex flex-row justify-content-between" style={ { width: '15vw' } } >
 								<h6>Tipo de columna</h6>
 							</div>
 							<div className="d-flex flex-row" style={{ width: '13vw' }} >
@@ -151,41 +170,27 @@ const SelectColumn = (user) => {
 						</div >
 						{
 							tableRows.map((rows, index) => {
-								return <Column key={index} index={index + 1} name={rows} ></Column>
+								return <Column key={ index } index={ index + 1 } name={ rows } ></Column>
 							})
 						}
-
-
 					</div>
 					<div className="mb-4 d-flex justify-content-center">
 						<Button
-							// as={ Link }
-							// to={ { pathname: "/dashboard", state: { processedData: processedData, } } }
-							style={{
+							style={ {
 								backgroundColor: "#ff8300",
 								border: "none"
-							}}
+							} }
 							className="mx-auto"
-							type={'submit'}
+							type={ 'submit' }
 							size="lg">
 							Seleccionar Columnas
 						</Button>
 					</div>
 				</Form>
 				:
-				<div
-					style={{
-						marginLeft: '40vw',
-						maxWidth: '20vw',
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center'
-
-					}}>
-					<Spinner animation="border" role="status" />
-					<h4>Leyendo Columnas...</h4>
-				</div>
+				<Loading />
 			}
+
 		</div>
 	);
 };
