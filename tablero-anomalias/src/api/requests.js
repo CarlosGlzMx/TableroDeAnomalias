@@ -29,7 +29,7 @@ export function postCarga(archivo, columnas, idUsuario) {
 }
 
 // GET - Devuelve la totalidad de datos asociados con una carga
-export function getCarga(archivo, idUsuario, idCarga) {
+export function getCarga(idUsuario, idCarga) {
     return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "GET",
         headers: {

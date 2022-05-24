@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Spinner } from "react-bootstrap";
 import AnomalyBg from "../components/images/AnomalyBG.png";
 import BoardRow from "../components/BoardRow";
 import { getDatosDisponibles } from "../api/requests";
+import { DataContext } from "../App";
 
-function Upload(user) {
+function Upload() {
 	// Archivo .csv o .xlsx y validacion de tipo
 	const [file, setFile] = useState();
 	const [isValid, setIsValid] = useState();
 	const [type, setType] = useState("");
+
+	//User id
+	const { user } = useContext(DataContext);
 
 	// Cargas y tableros
 	const [cargas, setCargas] = useState(undefined);
@@ -44,6 +48,7 @@ function Upload(user) {
 		if (cargas === undefined || tableros === undefined) {
 			handleRequest();
 		}
+
 		if (type !== "") {
 			if (type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || type === "text/csv") {
 				setIsValid(true);
@@ -119,7 +124,7 @@ function Upload(user) {
 							<Loading />
 							:
 							cargas.map((carga) => {
-								return <BoardRow key={ carga.id } name={ carga.nombre }></BoardRow>
+								return <BoardRow key={ carga.id } name={ carga.nombre } type={ "Carga" }></BoardRow>
 							})
 
 						}
@@ -136,7 +141,7 @@ function Upload(user) {
 							<Loading />
 							:
 							tableros.map((tablero) => {
-								return <BoardRow key={ tablero.id } name={ tablero.nombre }></BoardRow>
+								return <BoardRow key={ tablero.id } name={ tablero.nombre } type={ "Tablero" }></BoardRow>
 							})
 
 						}

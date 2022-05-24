@@ -8,13 +8,16 @@ import * as XLSX from "xlsx";
 import { DataContext } from "../App";
 
 
-const SelectColumn = (user) => {
+function SelectColumn() {
 
 	const location = useLocation();
 
 	// Archivo .csv o .xlsx
 	const data = location.state?.file;
 	const type = location.state?.type;
+
+	//User id
+	const { user } = useContext(DataContext);
 
 	//State to store table Column name
 	const [tableRows, setTableRows] = useState([]);
@@ -145,7 +148,7 @@ const SelectColumn = (user) => {
 	return (
 		<div className="SelectColumn" style={ { minHeight: "82vh" } }>
 			<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
-				<h2>Define los actores para entrenar el modelo</h2>
+				<h2>{ (loading || anomalyData) ? "Llamando al modelo" : "Define los actores para entrenar el modelo" }</h2>
 			</div>
 			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ?
 				<Form

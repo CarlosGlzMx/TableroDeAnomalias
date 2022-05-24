@@ -11,21 +11,21 @@ import {
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export const DataContext = createContext([[],() => {}]);
+export const DataContext = createContext([[], () => {}]);
 
 function App() {
     const [user] = useState("Charlie");
     const [anomalyData, setAnomalyData] = useState(undefined);
 
     return (
-        <DataContext.Provider value = {{ anomalyData, setAnomalyData }}>
+        <DataContext.Provider value={{ anomalyData, setAnomalyData, user }}>
             <Router>
                 <Header />
                 <Routes>
                     <Route path="/" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard user={user} />} />
-                    <Route path="/upload" element={<Upload user={user} />} />
-                    <Route path="/selectColumn" element={<SelectColumn user={user} />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/upload" element={<Upload />} />
+                    <Route path="/selectColumn" element={<SelectColumn />} />
                 </Routes>
                 <Footer />
             </Router>
