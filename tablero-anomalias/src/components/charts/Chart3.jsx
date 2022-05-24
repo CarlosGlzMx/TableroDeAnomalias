@@ -3,7 +3,7 @@ import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
 import { BarChart, Bar, Cell,ResponsiveContainer } from "recharts";
 import { DataContext } from "../../App";
-
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
   
 function Chart3() {
@@ -156,7 +156,7 @@ function Chart3() {
 
     <div class="chart c3">
       <div class="chart_title">
-        Anomalías por una variable
+        Comportamiento de los datos
         </div>
       
         <ResponsiveContainer width="100%" height="100%">
@@ -167,11 +167,18 @@ function Chart3() {
         margin={{
           top: 15,
           right: 10,
-          left: 40,
+          left: 20,
           bottom: 32,
         }}
         >
+<<<<<<< HEAD
           <Bar dataKey="number" fill="#ffba26" />
+=======
+          <XAxis />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="Anomalías" fill="#ffba26" />
+>>>>>>> a6827494f5faccd410f6c81a58561cbe9c8377eb
         </BarChart>
         </ResponsiveContainer>
         </div>
