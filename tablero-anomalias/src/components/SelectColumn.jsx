@@ -128,19 +128,16 @@ const SelectColumn = (user) => {
 		event.preventDefault();
 
 		setTimeout(() => {
-			if (event.target.value === 'true') {
+			if (event.target.value) {
 				for (let index = 0; index < tableRows.length; index++) {
-					if (event.target.id !== `date-checkbox-${index}`) {
-						refForm.current[(index * 3) + 2].disabled = true
+					if (refForm.current[(index * 3) + 2].value && refForm.current[(index * 3) + 2].id !== event.target.id) {
+						refForm.current[(index * 3) + 2].value = false;
+						refForm.current[(index * 3) + 2].checked = false;
+
 					}
 				}
 			}
-			else {
-				for (let index = 0; index < tableRows.length; index++) {
-					refForm.current[(index * 3) + 2].disabled = false;
-				}
-			}
-		}, 300)
+		}, 100)
 	}
 
 	return (
@@ -148,7 +145,7 @@ const SelectColumn = (user) => {
 			<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
 				<h2>Define los actores para entrenar el modelo</h2>
 			</div>
-			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ? 
+			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ?
 				<Form
 					ref={ refForm }
 					onSubmit={ submitHandler }
