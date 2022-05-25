@@ -29,8 +29,8 @@ export function postCarga(archivo, columnas, idUsuario) {
 }
 
 // GET - Devuelve la totalidad de datos asociados con una carga
-export async function getCarga(archivo, idUsuario, idCarga) {
-    return await fetch(`http://127.0.0.1:5000/cargas/`, {
+export function getCarga(idUsuario, idCarga) {
+    return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -39,8 +39,6 @@ export async function getCarga(archivo, idUsuario, idCarga) {
         },
     }).then((response) => response.json());
 }
-
-// Los metodos siguientes son versiones preliminares y estan sujetos a cambios.
 
 // DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
 export async function deleteCarga(idUsuario, idCarga) {

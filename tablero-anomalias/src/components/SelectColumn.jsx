@@ -8,13 +8,16 @@ import * as XLSX from "xlsx";
 import { DataContext } from "../App";
 
 
-const SelectColumn = (user) => {
+function SelectColumn() {
 
 	const location = useLocation();
 
 	// Archivo .csv o .xlsx
 	const data = location.state?.file;
 	const type = location.state?.type;
+
+	//User id
+	const { user } = useContext(DataContext);
 
 	//State to store table Column name
 	const [tableRows, setTableRows] = useState([]);
@@ -39,7 +42,7 @@ const SelectColumn = (user) => {
 						const valuesArray = [];
 
 						// Iterating data to get column name and their values
-						results.data.map((d) => {
+						results.data.forEach((d) => {
 							rowsArray.push(Object.keys(d));
 							valuesArray.push(Object.values(d));
 						});
@@ -59,12 +62,11 @@ const SelectColumn = (user) => {
 					const ws = wb.Sheets[wsname];
 					const f = XLSX.utils.sheet_to_json(ws, { header: 1 });
 					setTableRows(f[0]);
-					console.log(tableRows);
 				};
 				reader.readAsBinaryString(data);
 			}
 		}
-	}, []);
+	}, [data, type]);
 
 
 	async function submitHandler(event) {
@@ -101,7 +103,7 @@ const SelectColumn = (user) => {
 
 						} }>
 						<Spinner animation="border" role="status" />
-						<h4>Leyendo Información...</h4>
+						<h4>Procesando Información...</h4>
 					</div>
 					:
 					<div className="mb-4 d-flex justify-content-center">
@@ -143,7 +145,7 @@ const SelectColumn = (user) => {
 	return (
 		<div className="SelectColumn" style={ { minHeight: "82vh" } }>
 			<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
-				<h2>Define los actores para entrenar el modelo</h2>
+				<h2>{ (loading || anomalyData) ? "Aplicando Inteligencia Artificial" : "Define los actores para entrenar el modelo" }</h2>
 			</div>
 			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ?
 				<Form
@@ -158,7 +160,7 @@ const SelectColumn = (user) => {
 							<div className="d-flex flex-row justify-content-between" style={ { width: '15vw' } } >
 								<h6>Tipo de columna</h6>
 							</div>
-							<div className="d-flex flex-row" style={{ width: '13vw' }} >
+							<div className="d-flex flex-row" style={ { width: '13vw' } } >
 								<h6>Inteligencia artificial</h6>
 							</div>
 							<div className="d-flex flex-row pe-5">

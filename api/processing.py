@@ -1,4 +1,5 @@
 from sklearn.preprocessing import LabelEncoder
+import datetime
 import json
 
 import pandas as pd
@@ -47,11 +48,14 @@ def extract_columns(columns_text):
         if column[name]["ia"] == "true":
             AI_columns.append(name)
         # También definió sus columnas de interés (Agentes internos y externos)
-        if column[name]["column_type"] in ["A-I", "A-E"]:
+        if column[name]["column_type"] in ["A-I", "A-E", "D-I"]:
             relevant_columns.append(name)
         # La fecha es incluída de igual manera, pues el app la necesita
         if column[name]["date"] == "true":
-            # date_column = name
-            # Placeholder
-            date_column = "F_FECHA_INGRESO"
+            date_column = name
     return relevant_columns, AI_columns, date_column
+
+# Verifica que la columna de fechas sea adecuada para guardarse en la base de datos
+def verify_date(df, date_column):
+    df[date_column] = pd.to_datetime(df[date_column]).dt.strftime("%Y-%m-%d")
+    return df

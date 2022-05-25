@@ -1,10 +1,16 @@
-import React from "react";
+import {React, useState, createContext} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import html2canvas from "html2canvas";
 import jspdf from "jspdf";
 
 
+
+
 function Actions() {
+
+
+    
+    //console.log(rango);
     function printPdf() {
         // Basado en código de Zolotarenko, E. https://start-up.house/en/blog/articles/converting-html-to-pdf
         // Crea el archivo PDF por llenar con componentes de manera personalizada

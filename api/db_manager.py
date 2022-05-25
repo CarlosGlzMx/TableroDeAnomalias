@@ -39,7 +39,7 @@ def save_data(upload_name, user_id, df, base_columns, date_column):
     cnx = db_connect()
     cursor = cnx.cursor()
 
-    # Ejecuta el stored procedure de MySQL que borra la carga
+    # Ejecuta el stored procedure de MySQL que guarda la carga
     cursor.callproc("crea_carga", (user_id, upload_name, ",".join(base_columns)))
     created_id = next(cursor.stored_results()).fetchall()[0][0]
     cnx.commit()
