@@ -16,50 +16,7 @@ function Chart3() {
 		number: 12
 	}])
 
-	// const data6 = [
-	//   {
-	//     name: 'Page A',
-	//     uv: 4000,
-	//     pv: 2400,
-	//     amt: 2400,
-	//   },
-	//   {
-	//     name: 'Page B',
-	//     uv: 3000,
-	//     pv: 1398,
-	//     amt: 2210,
-	//   },
-	//   {
-	//     name: 'Page C',
-	//     uv: 2000,
-	//     pv: 9800,
-	//     amt: 2290,
-	//   },
-	//   {
-	//     name: 'Page D',
-	//     uv: 2780,
-	//     pv: 3908,
-	//     amt: 2000,
-	//   },
-	//   {
-	//     name: 'Page E',
-	//     uv: 1890,
-	//     pv: 4800,
-	//     amt: 2181,
-	//   },
-	//   {
-	//     name: 'Page F',
-	//     uv: 2390,
-	//     pv: 3800,
-	//     amt: 2500,
-	//   },
-	//   {
-	//     name: 'Page G',
-	//     uv: 3490,
-	//     pv: 4300,
-	//     amt: 2100,
-	//   },
-	// ];
+	
 	const colors = scaleOrdinal(schemeCategory10).range();
 
 
@@ -140,15 +97,92 @@ function Chart3() {
 		}
 
 		// #5 Recargar la gráfica con los datos obtenidos
-		setData(
-			{
+		setData([
+      {
 				name: '-1',
 				number: A_1_0
 			},
 			{
 				name: '-0.9',
 				number: A_0_9
-			})
+			},
+      {
+				name: '-0.8',
+				number: A_0_8
+			},
+      {
+				name: '-0.7',
+				number: A_0_7
+			},
+      {
+				name: '-0.6',
+				number: A_0_6
+			},
+      {
+				name: '-0.5',
+				number: A_0_5
+			},
+      {
+				name: '-0.4',
+				number: A_0_4
+			},
+      {
+				name: '-0.3',
+				number: A_0_3
+			},
+      {
+				name: '-0.2',
+				number: A_0_2
+			},
+      {
+				name: '-0.1',
+				number: A_0_1
+			},
+      {
+				name: '0.0',
+				number: A0
+			},
+      {
+				name: '0.1',
+				number: A0_1
+			},
+      {
+				name: '0.2',
+				number: A0_2
+			},
+      {
+				name: '0.3',
+				number: A0_3
+			},
+      {
+				name: '0.4',
+				number: A0_4
+			},
+      {
+				name: '0.5',
+				number: A0_5
+			},
+      {
+				name: '0.6',
+				number: A0_6
+			},
+      {
+				name: '0.7',
+				number: A0_7
+			},
+      {
+				name: '0.8',
+				number: A0_8
+			},
+      {
+				name: '0.9',
+				number: A0_9
+			},
+      {
+				name: '1.0',
+				number: A1_0
+			}
+    ])
 	}, [anomalyData]);
 
 	return (
