@@ -1,7 +1,7 @@
 import { React, useState, useContext, useEffect } from "react";
 import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
-import { BarChart, Bar, Cell, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, Cell, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
 import { DataContext } from "../../App";
 
 
@@ -206,6 +206,9 @@ function Chart3() {
 				>
 					<Bar dataKey="number" fill="#ffba26" />
 					<Bar dataKey="Anomalías" fill="#ffba26" />
+					<XAxis />
+					<YAxis />
+					<Tooltip />
 				</BarChart >
 			</ResponsiveContainer >
 		</div >
