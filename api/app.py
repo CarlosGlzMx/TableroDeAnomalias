@@ -66,16 +66,18 @@ def methods_uploads():
         if ".csv" in file_name:
             temp_df = pd.read_csv(file_received, encoding='latin-1', low_memory=False)
         else:
-            temp_df = pd.read_excel(file_received, encoding='latin-1', low_memory = False)
+            temp_df = pd.read_excel(file_received)
         temp_df = processing.clean(temp_df)
+        try: temp_df = processing.verify_date(temp_df, date_column)
+        except Exception as e: return Response("Columna de fechas inadecuada", 500)
         sliced_data = processing.slice_columns(temp_df, relevant_columns + [date_column])
-        categorized_data = processing.categorize(sliced_data, AI_columns)
+        categorized_data = processing.categorize(sliced_data.copy(), AI_columns)
         resulting_data = model.run_model(categorized_data, sliced_data)
-        
+
         # Se guardan los datos en la base de datos
-        # try: new_id = db_manager.save_data(file_name, user_id, resulting_data, relevant_columns, date_column)
-        # except Exception as e:
-        #   return Response("Error en el guardado de datos: " + str(e), 500)
+        """try: new_id = db_manager.save_data(file_name, user_id, resulting_data, relevant_columns, date_column)
+        except Exception as e:
+          return Response("Error en el guardado de datos: " + str(e), 500)"""
         new_id = 5
 
         # Regreso de datos

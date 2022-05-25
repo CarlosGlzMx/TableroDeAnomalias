@@ -103,7 +103,7 @@ function SelectColumn() {
 
 						} }>
 						<Spinner animation="border" role="status" />
-						<h4>Leyendo Información...</h4>
+						<h4>Procesando Información...</h4>
 					</div>
 					:
 					<div className="mb-4 d-flex justify-content-center">
@@ -148,7 +148,7 @@ function SelectColumn() {
 	return (
 		<div className="SelectColumn" style={ { minHeight: "82vh" } }>
 			<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
-				<h2>{ (loading || anomalyData) ? "Llamando al modelo" : "Define los actores para entrenar el modelo" }</h2>
+				<h2>{ (loading || anomalyData) ? "Aplicando Inteligencia Artificial" : "Define los actores para entrenar el modelo" }</h2>
 			</div>
 			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ?
 				<Form
