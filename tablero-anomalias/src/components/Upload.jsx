@@ -1,10 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, createContext } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button, Spinner } from "react-bootstrap";
 import AnomalyBg from "../components/images/AnomalyBG.png";
 import BoardRow from "../components/BoardRow";
 import { getDatosDisponibles } from "../api/requests";
 import { DataContext } from "../App";
+
+const Loading = () => {
+	return (
+		<div
+			style={ {
+				marginLeft: '40vw',
+				maxWidth: '20vw',
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center'
+
+			} }>
+			<Spinner animation="border" role="status" />
+			<h4>Cargando...</h4>
+		</div>
+	);
+}
+
+export const AvailableDataContext = createContext([[], () => { }]);
 
 function Upload() {
 	// Archivo .csv o .xlsx y validacion de tipo
@@ -18,24 +37,6 @@ function Upload() {
 	// Cargas y tableros
 	const [cargas, setCargas] = useState(undefined);
 	const [tableros, setTableros] = useState(undefined);
-
-	const Loading = () => {
-		return (
-			<div
-				style={ {
-					marginLeft: '40vw',
-					maxWidth: '20vw',
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center'
-
-				} }>
-				<Spinner animation="border" role="status" />
-				<h4>Cargando...</h4>
-			</div>
-		);
-	}
-
 
 	useEffect(() => {
 
@@ -105,49 +106,51 @@ function Upload() {
 					</Button>
 				</Link>
 			</div>
-			<div style={ {
-				width: "40%",
-				height: "66vh",
-				margin: "8vh",
-				border: "0.3rem dashed #ff8300",
-				borderRadius: "0.5rem",
-				backgroundColor: "white"
-			} }>
-				<div className="w-100 h-50 p-4">
-					<div className="h4">Cargas disponibles</div>
-					<ul style={ {
-						overflow: 'scroll',
-						maxHeight: '25vh',
-						overflowX: 'hidden'
-					} }>
-						{ cargas === undefined ?
-							<Loading />
-							:
-							cargas.map((carga) => {
-								return <BoardRow key={ carga.id } name={ carga.nombre } type={ "Carga" }></BoardRow>
-							})
+			<AvailableDataContext.Provider value={ { cargas, setCargas, tableros, setTableros } }>
+				<div style={ {
+					width: "40%",
+					height: "66vh",
+					margin: "8vh",
+					border: "0.3rem dashed #ff8300",
+					borderRadius: "0.5rem",
+					backgroundColor: "white"
+				} }>
+					<div className="w-100 h-50 p-4">
+						<div className="h4">Cargas disponibles</div>
+						<ul style={ {
+							overflow: 'scroll',
+							maxHeight: '25vh',
+							overflowX: 'hidden'
+						} }>
+							{ cargas === undefined ?
+								<Loading />
+								:
+								cargas.map((carga) => {
+									return <BoardRow key={ carga.id } name={ carga.nombre } type={ "carga" } id={ carga.id }></BoardRow>
+								})
 
-						}
-					</ul>
-				</div>
-				<div className="w-100 h-50 p-4">
-					<div className="h4">Tableros guardados</div>
-					<ul style={ {
-						overflow: 'scroll',
-						maxHeight: '20vh',
-						overflowX: 'hidden'
-					} }>
-						{ tableros === undefined ?
-							<Loading />
-							:
-							tableros.map((tablero) => {
-								return <BoardRow key={ tablero.id } name={ tablero.nombre } type={ "Tablero" }></BoardRow>
-							})
+							}
+						</ul>
+					</div>
+					<div className="w-100 h-50 p-4">
+						<div className="h4">Tableros guardados</div>
+						<ul style={ {
+							overflow: 'scroll',
+							maxHeight: '20vh',
+							overflowX: 'hidden'
+						} }>
+							{ tableros === undefined ?
+								<Loading />
+								:
+								tableros.map((tablero) => {
+									return <BoardRow key={ tablero.id } name={ tablero.nombre } type={ "tablero" } id={ tablero.id }></BoardRow>
+								})
 
-						}
-					</ul>
+							}
+						</ul>
+					</div>
 				</div>
-			</div>
+			</AvailableDataContext.Provider>
 		</div>
 	);
 }
