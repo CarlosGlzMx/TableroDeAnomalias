@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import Papa from "papaparse";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Column from './Column';
-import { Form, Button, Spinner } from 'react-bootstrap';
+import Loading from "../components/Loading";
+import { Form, Button } from 'react-bootstrap';
 import { postCarga } from "../api/requests";
 import * as XLSX from "xlsx";
 import { DataContext, IdsContext } from "../App";
@@ -27,6 +28,8 @@ function SelectColumn() {
 
 	//State to store processed data. Update when API sends response
 	const { anomalyData, setAnomalyData } = useContext(DataContext);
+
+	const navegador = useNavigate();
 
 	const refForm = useRef();
 
@@ -86,45 +89,8 @@ function SelectColumn() {
 
 		setLoading(true);
 		setAnomalyData(await postCarga(fileData, columnas, ids["usuario"]));
-		setLoading(false);
+		navegador("/dashboard", { replace: true });
 	}
-
-	function Loading() {
-		return (
-			<>
-				{ (tableRows.length === 0 || loading) ?
-					<div
-						style={ {
-							marginLeft: '40vw',
-							maxWidth: '20vw',
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center'
-
-						} }>
-						<Spinner animation="border" role="status" />
-						<h4>Procesando Información...</h4>
-					</div>
-					:
-					<div className="mb-4 d-flex justify-content-center">
-						<Button
-							as={ Link }
-							to="/dashboard"
-							style={ {
-								backgroundColor: "#ff8300",
-								border: "none"
-							} }
-							className="mx-auto"
-							size="lg">
-							Continuar a Dashboard
-						</Button>
-					</div>
-
-				}
-			</>
-		);
-	}
-
 
 	const onChangeValue = (event) => {
 		event.preventDefault();
@@ -179,15 +145,15 @@ function SelectColumn() {
 								backgroundColor: "#ff8300",
 								border: "none"
 							} }
-							className = "mx-auto"
-							type = { 'submit' }
-							size = "lg">
+							className="mx-auto"
+							type={ 'submit' }
+							size="lg">
 							Seleccionar Columnas
 						</Button>
 					</div>
 				</Form>
 				:
-				<Loading />
+				<Loading message={ "Procesando Información..." } />
 			}
 
 		</div>

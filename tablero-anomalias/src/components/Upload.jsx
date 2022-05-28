@@ -1,27 +1,11 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Spinner } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import AnomalyBg from "../components/images/AnomalyBG.png";
 import BoardRow from "../components/BoardRow";
+import Loading from "../components/Loading";
 import { getDatosDisponibles } from "../api/requests";
 import { IdsContext } from "../App";
-
-const Loading = () => {
-	return (
-		<div
-			style={ {
-				marginLeft: '40vw',
-				maxWidth: '20vw',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center'
-
-			} }>
-			<Spinner animation="border" role="status" />
-			<h4>Cargando...</h4>
-		</div>
-	);
-}
 
 export const AvailableDataContext = createContext([[], () => { }]);
 
@@ -120,7 +104,7 @@ function Upload() {
 								error ?
 									<h5>{ "Error: " + listaCargas }</h5>
 									:
-									<Loading />
+									<Loading message={ "Cargando..." } />
 								:
 								listaCargas.map((carga) => {
 									return <BoardRow key={ carga.id } name={ carga.nombre } type={ "carga" } id={ carga.id }></BoardRow>
@@ -139,7 +123,7 @@ function Upload() {
 								error ?
 									<h5>{ "Error: " + listaTableros }</h5>
 									:
-									<Loading />
+									<Loading message={ "Cargando..." } />
 								:
 								listaTableros.map((tableros) => {
 									return <BoardRow key={ tableros.id } name={ tableros.nombre } type={ "tablero" } id={ tableros.id }></BoardRow>
