@@ -10,11 +10,11 @@ import { AvailableDataContext } from './Upload';
 function BoardRow(props) {
 
 	const { user } = useContext(DataContext);
-	const { cargas, setCargas, tableros, setTableros } = useContext(AvailableDataContext);
+	const { listaCargas, setCargas, listaTableros, setTableros } = useContext(AvailableDataContext);
 
 	useEffect(() => {
 
-	}, [cargas])
+	}, [listaCargas])
 
 	async function handleClickDelete(e) {
 		e.preventDefault();
@@ -24,7 +24,7 @@ function BoardRow(props) {
 		}
 		else if (props.type === "tablero") {
 			await deleteTablero(user, props.id);
-			setTableros(tableros.filter(tablero => tablero.id !== props.id));
+			setTableros(listaTableros.filter(tablero => tablero.id !== props.id));
 		}
 	}
 

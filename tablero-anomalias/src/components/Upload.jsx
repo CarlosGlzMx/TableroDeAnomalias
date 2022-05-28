@@ -34,7 +34,7 @@ function Upload() {
 	const [isValid, setIsValid] = useState();
 	const [type, setType] = useState("");
 
-	// Listas de cargas y tableros disponibles para el usuario
+	// Listas de listaCargas y tableros disponibles para el usuario
 	const [listaCargas, setCargas] = useState(undefined);
 	const [listaTableros, setTableros] = useState(undefined);
 
@@ -42,8 +42,8 @@ function Upload() {
 
 		async function handleRequest() {
 			const datosDisponibles = await getDatosDisponibles(ids["usuario"]);
-			setCargas(datosDisponibles.cargas);
-			setTableros(datosDisponibles.tableros);
+			setCargas(datosDisponibles.listaCargas);
+			setTableros(datosDisponibles.listaTableros);
 		}
 
 		if (listaCargas === undefined || listaTableros === undefined) handleRequest();
@@ -90,41 +90,51 @@ function Upload() {
 					</Button>
 				</Link>
 			</div>
-			<div style={{
-				width: "40%", height: "66vh", margin: "8vh", border: "0.3rem dashed #ff8300",
-				borderRadius: "0.5rem", backgroundColor: "white"
-			}}>
-				<div className="w-100 h-50 p-4">
-					<div className="h4">Cargas disponibles</div>
-					<ul style={{
-						overflow: 'scroll',
-						maxHeight: '25vh',
-						overflowX: 'hidden'
-					}}>
-						{listaCargas === undefined ?
-							<Loading />
-							:
-							listaCargas.map((carga) => {
-								return <BoardRow key={carga.id} name={carga.nombre} type={"Carga"}></BoardRow>
-							})
+			<AvailableDataContext.Provider value={{ listaCargas, setCargas, listaTableros, setTableros }}>
+				<div style={{
+					width: "40%",
+					height: "66vh",
+					margin: "8vh",
+					border: "0.3rem dashed #ff8300",
+					borderRadius: "0.5rem",
+					backgroundColor: "white"
+				}}>
+					<div className="w-100 h-50 p-4">
+						<div className="h4">Cargas disponibles</div>
+						<ul style={{
+							overflow: 'scroll',
+							maxHeight: '25vh',
+							overflowX: 'hidden'
+						}}>
+							{listaCargas === undefined ?
+								<Loading />
+								:
+								listaCargas.map((carga) => {
+									return <BoardRow key={carga.id} name={carga.nombre} type={"carga"} id={carga.id}></BoardRow>
+								})
 
-						}
-					</ul>
-				</div>
-				<div className="w-100 h-50 p-4">
-					<div className="h4">Tableros guardados</div>
-					<ul style={{ overflow: 'scroll', maxHeight: '20vh', overflowX: 'hidden' }}>
-						{listaTableros === undefined ?
-							<Loading />
-							:
-							listaTableros.map((tablero) => {
-								return <BoardRow key={tablero.id} name={tablero.nombre} type={"Tablero"}></BoardRow>
-							})
+							}
+						</ul>
+					</div>
+					<div className="w-100 h-50 p-4">
+						<div className="h4">Tableros guardados</div>
+						<ul style={{
+							overflow: 'scroll',
+							maxHeight: '20vh',
+							overflowX: 'hidden'
+						}}>
+							{listaTableros === undefined ?
+								<Loading />
+								:
+								listaTableros.map((tablero) => {
+									return <BoardRow key={tablero.id} name={tablero.nombre} type={"tablero"} id={tablero.id}></BoardRow>
+								})
 
-						}
-					</ul>
+							}
+						</ul>
+					</div>
 				</div>
-			</div>
+			</AvailableDataContext.Provider>
 		</div >
 	);
 }
