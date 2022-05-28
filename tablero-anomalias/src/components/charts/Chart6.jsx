@@ -60,16 +60,16 @@ function Chart6() {
     {filters.name}</option>)
 	return (
 
-    <div class="chart c6">
-      <div class="chart_title">
+    <div className="chart c6">
+      <div className="chart_title">
         Frecuencia de anomalías
         </div>
-          <div class="horizontalFilters">
-            <select class="form-select" aria-label="Default select example">
+          <div className="horizontalFilters">
+            <select className="form-select" aria-label="Default select example">
             <option selected>Filtrar por</option>
               {filterList}
             </select>
-            <select class="form-select" aria-label="Default select example">
+            <select className="form-select" aria-label="Default select example">
             <option selected>Filtrar por</option>
               {filterList}
             </select>

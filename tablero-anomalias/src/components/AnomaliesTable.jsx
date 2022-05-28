@@ -88,7 +88,7 @@ function AnomaliesTable() {
 	return (
     <div style={{padding:0}}>
       <h4>Tabla de anomalías encontradas</h4>
-      <div class="anomaliesTable" className="m-4 p-2" style={{border:"0.3rem dashed #ff8300", borderRadius: "0.5rem"}}>
+      <div className = "anomaliesTable m-4 p-2" style={{border:"0.3rem dashed #ff8300", borderRadius: "0.5rem"}}>
         <ListGroup defaultActiveKey="#link1">
           {anomaliesList}
         </ListGroup>

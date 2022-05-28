@@ -187,8 +187,8 @@ function Chart3() {
 
 	return (
 
-		<div class="chart c3">
-			<div class="chart_title">
+		<div className="chart c3">
+			<div className="chart_title">
 				Comportamiento de los datos
 			</div>
 

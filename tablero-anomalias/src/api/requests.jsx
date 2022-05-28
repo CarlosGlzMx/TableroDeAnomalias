@@ -4,7 +4,7 @@ export async function getDatosDisponibles(idUsuario) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: idUsuario.user,
+            id_usuario: idUsuario
         },
     }).then((response) => response.json());
 }
@@ -17,7 +17,7 @@ export function postCarga(archivo, columnas, idUsuario) {
     return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "POST",
         headers: {
-            id_usuario: idUsuario.user,
+            id_usuario: idUsuario
         },
         body: formData,
     }).then((response) =>
@@ -34,8 +34,8 @@ export function getCarga(idUsuario, idCarga) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: idUsuario.user,
-            id_carga: idCarga,
+            id_usuario: idUsuario,
+            id_carga: idCarga
         },
     }).then((response) => response.json());
 }
@@ -47,7 +47,7 @@ export async function deleteCarga(idUsuario, idCarga) {
         headers: {
             "Content-Type": "application/json",
             id_usuario: idUsuario,
-            id_carga: idCarga,
+            id_carga: idCarga
         },
     }).then((response) => response.json());
 }

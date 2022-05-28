@@ -4,20 +4,20 @@ import { Form, Button, Spinner } from "react-bootstrap";
 import AnomalyBg from "../components/images/AnomalyBG.png";
 import BoardRow from "../components/BoardRow";
 import { getDatosDisponibles } from "../api/requests";
-import { DataContext } from "../App";
+import { IdsContext } from "../App";
 
 function Upload() {
+	// Identificadores globales de usuarios, ids y cargas
+	const { ids } = useContext(IdsContext);
+
 	// Archivo .csv o .xlsx y validacion de tipo
 	const [file, setFile] = useState();
 	const [isValid, setIsValid] = useState();
 	const [type, setType] = useState("");
 
-	//User id
-	const { user } = useContext(DataContext);
-
-	// Cargas y tableros
-	const [cargas, setCargas] = useState(undefined);
-	const [tableros, setTableros] = useState(undefined);
+	// Listas de cargas y tableros disponibles para el usuario
+	const [listaCargas, setCargas] = useState(undefined);
+	const [listaTableros, setTableros] = useState(undefined);
 
 	const Loading = () => {
 		return (
@@ -40,27 +40,20 @@ function Upload() {
 	useEffect(() => {
 
 		async function handleRequest() {
-			const datosDisponibles = await getDatosDisponibles(user);
+			const datosDisponibles = await getDatosDisponibles(ids["usuario"]);
 			setCargas(datosDisponibles.cargas);
 			setTableros(datosDisponibles.tableros);
 		}
 
-		if (cargas === undefined || tableros === undefined) {
-			handleRequest();
-		}
+		if (listaCargas === undefined || listaTableros === undefined) handleRequest();
 
 		if (type !== "") {
-			if (type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || type === "text/csv") {
-				setIsValid(true);
-			}
-			else {
-				setIsValid(false);
-			}
+			setIsValid(type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || type === "text/csv");
 		}
 		else {
 			setIsValid(undefined);
 		}
-	}, [type, isValid, file, cargas, tableros, user]);
+	}, [type, isValid, file, listaCargas, listaTableros]);
 
 	return (
 		<div className="Upload" style={ { display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" } }>
@@ -73,46 +66,31 @@ function Upload() {
 						<Form.Label>Carga un archivo de tipo .csv o .xlsx</Form.Label>
 
 						<Form.Control
-							isInvalid={
-								isValid === undefined ? null : !isValid
-							}
-							accept=".csv, .xlsx"
-							type="file"
+							isInvalid={ isValid === undefined ? null : !isValid }
+							accept = ".csv, .xlsx"
+							type = "file"
 							onChange={ (e) => {
 								setType(e.target.files[0].type);
 								setFile(e.target.files[0]);
 							} } required />
-
 						<Form.Control.Feedback type="invalid">
 							Por favor, elige un archivo que sea .csv o .xlsx
 						</Form.Control.Feedback>
 					</Form.Group>
 				</Form>
 				<Link
-					to="/selectColumn"
-					state={ {
-						file,
-						type
-					} }>
+					to= "/selectColumn"
+					state= { { file, type } }>
 					<Button
-						style={ {
-							backgroundColor: "#ff8300",
-							border: "none"
-						} }
-						size="sm"
+						style={ { backgroundColor: "#ff8300", border: "none" } }
+						size = "sm"
 						disabled={ isValid === undefined ? true : !isValid } >
 						Seleccionar Columnas
 					</Button>
 				</Link>
 			</div>
-			<div style={ {
-				width: "40%",
-				height: "66vh",
-				margin: "8vh",
-				border: "0.3rem dashed #ff8300",
-				borderRadius: "0.5rem",
-				backgroundColor: "white"
-			} }>
+			<div style={ { width: "40%", height: "66vh", margin: "8vh", border: "0.3rem dashed #ff8300",
+				borderRadius: "0.5rem", backgroundColor: "white" } }>
 				<div className="w-100 h-50 p-4">
 					<div className="h4">Cargas disponibles</div>
 					<ul style={ {
@@ -120,10 +98,10 @@ function Upload() {
 						maxHeight: '25vh',
 						overflowX: 'hidden'
 					} }>
-						{ cargas === undefined ?
+						{ listaCargas === undefined ?
 							<Loading />
 							:
-							cargas.map((carga) => {
+							listaCargas.map((carga) => {
 								return <BoardRow key={ carga.id } name={ carga.nombre } type={ "Carga" }></BoardRow>
 							})
 
@@ -132,15 +110,11 @@ function Upload() {
 				</div>
 				<div className="w-100 h-50 p-4">
 					<div className="h4">Tableros guardados</div>
-					<ul style={ {
-						overflow: 'scroll',
-						maxHeight: '20vh',
-						overflowX: 'hidden'
-					} }>
-						{ tableros === undefined ?
+					<ul style={ { overflow: 'scroll', maxHeight: '20vh', overflowX: 'hidden' } }>
+						{ listaTableros === undefined ?
 							<Loading />
 							:
-							tableros.map((tablero) => {
+							listaTableros.map((tablero) => {
 								return <BoardRow key={ tablero.id } name={ tablero.nombre } type={ "Tablero" }></BoardRow>
 							})
 

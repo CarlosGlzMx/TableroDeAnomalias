@@ -1,20 +1,8 @@
 import {React} from "react";
-import { useLocation } from "react-router-dom";
-import {
-    Tooltip,
-    XAxis,
-    YAxis,
-    Legend,
-    CartesianGrid,
-    ResponsiveContainer,
-    LineChart,
-    Line,
-  } from "recharts";
-
+import { Tooltip, XAxis, YAxis, Legend, CartesianGrid,
+  ResponsiveContainer, LineChart,  Line,} from "recharts";
 
 function Chart2() {
-
-  const location = useLocation();
 	// Data variable contains ids from the database and the proccessed data from the file
     const data2 = [
         {
@@ -54,8 +42,8 @@ function Chart2() {
         },
       ];
 	return (
-    <div class="chart c2">
-        <div class="chart_title">
+    <div className="chart c2">
+        <div className="chart_title">
           Anomalías por fecha
           </div>
       <ResponsiveContainer width="100%" height="100%">
