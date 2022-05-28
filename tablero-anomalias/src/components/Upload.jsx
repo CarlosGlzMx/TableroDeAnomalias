@@ -9,14 +9,14 @@ import { IdsContext } from "../App";
 const Loading = () => {
 	return (
 		<div
-			style={{
+			style={ {
 				marginLeft: '40vw',
 				maxWidth: '20vw',
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center'
 
-			}}>
+			} }>
 			<Spinner animation="border" role="status" />
 			<h4>Cargando...</h4>
 		</div>
@@ -38,12 +38,22 @@ function Upload() {
 	const [listaCargas, setCargas] = useState(undefined);
 	const [listaTableros, setTableros] = useState(undefined);
 
+	// Error handler
+	const [error, setError] = useState(false);
+
 	useEffect(() => {
 
 		async function handleRequest() {
 			const datosDisponibles = await getDatosDisponibles(ids["usuario"]);
-			setCargas(datosDisponibles.listaCargas);
-			setTableros(datosDisponibles.listaTableros);
+			const solvedPromise = await datosDisponibles[0]
+			if (datosDisponibles[1] === 200) {
+				setCargas(solvedPromise.cargas);
+				setTableros(solvedPromise.tableros);
+			} else {
+				setCargas(solvedPromise);
+				setTableros(solvedPromise);
+				setError(true);
+			}
 		}
 
 		if (listaCargas === undefined || listaTableros === undefined) handleRequest();
@@ -54,26 +64,26 @@ function Upload() {
 		else {
 			setIsValid(undefined);
 		}
-	}, [type, isValid, file, listaCargas, listaTableros]);
+	}, [type, isValid, file, listaCargas, listaTableros, ids, error]);
 
 	return (
-		<div className="Upload" style={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
-			<div className="p-4" style={{
+		<div className="Upload" style={ { display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" } }>
+			<div className="p-4" style={ {
 				width: "40%", height: "66vh", margin: "8vh", border: "0.3rem dashed #6C757D",
 				borderRadius: "0.5rem", backgroundColor: "#EEEEEE"
-			}}>
-				<Form validated={isValid} >
+			} }>
+				<Form validated={ isValid } >
 					<Form.Group controlId="formFile" className="mb-3">
 						<Form.Label>Carga un archivo de tipo .csv o .xlsx</Form.Label>
 
 						<Form.Control
-							isInvalid={isValid === undefined ? null : !isValid}
+							isInvalid={ isValid === undefined ? null : !isValid }
 							accept=".csv, .xlsx"
 							type="file"
-							onChange={(e) => {
+							onChange={ (e) => {
 								setType(e.target.files[0].type);
 								setFile(e.target.files[0]);
-							}} required />
+							} } required />
 						<Form.Control.Feedback type="invalid">
 							Por favor, elige un archivo que sea .csv o .xlsx
 						</Form.Control.Feedback>
@@ -81,60 +91,64 @@ function Upload() {
 				</Form>
 				<Link
 					to="/selectColumn"
-					state={{ file, type }}>
+					state={ { file, type } }>
 					<Button
-						style={{ backgroundColor: "#ff8300", border: "none" }}
+						style={ { backgroundColor: "#ff8300", border: "none" } }
 						size="sm"
-						disabled={isValid === undefined ? true : !isValid} >
+						disabled={ isValid === undefined ? true : !isValid } >
 						Seleccionar Columnas
 					</Button>
 				</Link>
 			</div>
-			<AvailableDataContext.Provider value={{ listaCargas, setCargas, listaTableros, setTableros }}>
-				<div style={{
+			<AvailableDataContext.Provider value={ { listaCargas, setCargas, listaTableros, setTableros } }>
+				<div style={ {
 					width: "40%",
 					height: "66vh",
 					margin: "8vh",
 					border: "0.3rem dashed #ff8300",
 					borderRadius: "0.5rem",
 					backgroundColor: "white"
-				}}>
+				} }>
 					<div className="w-100 h-50 p-4">
 						<div className="h4">Cargas disponibles</div>
-						<ul style={{
+						<ul style={ {
 							overflow: 'scroll',
 							maxHeight: '25vh',
 							overflowX: 'hidden'
-						}}>
-							{listaCargas === undefined ?
-								<Loading />
+						} }>
+							{ (listaCargas === undefined || error) ?
+								error ?
+									<h5>{ "Error: " + listaCargas }</h5>
+									:
+									<Loading />
 								:
 								listaCargas.map((carga) => {
-									return <BoardRow key={carga.id} name={carga.nombre} type={"carga"} id={carga.id}></BoardRow>
+									return <BoardRow key={ carga.id } name={ carga.nombre } type={ "carga" } id={ carga.id }></BoardRow>
 								})
-
 							}
 						</ul>
 					</div>
 					<div className="w-100 h-50 p-4">
 						<div className="h4">Tableros guardados</div>
-						<ul style={{
+						<ul style={ {
 							overflow: 'scroll',
 							maxHeight: '20vh',
 							overflowX: 'hidden'
-						}}>
-							{listaTableros === undefined ?
-								<Loading />
+						} }>
+							{ (listaTableros === undefined || error) ?
+								error ?
+									<h5>{ "Error: " + listaTableros }</h5>
+									:
+									<Loading />
 								:
-								listaTableros.map((tablero) => {
-									return <BoardRow key={tablero.id} name={tablero.nombre} type={"tablero"} id={tablero.id}></BoardRow>
+								listaTableros.map((tableros) => {
+									return <BoardRow key={ tableros.id } name={ tableros.nombre } type={ "tablero" } id={ tableros.id }></BoardRow>
 								})
-
 							}
 						</ul>
 					</div>
 				</div>
-			</AvailableDataContext.Provider>
+			</AvailableDataContext.Provider >
 		</div >
 	);
 }

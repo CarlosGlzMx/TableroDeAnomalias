@@ -4,26 +4,22 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteCarga, deleteTablero } from '../api/requests';
-import { DataContext } from '../App';
+import { IdsContext } from "../App";
 import { AvailableDataContext } from './Upload';
 
 function BoardRow(props) {
 
-	const { user } = useContext(DataContext);
-	const { listaCargas, setCargas, listaTableros, setTableros } = useContext(AvailableDataContext);
-
-	useEffect(() => {
-
-	}, [listaCargas])
+	const { ids } = useContext(IdsContext);
+	const { setCargas, listaTableros, setTableros } = useContext(AvailableDataContext);
 
 	async function handleClickDelete(e) {
 		e.preventDefault();
 		if (props.type === "carga") {
-			await deleteCarga(user, props.id);
+			await deleteCarga(ids["usuario"], props.id);
 			setCargas(undefined);
 		}
 		else if (props.type === "tablero") {
-			await deleteTablero(user, props.id);
+			await deleteTablero(ids["usuario"], props.id);
 			setTableros(listaTableros.filter(tablero => tablero.id !== props.id));
 		}
 	}
