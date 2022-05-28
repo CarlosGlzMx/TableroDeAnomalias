@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteCarga, deleteTablero } from '../api/requests';
+import { DataContext } from '../App';
+import { AvailableDataContext } from './Upload';
 
 function BoardRow(props) {
 
+	const { user } = useContext(DataContext);
+	const { cargas, setCargas, tableros, setTableros } = useContext(AvailableDataContext);
 
+	useEffect(() => {
+
+	}, [cargas])
+
+	async function handleClickDelete(e) {
+		e.preventDefault();
+		if (props.type === "carga") {
+			await deleteCarga(user, props.id);
+			setCargas(undefined);
+		}
+		else if (props.type === "tablero") {
+			await deleteTablero(user, props.id);
+			setTableros(tableros.filter(tablero => tablero.id !== props.id));
+		}
+	}
 
 	return (
 		<li
@@ -44,7 +63,8 @@ function BoardRow(props) {
 						color: 'black',
 						borderColor: 'transparent',
 						backgroundColor: 'transparent'
-					} }>
+					} }
+					onClick={ handleClickDelete }>
 					<DeleteIcon fontSize="small" />
 				</Button>
 			</div>
