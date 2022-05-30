@@ -67,7 +67,7 @@ def methods_uploads():
             temp_df = pd.read_csv(file_received, encoding='latin-1', low_memory=False)
         else:
             temp_df = pd.read_excel(file_received)
-        temp_df = processing.clean(temp_df)
+        temp_df = processing.clean(temp_df, date_column)
         try: temp_df = processing.verify_date(temp_df, date_column)
         except Exception as e: return Response("Columna de fechas inadecuada", 500)
         sliced_data = processing.slice_columns(temp_df, relevant_columns + [date_column])
@@ -75,10 +75,9 @@ def methods_uploads():
         resulting_data = model.run_model(categorized_data, sliced_data)
 
         # Se guardan los datos en la base de datos
-        """try: new_id = db_manager.save_data(file_name, user_id, resulting_data, relevant_columns, date_column)
+        try: new_id = db_manager.save_data(file_name, user_id, resulting_data.copy(), relevant_columns, date_column)
         except Exception as e:
-          return Response("Error en el guardado de datos: " + str(e), 500)"""
-        new_id = 5
+          return Response("Error en el guardado de datos: " + str(e), 500)
 
         # Regreso de datos
         # Configura la respuesta al sitio web

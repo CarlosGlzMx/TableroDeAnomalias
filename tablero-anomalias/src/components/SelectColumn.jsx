@@ -135,7 +135,7 @@ function SelectColumn() {
 						</div >
 						{
 							tableRows.map((rows, index) => {
-								return <Column key={ index } index={ index + 1 } name={ rows } ></Column>
+								return <Column key={ index } index={ index + 1 } name={ rows }></Column>
 							})
 						}
 					</div>

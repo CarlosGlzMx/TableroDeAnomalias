@@ -2,22 +2,22 @@ from sklearn.preprocessing import LabelEncoder
 import datetime
 import json
 
+import numpy as np
 import pandas as pd
 from pandas.api.types import is_string_dtype
 pd.options.mode.chained_assignment = None
 
 # Limpia del documento subido las columnas de datos inadecuadas
-def clean(df):
+def clean(df, date_column):
     for column in df:
         # Eliminación de columnas elegidas como innecesarias o redundantes
-        if "anomaly" in column.lower() or "score" in column.lower() or "id" == column.lower():
+        if column == date_column:
+            df[column] = df[column].fillna("2000-01-01")
+        elif "anomaly" in column.lower() or "score" in column.lower() or "id" == column.lower():
             df.drop(columns = column, inplace = True)
         # Reemplazo de valores vacíos por un valor común
         elif df[column].isna().sum() > 0:
-            if "fecha" in column.lower():
-                df[column] = df[column].fillna(df[column].mode())
-            else:
-                df[column] = df[column].fillna("NA")
+            df[column] = df[column].fillna("NA")
     return df
 
 # Elimina las columnas no requeridas para el modelo de Inteligencia Artificial
@@ -47,12 +47,13 @@ def extract_columns(columns_text):
         # Las columnas que utilizará el modelo las definió el usuario
         if column[name]["ia"] == "true":
             AI_columns.append(name)
-        # También definió sus columnas de interés (Agentes internos y externos)
-        if column[name]["column_type"] in ["A-I", "A-E", "D-I"]:
-            relevant_columns.append(name)
         # La fecha es incluída de igual manera, pues el app la necesita
         if column[name]["date"] == "true":
             date_column = name
+        # También definió sus columnas de interés (Agentes internos y externos)
+        elif column[name]["column_type"] in ["A-I", "A-E", "D-I"] and column[name]["date"] != "true":
+            relevant_columns.append(name)
+        
     return relevant_columns, AI_columns, date_column
 
 # Verifica que la columna de fechas sea adecuada para guardarse en la base de datos
