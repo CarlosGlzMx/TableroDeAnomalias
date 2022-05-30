@@ -40,7 +40,7 @@ function Chart2() {
           Observaciones: 3490,
           Datos_Regulares: 4300,
         },
-      ];
+      ]; 
 	return (
     <div className="chart c2">
         <div className="chart_title">

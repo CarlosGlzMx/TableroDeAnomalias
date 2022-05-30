@@ -98,7 +98,7 @@ function Chart3() {
 
 		// #5 Recargar la gráfica con los datos obtenidos
 		setData([
-      {
+      		{
 				name: '-1',
 				number: A_1_0
 			},
@@ -106,79 +106,79 @@ function Chart3() {
 				name: '-0.9',
 				number: A_0_9
 			},
-      {
+      		{
 				name: '-0.8',
 				number: A_0_8
 			},
-      {
+      		{
 				name: '-0.7',
 				number: A_0_7
 			},
-      {
+      		{
 				name: '-0.6',
 				number: A_0_6
 			},
-      {
+      		{
 				name: '-0.5',
 				number: A_0_5
 			},
-      {
+      		{
 				name: '-0.4',
 				number: A_0_4
 			},
-      {
+      		{
 				name: '-0.3',
 				number: A_0_3
 			},
-      {
+      		{
 				name: '-0.2',
 				number: A_0_2
 			},
-      {
+      		{
 				name: '-0.1',
 				number: A_0_1
 			},
-      {
+      		{
 				name: '0.0',
 				number: A0
 			},
-      {
+      		{
 				name: '0.1',
 				number: A0_1
 			},
-      {
+      		{
 				name: '0.2',
 				number: A0_2
 			},
-      {
+      		{
 				name: '0.3',
 				number: A0_3
 			},
-      {
+      		{
 				name: '0.4',
 				number: A0_4
 			},
-      {
+      		{
 				name: '0.5',
 				number: A0_5
 			},
-      {
+      		{
 				name: '0.6',
 				number: A0_6
 			},
-      {
+      		{
 				name: '0.7',
 				number: A0_7
 			},
-      {
+      		{
 				name: '0.8',
 				number: A0_8
 			},
-      {
+      		{
 				name: '0.9',
 				number: A0_9
 			},
-      {
+      		{
 				name: '1.0',
 				number: A1_0
 			}

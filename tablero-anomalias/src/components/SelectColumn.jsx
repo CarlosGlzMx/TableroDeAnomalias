@@ -96,7 +96,7 @@ function SelectColumn() {
 		event.preventDefault();
 
 		setTimeout(() => {
-			if (event.target.value) {
+			if (event.target.value && event.target.type === "checkbox") {
 				for (let index = 0; index < tableRows.length; index++) {
 					if (refForm.current[(index * 3) + 2].value && refForm.current[(index * 3) + 2].id !== event.target.id) {
 						refForm.current[(index * 3) + 2].value = false;
