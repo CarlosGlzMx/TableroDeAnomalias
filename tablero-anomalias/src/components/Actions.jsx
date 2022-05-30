@@ -4,9 +4,11 @@ import html2canvas from "html2canvas";
 import jspdf from "jspdf";
 
 
-
+export const ActionContext = createContext([[], () => {}]);
 
 function Actions() {
+
+    const [actionData, setActionData] = useState(undefined);
 
 
     
@@ -54,7 +56,9 @@ function Actions() {
                 <h3 className="m-0 p-2">Seleccione la precisión del modelo</h3>
                 <div className="w-100 d-flex align-items-center pb-2">
                     <h4 className="mt-0 mb-0 pt-0">-1</h4>
-                    <input type="range" min="-1" max="1" step="0.1" class="form-range" id="customRange1"></input>
+                        <input type="range" min="-1" max="1" step="0.1" class="form-range" id="customRange1"
+                        value={this.state.value}
+                        onChange={value => this.setState({ value })}></input>
                     <h4 className="mt-0 mb-0 pt-0">1</h4>
                 </div>
             </div>

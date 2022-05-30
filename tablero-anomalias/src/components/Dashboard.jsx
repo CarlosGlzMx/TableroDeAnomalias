@@ -14,7 +14,8 @@ const Dashboard = () => {
 	const { anomalyData, setAnomalyData, user } = useContext(DataContext);
 
 	useEffect(() => {
-		console.log(anomalyData["datos"]["scores"])
+		//console.log(anomalyData["datos"]["scores"])
+		console.log(anomalyData["datos"])
 	}, [anomalyData]);
 
 	return (
