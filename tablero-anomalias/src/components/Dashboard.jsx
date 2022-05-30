@@ -1,4 +1,4 @@
-import { React, useContext, useEffect } from "react";
+import { React } from "react";
 import Chart1 from "./charts/Chart1";
 import Chart2 from "./charts/Chart2";
 import Chart3 from "./charts/Chart3";
@@ -7,17 +7,8 @@ import Chart5 from "./charts/Chart5";
 import Chart6 from "./charts/Chart6";
 import Actions from "../components/Actions";
 import AnomaliesTable from "../components/AnomaliesTable";
-import { DataContext } from "../App";
 
 const Dashboard = () => {
-	// Data variable contains ids from the database and the proccessed data from the file
-	const { anomalyData, setAnomalyData, user } = useContext(DataContext);
-
-	useEffect(() => {
-		//console.log(anomalyData["datos"]["scores"])
-		console.log(anomalyData["datos"])
-	}, [anomalyData]);
-
 	return (
 		<div className="Dashboard">
 			<div className="container p-0" style={ { minHeight: "80vh" } }>
@@ -40,7 +31,7 @@ const Dashboard = () => {
 				{ <AnomaliesTable /> }
 			</div>
 
-			<div class="action-bar">
+			<div className="action-bar">
 				{ <Actions /> }
 			</div>
 

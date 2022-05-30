@@ -1,7 +1,7 @@
 import { React, useState, useContext, useEffect } from "react";
 import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
-import { BarChart, Bar, Cell, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
 import { DataContext } from "../../App";
 
 
@@ -187,8 +187,8 @@ function Chart3() {
 
 	return (
 
-		<div class="chart c3">
-			<div class="chart_title">
+		<div className="chart c3">
+			<div className="chart_title">
 				Comportamiento de los datos
 			</div>
 

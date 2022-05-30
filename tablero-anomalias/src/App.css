@@ -234,15 +234,6 @@ label {
     accent-color: #fe9000;
 }
 
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    background: black;
-
-}
-
-input[type=range]::-moz-range-thumb {
-    background: black;
-}
 
 .chart_title{
     width: '100%'; 
@@ -251,3 +242,19 @@ input[type=range]::-moz-range-thumb {
     font-size: 25px;
 
 }
+
+input[type="range"] {
+    width:400px;
+  }
+
+  .slider-parent{
+    position:relative;
+  }
+  
+  .buble{
+    position:relative;
+    text-align: center;
+    color: white;
+    font-weight: bolder;
+    font-size: 16px;
+  }

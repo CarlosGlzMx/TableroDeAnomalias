@@ -72,11 +72,11 @@ function Chart4() {
     
 	return (
 
-  <div class="chart c4">
-    <div class="chart_title">
+  <div className="chart c4">
+    <div className="chart_title">
       Anomalías por una variable
       </div>
-    <select class="form-select" aria-label="Default select example">
+    <select className="form-select" aria-label="Default select example">
       <option selected>Filtrar por</option>
       {filterList}
     </select>
