@@ -244,7 +244,7 @@ label {
 }
 
 input[type="range"] {
-    width:400px;
+    width: 100%;
   }
 
   .slider-parent{

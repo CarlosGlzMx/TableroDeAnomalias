@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 
 export default function Slider() {
   const [value, onChange] = useState(0);
-
-  useEffect(() => {
-    const ele = document.querySelector('.buble');
-    if (ele) {
-      ele.style.left = `${Number(value / 8)}px`;
-    }
-  })
 
   return (
     <div className="slider-parent">
