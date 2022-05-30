@@ -1,16 +1,14 @@
 import { React, useState, useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+
 // #1 Importar el contexto
 import { DataContext } from "../../App";
-import { ActionContext } from "../Actions";
 import {
   PieChart,
   Pie,
   ResponsiveContainer,
   Cell,
   Tooltip,
-  Legend,
-  Sector
+  Legend
 } from "recharts";
 
 function Chart1() {
@@ -18,7 +16,7 @@ function Chart1() {
   { Datos: "Datos regulares", users: 12536 }])
 
   // #2 Llamar el contexto
-  const { anomalyData, setAnomalyData } = useContext(DataContext);
+  const { anomalyData } = useContext(DataContext);
 
   // #3 Observar cambios en el contexto (datos)
   useEffect(() => {
@@ -26,7 +24,7 @@ function Chart1() {
     const UMBRAL_ANOMALIA = 0;
     
     let [normales, anomalias] = [0, 0];
-    for (const [key, value] of Object.entries(anomalyData["datos"]["scores"])) {
+    for (const [, value] of Object.entries(anomalyData["datos"]["scores"])) {
       if (value >= UMBRAL_ANOMALIA) {
         anomalias += 1;
       }
@@ -48,9 +46,6 @@ function Chart1() {
     const radius = innerRadius + (outerRadius - innerRadius) * 1.2;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
-    const title = "Grafica 5";
-
-
 
     return (
       <text x={x} y={y} fill="black" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
@@ -62,8 +57,8 @@ function Chart1() {
 
 
   return (
-    <div class="chart c2">
-      <div class="chart_title">
+    <div className="chart c2">
+      <div className="chart_title">
         Cantidad de anomalías
       </div>
       <ResponsiveContainer width="100%" height="100%">

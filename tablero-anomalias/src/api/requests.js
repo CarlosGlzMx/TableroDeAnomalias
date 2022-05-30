@@ -1,15 +1,23 @@
-// GET - Obtiene las cargas y los tableros de la base de datos
+// GET - Obtiene las cargas y los tableros de la base de dato
+// Done - Eliminar comentario al terminar el proyecto
 export async function getDatosDisponibles(idUsuario) {
     return await fetch(`http://127.0.0.1:5000/datos-disponibles/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: idUsuario.user,
+            id_usuario: idUsuario,
         },
-    }).then((response) => response.json());
+    }).then((response) => {
+        if (response.status === 200) {
+            return [response.json(), response.status];
+        } else {
+            return [response.text(), response.status];
+        }
+    });
 }
 
 // POST - Crea una carga en la base de datos
+// Done - Eliminar comentario al terminar el proyecto
 export function postCarga(archivo, columnas, idUsuario) {
     const formData = new FormData();
     formData.append("archivo_registros", archivo);
@@ -17,7 +25,7 @@ export function postCarga(archivo, columnas, idUsuario) {
     return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "POST",
         headers: {
-            id_usuario: idUsuario.user,
+            id_usuario: idUsuario,
         },
         body: formData,
     }).then((response) =>
@@ -34,22 +42,23 @@ export function getCarga(idUsuario, idCarga) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: idUsuario.user,
+            id_usuario: idUsuario,
             id_carga: idCarga,
         },
     }).then((response) => response.json());
 }
 
 // DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
-export async function deleteCarga(idUsuario, idCarga) {
-    return await fetch(`http://127.0.0.1:5000/cargas/`, {
+// Done - Eliminar comentario al terminar el proyecto
+export function deleteCarga(idUsuario, idCarga) {
+    return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
             id_usuario: idUsuario,
             id_carga: idCarga,
         },
-    }).then((response) => response.json());
+    }).then((response) => response);
 }
 
 // POST - Guarda un tablero en la base de datos
@@ -66,27 +75,26 @@ export async function postTablero(idUsuario, idCarga, tablero) {
 }
 
 // GET - Devuelve un tablero guardado previamente
-export async function getTablero(idUsuario, idCarga, idTablero) {
+export async function getTablero(idUsuario, idTablero) {
     return await fetch(`http://127.0.0.1:5000/tableros/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             id_usuario: idUsuario,
-            id_carga: idCarga,
             id_tablero: idTablero,
         },
     }).then((response) => response.json());
 }
 
 // DELETE - Elimina un tablero de la base de datos
-export async function deleteTablero(idUsuario, idCarga, idTablero) {
+// Done - Eliminar comentario al terminar el proyecto
+export async function deleteTablero(idUsuario, idTablero) {
     return await fetch(`http://127.0.0.1:5000/tableros/`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
             id_usuario: idUsuario,
-            id_carga: idCarga,
             id_tablero: idTablero,
         },
-    }).then((response) => response.json());
+    }).then((response) => response);
 }

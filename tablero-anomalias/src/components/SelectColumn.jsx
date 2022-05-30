@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import Papa from "papaparse";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Column from './Column';
-import { Form, Button, Spinner } from 'react-bootstrap';
+import Loading from "../components/Loading";
+import { Form, Button } from 'react-bootstrap';
 import { postCarga } from "../api/requests";
 import * as XLSX from "xlsx";
-import { DataContext } from "../App";
+import { DataContext, IdsContext } from "../App";
 
 
 function SelectColumn() {
@@ -13,11 +14,11 @@ function SelectColumn() {
 	const location = useLocation();
 
 	// Archivo .csv o .xlsx
-	const data = location.state?.file;
-	const type = location.state?.type;
+	const fileData = location.state?.file;
+	const fileType = location.state?.type;
 
 	//User id
-	const { user } = useContext(DataContext);
+	const { ids } = useContext(IdsContext);
 
 	//State to store table Column name
 	const [tableRows, setTableRows] = useState([]);
@@ -28,20 +29,22 @@ function SelectColumn() {
 	//State to store processed data. Update when API sends response
 	const { anomalyData, setAnomalyData } = useContext(DataContext);
 
+	const navegador = useNavigate();
+
 	const refForm = useRef();
 
 	useEffect(() => {
-		if (data !== undefined) {
-			if (type === "text/csv") {
+		if (fileData !== undefined) {
+			if (fileType === "text/csv") {
 				// Passing file data (event.target.files[0]) to parse using Papa.parse
-				Papa.parse(data, {
+				Papa.parse(fileData, {
 					header: true,
 					skipEmptyLines: true,
 					complete: function (results) {
 						const rowsArray = [];
 						const valuesArray = [];
 
-						// Iterating data to get column name and their values
+						// Iterating fileData to get column name and their values
 						results.data.forEach((d) => {
 							rowsArray.push(Object.keys(d));
 							valuesArray.push(Object.values(d));
@@ -52,7 +55,7 @@ function SelectColumn() {
 					},
 				});
 			}
-			if (type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+			if (fileType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
 				const reader = new FileReader();
 
 				reader.onload = (evt) => {
@@ -63,10 +66,10 @@ function SelectColumn() {
 					const f = XLSX.utils.sheet_to_json(ws, { header: 1 });
 					setTableRows(f[0]);
 				};
-				reader.readAsBinaryString(data);
+				reader.readAsBinaryString(fileData);
 			}
 		}
-	}, [data, type]);
+	}, [fileData, fileType]);
 
 
 	async function submitHandler(event) {
@@ -85,46 +88,9 @@ function SelectColumn() {
 		}
 
 		setLoading(true);
-		setAnomalyData(await postCarga(data, columnas, user));
-		setLoading(false);
+		setAnomalyData(await postCarga(fileData, columnas, ids["usuario"]));
+		navegador("/dashboard", { replace: true });
 	}
-
-	function Loading() {
-		return (
-			<>
-				{ (tableRows.length === 0 || loading) ?
-					<div
-						style={ {
-							marginLeft: '40vw',
-							maxWidth: '20vw',
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center'
-
-						} }>
-						<Spinner animation="border" role="status" />
-						<h4>Procesando Información...</h4>
-					</div>
-					:
-					<div className="mb-4 d-flex justify-content-center">
-						<Button
-							as={ Link }
-							to="/dashboard"
-							style={ {
-								backgroundColor: "#ff8300",
-								border: "none"
-							} }
-							className="mx-auto"
-							size="lg">
-							Continuar a Dashboard
-						</Button>
-					</div>
-
-				}
-			</>
-		);
-	}
-
 
 	const onChangeValue = (event) => {
 		event.preventDefault();
@@ -169,7 +135,7 @@ function SelectColumn() {
 						</div >
 						{
 							tableRows.map((rows, index) => {
-								return <Column key={ index } index={ index + 1 } name={ rows } ></Column>
+								return <Column key={ index } index={ index + 1 } name={ rows }></Column>
 							})
 						}
 					</div>
@@ -187,7 +153,7 @@ function SelectColumn() {
 					</div>
 				</Form>
 				:
-				<Loading />
+				<Loading message={ "Procesando Información..." } />
 			}
 
 		</div>

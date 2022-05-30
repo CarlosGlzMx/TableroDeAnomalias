@@ -73,16 +73,16 @@ function Chart5() {
       
 	return (
 
-    <div class="chart c5">
-      <div class="chart_title">
+    <div className="chart c5">
+      <div className="chart_title">
             Anomalías por dos variables
             </div>
-          <div class="horizontalFilters">
-            <select class="form-select" aria-label="Default select example">
+          <div className="horizontalFilters">
+            <select className="form-select" aria-label="Default select example">
             <option selected>Filtrar por</option>
               {filterList}
             </select>
-            <select class="form-select" aria-label="Default select example">
+            <select className="form-select" aria-label="Default select example">
             <option selected>Filtrar por</option>
               {filterList}
             </select>

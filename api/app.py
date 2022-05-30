@@ -31,7 +31,7 @@ def default():
 def list_available_data():
     # Verifica que venga un usuario en la petición
     user_id = request.headers.get("id_usuario")
-    if user_id is None:
+    if user_id is None or user_id == "undefined":
         return Response("No se ha proporcionado un id de usuario", 400)
 
     # Busca la lista de nombres de cargas y tableros para este usuario y los devuelve en cuerpo JSON
@@ -50,7 +50,7 @@ def methods_uploads():
     if request.method == "POST":
         # Verifica que venga un usuario y una clasificación de columnas del archivo
         user_id = request.headers.get("id_usuario")
-        if user_id is None or request.form["columnas"] is None:
+        if user_id is None or user_id == "undefined" or request.form["columnas"] is None or request.form["columnas"] == "undefined":
             return Response("No se ha proporcionado un id de usuario o detallado columnas", 400)
         relevant_columns, AI_columns, date_column = processing.extract_columns(request.form["columnas"])
 
@@ -67,7 +67,7 @@ def methods_uploads():
             temp_df = pd.read_csv(file_received, encoding='latin-1', low_memory=False)
         else:
             temp_df = pd.read_excel(file_received)
-        temp_df = processing.clean(temp_df)
+        temp_df = processing.clean(temp_df, date_column)
         try: temp_df = processing.verify_date(temp_df, date_column)
         except Exception as e: return Response("Columna de fechas inadecuada", 500)
         sliced_data = processing.slice_columns(temp_df, relevant_columns + [date_column])
@@ -75,10 +75,9 @@ def methods_uploads():
         resulting_data = model.run_model(categorized_data, sliced_data)
 
         # Se guardan los datos en la base de datos
-        """try: new_id = db_manager.save_data(file_name, user_id, resulting_data, relevant_columns, date_column)
+        try: new_id = db_manager.save_data(file_name, user_id, resulting_data.copy(), relevant_columns, date_column)
         except Exception as e:
-          return Response("Error en el guardado de datos: " + str(e), 500)"""
-        new_id = 5
+          return Response("Error en el guardado de datos: " + str(e), 500)
 
         # Regreso de datos
         # Configura la respuesta al sitio web
@@ -90,7 +89,7 @@ def methods_uploads():
         # Verifica que venga un usuario y un identificador de carga
         user_id = request.headers.get("id_usuario")
         upload_id = request.headers.get("id_carga")
-        if user_id is None or upload_id is None:
+        if user_id is None or user_id == "undefined" or upload_id is None or upload_id == "undefined":
             return Response("No se ha proporcionado un id de usuario o un id de carga", 400)
         
         # Obtiene en un dataframe de Pandas los datos almacenados en la base de datos
@@ -108,7 +107,7 @@ def methods_uploads():
         # Verifica que venga un usuario y un identificador de carga
         user_id = request.headers.get("id_usuario")
         upload_id = request.headers.get("id_carga")
-        if user_id is None or upload_id is None:
+        if user_id is None or user_id == "undefined" or upload_id is None or upload_id == "undefined":
             return Response("No se ha proporcionado un id de usuario o un id de carga", 400)
         try:
             db_manager.delete_data(upload_id, user_id)
@@ -131,7 +130,7 @@ def methods_boards():
         parameters["usuario"] = request.headers.get("id_usuario")
         parameters["carga_id"] = request.headers.get("id_carga")
         parameters["nombre"] = request.headers.get("nombre_tablero")
-        if parameters["usuario"] is None or parameters["carga_id"] is None or parameters["nombre"] is None:
+        if parameters["usuario"] is None or parameters["usuario"] == "undefined" or parameters["carga_id"] is None or parameters["carga_id"] == "undefined" or parameters["nombre"] is None or parameters["nombre"] == "undefined":
             return Response("No se ha proporcionado un id de usuario, id de carga o un nombre de tablero", 400)
         
         # Guarda el tablero en la base de datos
@@ -143,7 +142,7 @@ def methods_boards():
         # Verifica que venga un usuario y un identificador de carga
         user_id = request.headers.get("id_usuario")
         board_id = request.headers.get("id_tablero")
-        if user_id is None or board_id is None:
+        if user_id is None or user_id == "undefined" or board_id is None or board_id == "undefined":
             return Response("No se ha proporcionado un id de usuario o un id de tablero", 400)
         
         # Obtiene en un dataframe de Pandas los datos almacenados en la base de datos
@@ -161,7 +160,7 @@ def methods_boards():
         # Verifica que venga un usuario y un identificador de tablero
         user_id = request.headers.get("id_usuario")
         board_id = request.headers.get("id_tablero")
-        if user_id is None or board_id is None:
+        if user_id is None or user_id == "undefined" or board_id is None or board_id == "undefined":
             return Response("No se ha proporcionado un id de usuario o un id de tablero", 400)
         try:
             db_manager.delete_board(board_id, user_id)

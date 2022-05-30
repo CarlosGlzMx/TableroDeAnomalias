@@ -10,9 +10,9 @@ const Column = (props) => {
 
 	return (
 		<div
-			className="mb-4 d-flex justify-content-between ms-5"
-			style={ { marginRight: '5vw' } } >
-			<div style={ { width: '30vw' } } >
+			className="p-3 d-flex justify-content-between ms-5"
+			style={ { marginRight: '5vw', borderTop: "solid grey 1px"} } >
+			<div style={ { width: '30vw', display: "flex", alignItems: "center" } } >
 				<h6>{ props.index }  { props.name }</h6>
 			</div>
 			<Form.Group className="d-flex flex-row justify-content-between">
