@@ -28,16 +28,22 @@ export function postCarga(archivo, columnas, idUsuario) {
             id_usuario: idUsuario,
         },
         body: formData,
-    }).then((response) =>
-        response.json().then((data) => ({
-            datos: { ...data },
-            idNuevo: response.headers.get("id_nueva"),
-        }))
-    );
+    }).then((response) => {
+        if (response.status === 200) {
+            return [
+                response.json().then((data) => ({
+                    datos: { ...data },
+                    idNuevo: response.headers.get("id_nueva"),
+                })),
+                response.status,
+            ];
+        } else {
+            return [response.text(), response.status];
+        }
+    });
 }
 
 // GET - Devuelve la totalidad de datos asociados con una carga
-// Falta manejo de errores
 export function getCarga(idUsuario, idCarga) {
     return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "GET",
@@ -46,11 +52,13 @@ export function getCarga(idUsuario, idCarga) {
             id_usuario: idUsuario,
             id_carga: idCarga,
         },
-    }).then((response) =>
-        response.json().then((data) => ({
-            datos: { ...data },
-        }))
-    );
+    }).then((response) => {
+        if (response.status === 200) {
+            return [response.json(), response.status];
+        } else {
+            return [response.text(), response.status];
+        }
+    });
 }
 
 // DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados

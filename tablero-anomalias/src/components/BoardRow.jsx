@@ -10,7 +10,7 @@ import { AvailableDataContext } from './Upload';
 function BoardRow(props) {
 
 	const { ids, setIds } = useContext(IdsContext);
-	const { setCargas, listaTableros, setTableros, setError } = useContext(AvailableDataContext);
+	const { setCargas, setTableros, setError } = useContext(AvailableDataContext);
 	const { anomalyData, setAnomalyData } = useContext(DataContext);
 
 	const [show, setShow] = useState(false);
@@ -21,43 +21,53 @@ function BoardRow(props) {
 	const navegador = useNavigate();
 
 	useEffect(() => {
-		if (anomalyData !== undefined) {
+		if (anomalyData !== undefined && (ids.carga !== undefined || ids.tablero !== undefined)) {
 			navegador("/dashboard", { replace: true });
 		}
-	}, [anomalyData, ids]);
+	}, [anomalyData, ids, navegador]);
+
+	async function errorHandler(response, requestType) {
+		const solvedPromise = await response[0];
+		if (response[1] === 200) {
+			if (requestType === "delete") {
+				setCargas(undefined);
+			} else if (requestType === "get") {
+				setAnomalyData(solvedPromise);
+			}
+		} else {
+			setError(true);
+			setCargas(solvedPromise + ". Cargue la pagina de nuevo.");
+			setTableros(solvedPromise + ". Cargue la pagina de nuevo.");
+		}
+	}
 
 	async function handleClickDelete(e) {
 		e.preventDefault();
+		let response = undefined;
+
 		if (props.type === "carga") {
-			const response = await deleteCarga(ids["usuario"], props.id);
-			const solvedPromise = await response[0];
-			if (response[1] === 200) {
-				setCargas(undefined);
-			} else {
-				setError(true);
-				setCargas(solvedPromise + ". Cargue la pagina de nuevo.");
-				setTableros(solvedPromise + ". Cargue la pagina de nuevo.");
-			}
+			response = await deleteCarga(ids["usuario"], props.id);
 		} else if (props.type === "tablero") {
-			const response = await deleteTablero(ids["usuario"], props.id);
-			const solvedPromise = await response[0];
-			if (response[1] === 200) {
-				setTableros(listaTableros.filter(tablero => tablero.id !== props.id));
-			} else {
-				setError(true);
-				setCargas(solvedPromise + ". Cargue la pagina de nuevo.");
-				setTableros(solvedPromise + ". Cargue la pagina de nuevo.");
-			}
+			response = await deleteTablero(ids["usuario"], props.id);
 		}
+
+		errorHandler(response, "delete");
 
 		handleClose();
 	}
 
 	async function handleClickAccess(e) {
 		e.preventDefault();
-		setAnomalyData(await getCarga(ids["usuario"], props.id));
-		setIds({ ...ids, carga: props.id });
-		console.log(ids);
+		let response = undefined;
+
+		if (props.type === "carga") {
+			setIds({ ...ids, carga: props.id });
+			response = await getCarga(ids["usuario"], props.id);
+		} else if (props.type === "tablero") {
+			setIds({ ...ids, tablero: props.id });
+		}
+
+		errorHandler(response, "get");
 	}
 
 	return (
@@ -115,7 +125,6 @@ function BoardRow(props) {
 			</Modal>
 		</>
 	);
-
 }
 
 export default BoardRow;

@@ -16,7 +16,7 @@ function Chart3() {
 		number: 12
 	}])
 
-	
+
 	const colors = scaleOrdinal(schemeCategory10).range();
 
 
@@ -24,11 +24,11 @@ function Chart3() {
 	const { anomalyData } = useContext(DataContext);
 
 	// #3 Observar cambios en el contexto (datos)
-	useEffect (  () => {
+	useEffect(() => {
 		// #4 Proceso de cada gráfica
 		const UMBRAL_ANOMALIA = 0;
 		let [A_1_0, A_0_9, A_0_8, A_0_7, A_0_6, A_0_5, A_0_4, A_0_3, A_0_2, A_0_1, A0, A0_1, A0_2, A0_3, A0_4, A0_5, A0_6, A0_7, A0_8, A0_9, A1_0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		for (const [key, value] of Object.entries(anomalyData["datos"]["scores"])) {
+		for (const [key, value] of Object.entries(anomalyData.scores)) {
 			var val = Math.round((value + Number.EPSILON) * 10) / 10;
 
 			if (val == -1) {
@@ -98,7 +98,7 @@ function Chart3() {
 
 		// #5 Recargar la gráfica con los datos obtenidos
 		setData([
-      		{
+			{
 				name: '-1',
 				number: A_1_0
 			},
@@ -106,83 +106,83 @@ function Chart3() {
 				name: '-0.9',
 				number: A_0_9
 			},
-      		{
+			{
 				name: '-0.8',
 				number: A_0_8
 			},
-      		{
+			{
 				name: '-0.7',
 				number: A_0_7
 			},
-      		{
+			{
 				name: '-0.6',
 				number: A_0_6
 			},
-      		{
+			{
 				name: '-0.5',
 				number: A_0_5
 			},
-      		{
+			{
 				name: '-0.4',
 				number: A_0_4
 			},
-      		{
+			{
 				name: '-0.3',
 				number: A_0_3
 			},
-      		{
+			{
 				name: '-0.2',
 				number: A_0_2
 			},
-      		{
+			{
 				name: '-0.1',
 				number: A_0_1
 			},
-      		{
+			{
 				name: '0.0',
 				number: A0
 			},
-      		{
+			{
 				name: '0.1',
 				number: A0_1
 			},
-      		{
+			{
 				name: '0.2',
 				number: A0_2
 			},
-      		{
+			{
 				name: '0.3',
 				number: A0_3
 			},
-      		{
+			{
 				name: '0.4',
 				number: A0_4
 			},
-      		{
+			{
 				name: '0.5',
 				number: A0_5
 			},
-      		{
+			{
 				name: '0.6',
 				number: A0_6
 			},
-      		{
+			{
 				name: '0.7',
 				number: A0_7
 			},
-      		{
+			{
 				name: '0.8',
 				number: A0_8
 			},
-      		{
+			{
 				name: '0.9',
 				number: A0_9
 			},
-      		{
+			{
 				name: '1.0',
 				number: A1_0
 			}
-    ])
+		])
 	}, [anomalyData]);
 
 	return (

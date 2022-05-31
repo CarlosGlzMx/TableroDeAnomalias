@@ -69,7 +69,11 @@ function SelectColumn() {
 				reader.readAsBinaryString(fileData);
 			}
 		}
-	}, [fileData, fileType]);
+
+		if (anomalyData !== undefined && (ids.carga !== undefined || ids.tablero !== undefined)) {
+			navegador("/dashboard", { replace: true });
+		}
+	}, [fileData, fileType, ids, anomalyData, navegador]);
 
 
 	async function submitHandler(event) {
@@ -88,10 +92,18 @@ function SelectColumn() {
 		}
 
 		setLoading(true);
-		setAnomalyData(await postCarga(fileData, columnas, ids["usuario"]));
-		// console.log(anomalyData);
-		// setIds({ ...ids, carga: anomalyData["idNuevo"] });
-		navegador("/dashboard", { replace: true });
+		const response = await postCarga(fileData, columnas, ids["usuario"])
+		const solvedPromise = await response[0];
+
+		if (response[1] === 200) {
+			setIds({ ...ids, carga: solvedPromise.idNuevo });
+			setAnomalyData(solvedPromise.datos);
+		} else {
+
+		}
+
+
+
 	}
 
 	const onChangeValue = (event) => {
