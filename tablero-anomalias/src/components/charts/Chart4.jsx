@@ -1,4 +1,4 @@
-import {React} from "react";
+import {React, useContext, useEffect, useRef} from "react";
 import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
@@ -11,6 +11,7 @@ import {
     Bar,
     ResponsiveContainer,
   } from "recharts";
+import { DataContext } from "../../App";
 
    
 function Chart4() {
@@ -66,9 +67,46 @@ function Chart4() {
           details: "Detalles de Anomalia 4"
         },
       ]
-    
-      const filterList = filters.map(filters => <option value={filters.id}>
-        {filters.name}</option>)
+
+      // #2 Llamar el contexto
+	    const { anomalyData } = useContext(DataContext);
+      var filterList = useRef();
+         
+
+        useEffect(() => {
+          console.log(anomalyData);
+          const variableName = [];
+          var item;
+          var tmp;
+          
+          for (var i = 0; i < 5; i++) {
+
+          // for (const [, value] of Object.entries(anomalyData["datos"])) {
+           
+            item = anomalyData["datos"][2];
+            tmp = {
+                'variable': item,
+                
+            };
+            variableName.push(tmp);
+          }
+
+          console.log(anomalyData["datos"].length);
+          console.log(variableName);
+
+          filterList.current = variableName.map(variableName=> <option value={variableName.variable}>
+            {variableName.variable}</option>)
+
+          console.log(filterList);
+          console.log(anomalyData["datos"]["scores"].length);
+          console.log(anomalyData["datos"][1]);
+
+      
+        }, [anomalyData]);
+
+       
+      
+
     
 	return (
 
@@ -78,7 +116,7 @@ function Chart4() {
       </div>
     <select className="form-select" aria-label="Default select example">
       <option selected>Filtrar por</option>
-      {filterList}
+      {filterList.current}
     </select>
 
           

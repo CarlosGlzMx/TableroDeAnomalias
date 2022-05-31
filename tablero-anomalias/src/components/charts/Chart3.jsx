@@ -21,7 +21,7 @@ function Chart3() {
 
 
 	// #2 Llamar el contexto
-	const { anomalyData, setAnomalyData } = useContext(DataContext);
+	const { anomalyData } = useContext(DataContext);
 
 	// #3 Observar cambios en el contexto (datos)
 	useEffect(() => {

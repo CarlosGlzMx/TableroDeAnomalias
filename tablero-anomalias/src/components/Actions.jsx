@@ -65,7 +65,7 @@ function Actions() {
             type="date"
             name="final-date"
             min="2000-01-01"
-            max="2022-05-20"
+            max="2022-06-01"
           />
         </div>
 
