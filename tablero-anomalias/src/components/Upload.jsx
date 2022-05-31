@@ -84,7 +84,7 @@ function Upload() {
 					</Button>
 				</Link>
 			</div>
-			<AvailableDataContext.Provider value={ { listaCargas, setCargas, listaTableros, setTableros } }>
+			<AvailableDataContext.Provider value={ { setCargas, listaTableros, setTableros, setError } }>
 				<div style={ {
 					width: "40%",
 					height: "66vh",
@@ -97,7 +97,7 @@ function Upload() {
 						<div className="h4">Cargas disponibles</div>
 						<ul style={ {
 							overflow: 'scroll',
-							maxHeight: '25vh',
+							maxHeight: '22vh',
 							overflowX: 'hidden'
 						} }>
 							{ (listaCargas === undefined || error) ?
@@ -116,7 +116,7 @@ function Upload() {
 						<div className="h4">Tableros guardados</div>
 						<ul style={ {
 							overflow: 'scroll',
-							maxHeight: '20vh',
+							maxHeight: '22vh',
 							overflowX: 'hidden'
 						} }>
 							{ (listaTableros === undefined || error) ?

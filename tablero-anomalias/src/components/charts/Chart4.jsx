@@ -1,4 +1,4 @@
-import {React, useContext} from "react";
+import {React, useContext, useEffect, useRef} from "react";
 import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
@@ -68,21 +68,43 @@ function Chart4() {
       ]
 
       // #2 Llamar el contexto
-	    const { anomalyData, setAnomalyData } = useContext(DataContext);
-    
-      // const filterList = filters.map(filters => <option value={filters.id}>
-      //   {filters.name}</option>)
+	    const { anomalyData } = useContext(DataContext);
+      var filterList = useRef();
+         
 
+        useEffect(() => {
+          console.log(anomalyData);
+          const variableName = [];
+          var item;
+          var tmp;
+          
+          for (var i = 0; i < 5; i++) {
 
-useEffect (  () => {
-  // #4 Proceso de cada gráfica
+          // for (const [, value] of Object.entries(anomalyData["datos"])) {
+           
+            item = anomalyData["datos"][2];
+            tmp = {
+                'variable': item,
+                
+            };
+            variableName.push(tmp);
+          }
 
-  for (var i = 0; i < anomalyData[0].lenght; i++) {
-    const filterList = filters.map(filters => <option value={anomalyData[0][i]}>
-      {filters.name}</option>)
-  }
-}, [anomalyData]);
+          console.log(anomalyData["datos"].length);
+          console.log(variableName);
 
+          filterList.current = variableName.map(variableName=> <option value={variableName.variable}>
+            {variableName.variable}</option>)
+
+          console.log(filterList);
+          console.log(anomalyData["datos"]["scores"].length);
+          console.log(anomalyData["datos"][1]);
+
+      
+        }, [anomalyData]);
+
+       
+      
 
     
 	return (
@@ -93,7 +115,7 @@ useEffect (  () => {
       </div>
     <select className="form-select" aria-label="Default select example">
       <option selected>Filtrar por</option>
-      {filterList}
+      {filterList.current}
     </select>
 
           

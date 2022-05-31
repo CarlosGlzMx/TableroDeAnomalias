@@ -52,10 +52,9 @@ img {
 }
 
 .anomaliesTable {
-    width: 100%;
-    /*max-height: 600px !important;*/
+    width: 98%;
     overflow: auto;
-    /* white-space: nowrap; */
+    margin: auto;
 }
 
 h4 {
@@ -244,12 +243,12 @@ label {
 }
 
 input[type="range"] {
-    width:400px;
+    width: 100%;
   }
 
-  .slider-parent{
+  /* .slider-parent{
     position:relative;
-  }
+  } */
   
   .buble{
     position:relative;

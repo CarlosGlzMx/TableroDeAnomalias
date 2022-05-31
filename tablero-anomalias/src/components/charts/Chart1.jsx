@@ -22,9 +22,9 @@ function Chart1() {
   useEffect(() => {
     // #4 Proceso de cada gráfica
     const UMBRAL_ANOMALIA = 0;
-    
+    console.log(anomalyData);
     let [normales, anomalias] = [0, 0];
-    for (const [, value] of Object.entries(anomalyData["datos"]["scores"])) {
+    for (const [, value] of Object.entries(anomalyData["datos"]["scores"])){
       if (value >= UMBRAL_ANOMALIA) {
         anomalias += 1;
       }
@@ -40,7 +40,6 @@ function Chart1() {
 
   const COLORS = ['#fe9000', '#ffba26'];
   
-
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 1.2;
@@ -82,6 +81,7 @@ function Chart1() {
             ))}
           </Pie>
           <Tooltip />
+          <Legend />
         </PieChart>
       </ResponsiveContainer>
     </div>

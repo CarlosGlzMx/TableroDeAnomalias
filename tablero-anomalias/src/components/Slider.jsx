@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 
 
 export default function Slider() {
-  const [value, onChange] = useState(0);
+  const [value,onChange]=useState(1);
 
-  useEffect(() => {
-    const ele = document.querySelector('.buble');
+  useEffect(()=>{
+      const ele = document.querySelector('.buble');
     if (ele) {
-      ele.style.left = `${Number(value / 8)}px`;
+      ele.style.left = `${Number(value / 10)}px`;
     }
   })
 

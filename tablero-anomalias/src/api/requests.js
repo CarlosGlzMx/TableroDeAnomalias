@@ -17,7 +17,7 @@ export async function getDatosDisponibles(idUsuario) {
 }
 
 // POST - Crea una carga en la base de datos
-// Done - Eliminar comentario al terminar el proyecto
+// Falta manejo de errores
 export function postCarga(archivo, columnas, idUsuario) {
     const formData = new FormData();
     formData.append("archivo_registros", archivo);
@@ -37,6 +37,7 @@ export function postCarga(archivo, columnas, idUsuario) {
 }
 
 // GET - Devuelve la totalidad de datos asociados con una carga
+// Falta manejo de errores
 export function getCarga(idUsuario, idCarga) {
     return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "GET",
@@ -45,7 +46,11 @@ export function getCarga(idUsuario, idCarga) {
             id_usuario: idUsuario,
             id_carga: idCarga,
         },
-    }).then((response) => response.json());
+    }).then((response) =>
+        response.json().then((data) => ({
+            datos: { ...data },
+        }))
+    );
 }
 
 // DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
@@ -58,7 +63,13 @@ export function deleteCarga(idUsuario, idCarga) {
             id_usuario: idUsuario,
             id_carga: idCarga,
         },
-    }).then((response) => response);
+    }).then((response) => {
+        if (response.status === 200) {
+            return [response.text(), response.status];
+        } else {
+            return [response.text(), response.status];
+        }
+    });
 }
 
 // POST - Guarda un tablero en la base de datos
@@ -96,5 +107,11 @@ export async function deleteTablero(idUsuario, idTablero) {
             id_usuario: idUsuario,
             id_tablero: idTablero,
         },
-    }).then((response) => response);
+    }).then((response) => {
+        if (response.status === 200) {
+            return [response.json(), response.status];
+        } else {
+            return [response.text(), response.status];
+        }
+    });
 }
