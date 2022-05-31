@@ -1,4 +1,4 @@
-import {React} from "react";
+import {React, useContext} from "react";
 import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
@@ -11,7 +11,7 @@ import {
     Bar,
     ResponsiveContainer,
   } from "recharts";
-
+import { DataContext } from "../../App";
    
 function Chart4() {
 	const data3 = [
@@ -66,9 +66,24 @@ function Chart4() {
           details: "Detalles de Anomalia 4"
         },
       ]
+
+      // #2 Llamar el contexto
+	    const { anomalyData, setAnomalyData } = useContext(DataContext);
     
-      const filterList = filters.map(filters => <option value={filters.id}>
-        {filters.name}</option>)
+      // const filterList = filters.map(filters => <option value={filters.id}>
+      //   {filters.name}</option>)
+
+
+useEffect (  () => {
+  // #4 Proceso de cada gráfica
+
+  for (var i = 0; i < anomalyData[0].lenght; i++) {
+    const filterList = filters.map(filters => <option value={anomalyData[0][i]}>
+      {filters.name}</option>)
+  }
+}, [anomalyData]);
+
+
     
 	return (
 
