@@ -84,7 +84,7 @@ function Upload() {
 					</Button>
 				</Link>
 			</div>
-			<AvailableDataContext.Provider value={ { listaCargas, setCargas, listaTableros, setTableros } }>
+			<AvailableDataContext.Provider value={ { setCargas, listaTableros, setTableros, setError } }>
 				<div style={ {
 					width: "40%",
 					height: "66vh",

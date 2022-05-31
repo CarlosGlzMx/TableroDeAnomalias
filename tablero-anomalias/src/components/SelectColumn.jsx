@@ -18,7 +18,7 @@ function SelectColumn() {
 	const fileType = location.state?.type;
 
 	//User id
-	const { ids } = useContext(IdsContext);
+	const { ids, setIds } = useContext(IdsContext);
 
 	//State to store table Column name
 	const [tableRows, setTableRows] = useState([]);
@@ -89,6 +89,8 @@ function SelectColumn() {
 
 		setLoading(true);
 		setAnomalyData(await postCarga(fileData, columnas, ids["usuario"]));
+		// console.log(anomalyData);
+		// setIds({ ...ids, carga: anomalyData["idNuevo"] });
 		navegador("/dashboard", { replace: true });
 	}
 
