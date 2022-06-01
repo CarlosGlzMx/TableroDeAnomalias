@@ -1,41 +1,27 @@
 import { React, useState, useContext, useEffect } from "react";
-
-// #1 Importar el contexto
-import { DataContext } from "../../App";
-import {
-	PieChart,
-	Pie,
-	ResponsiveContainer,
-	Cell,
-	Tooltip,
-	Legend
-} from "recharts";
+import { DataContext, ConfigContext } from "../../App";
+import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend } from "recharts";
 
 function Chart1() {
-	const [data, setData] = useState([{ Datos: "Anomalías", users: 1254 },
-	{ Datos: "Datos regulares", users: 12536 }])
-
-	// #2 Llamar el contexto
+	// Contextos necesarios para la gráfica
+	const { config } = useContext(ConfigContext);
 	const { anomalyData } = useContext(DataContext);
 
-	// #3 Observar cambios en el contexto (datos)
+	// Datos que alimentan la gráfica de pastel
+	const [ graphData, setGraphData] = useState([{}]);
+
+	// Observa cualquier cambio en la configuración
 	useEffect(() => {
-		// #4 Proceso de cada gráfica
-		const UMBRAL_ANOMALIA = 0;
+		// Itera los registros y los cuenta como normales o anomalías
+		console.log("Here");
 		let [normales, anomalias] = [0, 0];
 		for (const [, value] of Object.entries(anomalyData.scores)) {
-			if (value >= UMBRAL_ANOMALIA) {
-				anomalias += 1;
-			}
-			else {
-				normales += 1;
-			}
+			value >= config["umbral_anomalia"] ? anomalias += 1 : normales += 1;
 		}
 
-		// #5 Recargar la gráfica con los datos obtenidos
-		setData([{ Datos: "Anomalías", users: anomalias },
-		{ Datos: "Datos regulares", users: normales }])
-	}, [anomalyData]);
+		// Actualiza y recarga la gráfica
+		setGraphData([{ Datos: "Anomalías", users: anomalias }, { Datos: "Datos regulares", users: normales }])
+	}, [config]);
 
 	const COLORS = ['#fe9000', '#ffba26'];
 
@@ -62,7 +48,7 @@ function Chart1() {
 			<ResponsiveContainer width="100%" height="100%">
 				<PieChart dataKey="c1data">
 					<Pie
-						data={ data }
+						data={ graphData }
 						innerRadius={ 80 }
 						outerRadius={ 120 }
 						labelLine={ false }
@@ -75,7 +61,7 @@ function Chart1() {
 					>
 						<Tooltip />
 						<Legend />
-						{ data.map((entry, index) => (
+						{ graphData.map((entry, index) => (
 							<Cell key={ `cell-${index}` } fill={ COLORS[index % COLORS.length] } />
 						)) }
 					</Pie>

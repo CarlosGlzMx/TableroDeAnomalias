@@ -73,7 +73,6 @@ function Chart4() {
 
 
 	useEffect(() => {
-		console.log(anomalyData);
 		const variableName = [];
 		var item;
 		var tmp;
@@ -89,18 +88,8 @@ function Chart4() {
 			};
 			variableName.push(tmp);
 		}
-
-		// console.log(anomalyData.length);
-		// console.log(variableName);
-
 		filterList.current = variableName.map(variableName => <option value={ variableName.variable }>
 			{ variableName.variable }</option>)
-
-		// console.log(filterList);
-		// console.log(anomalyData["scores"].length);
-		// console.log(anomalyData[1]);
-
-
 	}, [anomalyData]);
 
 

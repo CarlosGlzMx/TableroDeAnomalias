@@ -163,6 +163,7 @@ def methods_boards():
         if user_id is None or user_id == "undefined" or board_id is None or board_id == "undefined":
             return Response("No se ha proporcionado un id de usuario o un id de tablero", 400)
         try:
+            # Borra el tablero de la base de datos y confirma el resultado a la aplicación Web
             db_manager.delete_board(board_id, user_id)
             return Response("Tablero eliminado correctamente", 200)
         except Exception as e:
