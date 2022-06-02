@@ -23,7 +23,7 @@ function Chart1() {
 		// #4 Proceso de cada gráfica
 		const UMBRAL_ANOMALIA = 0;
 		let [normales, anomalias] = [0, 0];
-		for (const [, value] of Object.entries(anomalyData.scores)) {
+		for (const [, value] of Object.entries(anomalyData.anomaly_score)) {
 			if (value >= UMBRAL_ANOMALIA) {
 				anomalias += 1;
 			}

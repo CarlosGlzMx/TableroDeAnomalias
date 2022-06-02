@@ -28,7 +28,7 @@ function Chart3() {
 		// #4 Proceso de cada gráfica
 		const UMBRAL_ANOMALIA = 0;
 		let [A_1_0, A_0_9, A_0_8, A_0_7, A_0_6, A_0_5, A_0_4, A_0_3, A_0_2, A_0_1, A0, A0_1, A0_2, A0_3, A0_4, A0_5, A0_6, A0_7, A0_8, A0_9, A1_0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-		for (const [key, value] of Object.entries(anomalyData.scores)) {
+		for (const [key, value] of Object.entries(anomalyData.anomaly_score)) {
 			var val = Math.round((value + Number.EPSILON) * 10) / 10;
 
 			if (val == -1) {
