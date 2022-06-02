@@ -45,7 +45,7 @@ def save_data(upload_name, user_id, df, base_columns, date_column):
     created_id = next(cursor.stored_results()).fetchall()[0][0]
 
     # Prepara el formato de cada registro y lo guarda con un stored procedure
-    df["variables"] = df[base_columns].astype(str).agg(",".join, axis = 1)
+    df["variables"] = df[df.columns.intersection(base_columns)].astype(str).agg(",".join, axis = 1)
     for index, row in df.iterrows():
         row[date_column] = None if row[date_column] == "2000-01-01" else row[date_column]
         cursor.callproc("crea_registro", (created_id, index, row[date_column], row["scores"], row["variables"]))

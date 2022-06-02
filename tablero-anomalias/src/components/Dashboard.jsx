@@ -10,33 +10,60 @@ import AnomaliesTable from "../components/AnomaliesTable";
 
 const Dashboard = () => {
 	return (
-		<div className="Dashboard">
-			<div className="container p-0" style={ { minHeight: "80vh" } }>
+		<>
+			<div className="Dashboard">
+				<div className="container p-0" style={ { minHeight: "80vh" } }>
 
-				{ <Chart1 /> }
+					{ <Chart1 /> }
 
-				{ <Chart2 /> }
+					{ <Chart2 /> }
 
-				{ <Chart3 /> }
+					{ <Chart3 /> }
 
-				{ <Chart4 /> }
+					{ <Chart4 /> }
 
-				{ <Chart5 /> }
+					{ <Chart5 /> }
 
-				{ <Chart6 /> }
+					{ <Chart6 /> }
+
+				</div>
+
+				<div style={ { paddingBottom: "12vh" } }>
+					{ <AnomaliesTable /> }
+				</div>
+
+				<div className="action-bar">
+					{ <Actions /> }
+				</div>
 
 			</div>
+			<div className="Dashboard">
+				<div className="container p-0" style={ { minHeight: "80vh" } }>
 
-			<div style={ { paddingBottom: "12vh" } }>
-				{ <AnomaliesTable /> }
+					{ <Chart1 /> }
+
+					{ <Chart2 /> }
+
+					{ <Chart3 /> }
+
+					{ <Chart4 /> }
+
+					{ <Chart5 /> }
+
+					{ <Chart6 /> }
+
+				</div>
+
+				<div style={ { paddingBottom: "12vh" } }>
+					{ <AnomaliesTable /> }
+				</div>
+
+				<div className="action-bar">
+					{ <Actions /> }
+				</div>
+
 			</div>
-
-			<div className="action-bar">
-				{ <Actions /> }
-			</div>
-
-		</div>
-
+		</>
 	);
 }
 
