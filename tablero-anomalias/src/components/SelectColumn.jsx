@@ -101,9 +101,6 @@ function SelectColumn() {
 		} else {
 
 		}
-
-
-
 	}
 
 	const onChangeValue = (event) => {

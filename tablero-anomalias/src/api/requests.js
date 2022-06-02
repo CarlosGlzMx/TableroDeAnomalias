@@ -117,7 +117,7 @@ export async function deleteTablero(idUsuario, idTablero) {
         },
     }).then((response) => {
         if (response.status === 200) {
-            return [response.json(), response.status];
+            return [response.text(), response.status];
         } else {
             return [response.text(), response.status];
         }

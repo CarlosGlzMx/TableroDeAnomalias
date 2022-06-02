@@ -4,8 +4,7 @@ import jspdf from "jspdf";
 import Slider from "./Slider";
 
 function Actions() {
-    
-
+  
     function printPdf() {
         // Basado en código de Zolotarenko, E. https://start-up.house/en/blog/articles/converting-html-to-pdf
         // Crea el archivo PDF por llenar con componentes de manera personalizada
@@ -46,14 +45,8 @@ function Actions() {
         
     return (
       <div className="d-flex justify-content-between">
-        <div className="action-left align-items-center">
-          <h3 className="m-0 p-2">Seleccione la precisión del modelo</h3>
-          <div className="w-100 d-flex align-items-center pb-2">
-            <h4 className="mt-0 mb-0 pt-0">-1</h4>
-            {/* <input type="range" min="-1" max="1" step="0.1" className="form-range" id="customRange1"></input> */}
-            <Slider />
-            <h4 className="mt-0 mb-0 pt-0">1</h4>
-          </div>
+        <div className="action-left">
+          <Slider />
         </div>
 
         <div className="action-center">

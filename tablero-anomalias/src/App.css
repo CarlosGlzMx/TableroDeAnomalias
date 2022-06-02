@@ -244,16 +244,4 @@ label {
 
 input[type="range"] {
     width: 100%;
-  }
-
-  /* .slider-parent{
-    position:relative;
-  } */
-  
-  .buble{
-    position:relative;
-    text-align: center;
-    color: white;
-    font-weight: bolder;
-    font-size: 16px;
-  }
+}

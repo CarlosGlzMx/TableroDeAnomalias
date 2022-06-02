@@ -1,7 +1,3 @@
-
-/* Renderizador inicial de React, llama a App */
-/* TODO Cambiar a React 18, quitando ReactDOM */
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
