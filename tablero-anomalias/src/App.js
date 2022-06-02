@@ -30,6 +30,8 @@ const defaultConfig = {
     seleccion_g6_1: undefined,
     seleccion_g6_2: undefined,
     umbral_anomalia: 0,
+    min_score: -0.25,
+    max_score: 0.25,
 };
 
 function App() {
