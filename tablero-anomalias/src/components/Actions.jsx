@@ -4,8 +4,7 @@ import jspdf from "jspdf";
 import Slider from "./Slider";
 
 function Actions() {
-    
-
+  
     function printPdf() {
         // Basado en código de Zolotarenko, E. https://start-up.house/en/blog/articles/converting-html-to-pdf
         // Crea el archivo PDF por llenar con componentes de manera personalizada

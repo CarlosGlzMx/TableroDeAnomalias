@@ -31,6 +31,7 @@ function BoardRow(props) {
 		if (response[1] === 200) {
 			if (requestType === "delete") {
 				setCargas(undefined);
+				setTableros(undefined);
 			} else if (requestType === "get") {
 				setAnomalyData(solvedPromise);
 			}
