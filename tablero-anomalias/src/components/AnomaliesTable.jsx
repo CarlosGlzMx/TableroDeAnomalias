@@ -1,16 +1,10 @@
-import {React,useState} from "react";
+import { React, useState } from "react";
+import ListedAnomaly from "./ListedAnomaly";
 
-import {ListGroup, Modal, Button } from "react-bootstrap";
 
 function AnomaliesTable() {
-    /*Constantes de popup show y close */
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    /*Dataframe */
-    const anomalies = [
+    // Variable filtrada que enlista las anomalías
+    const [anomalyList, setAnomalyList] = useState([
       {
         id: 1,
         name: "Anomalia 1",
@@ -82,29 +76,18 @@ function AnomaliesTable() {
         name: "Anomalia 12",
         details: "Detalles de Anomalia 12"
       },
-    ]
-    const anomaliesList = anomalies.map(anomalies => <ListGroup.Item variant="primary" onClick={handleShow}>
-    {anomalies.name}</ListGroup.Item>)
+    ])
+
 	return (
-    <div style={{padding:0}}>
+    <div className="p-0">
       <h4>Tabla de anomalías encontradas</h4>
-      <div className = "anomaliesTable m-3 p-2" style={{border:"0.3rem dashed #ff8300", borderRadius: "0.4rem"}}>
-        <ListGroup defaultActiveKey="#link1">
-          {anomaliesList}
-        </ListGroup>
-      </div>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{anomaliesList[1]}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Detalles de anomalía</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      
+      <div className = "anomaliesTable m-3 p-2" style={{border:"0.3rem dashed #ff8300", borderRadius: "0.8rem"}}>
+        {
+          anomalyList.map((row, index) => {
+            return <ListedAnomaly anomaly = {row} index = {index}/>
+          })
+        }
+      </div>    
     </div>
 	);
 }

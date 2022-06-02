@@ -10,7 +10,7 @@ function Chart3() {
 
 	// Datos que alimentan la gráfica de pastel
 	const [ graphData, setGraphData ] = useState([{}]);
-	const [NUM_BARRAS, INICIO, FIN] = [20, config["min_score"], config["max_score"]]
+	const [ NUM_BARRAS, INICIO, FIN ] = [20, config["min_score"], config["max_score"]]
 	
 	// Observa cualquier cambio en la configuración
 	useEffect(() => {
@@ -42,7 +42,7 @@ function Chart3() {
 			else return -1;
 		})
 		setGraphData(processesData);
-	}, [anomalyData, config]);
+	}, [anomalyData, config, NUM_BARRAS, INICIO, FIN]);
 
 	return (
 
