@@ -46,7 +46,7 @@ function Actions() {
         
     return (
       <div className="d-flex justify-content-between">
-        <div className="action-left">
+        <div className="action-left align-items-center">
           <h3 className="m-0 p-2">Seleccione la precisión del modelo</h3>
           <div className="w-100 d-flex align-items-center pb-2">
             <h4 className="mt-0 mb-0 pt-0">-1</h4>
@@ -58,10 +58,10 @@ function Actions() {
 
         <div className="action-center">
           <label for="start">Fecha inicial: </label>
-          <input className="m-2" type="date" name="start-date" />
+          <input className="m-4" type="date" name="start-date" />
           <label for="end">Fecha final: </label>
           <input
-            className="m-2"
+            className="m-4"
             type="date"
             name="final-date"
             min="2000-01-01"
