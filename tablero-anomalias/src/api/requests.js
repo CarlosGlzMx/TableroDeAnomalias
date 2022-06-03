@@ -1,5 +1,4 @@
 // GET - Obtiene las cargas y los tableros de la base de dato
-// Done - Eliminar comentario al terminar el proyecto
 export async function getDatosDisponibles(idUsuario) {
     return await fetch(`http://127.0.0.1:5000/datos-disponibles/`, {
         method: "GET",
@@ -17,7 +16,6 @@ export async function getDatosDisponibles(idUsuario) {
 }
 
 // POST - Crea una carga en la base de datos
-// Falta manejo de errores
 export function postCarga(archivo, columnas, idUsuario) {
     const formData = new FormData();
     formData.append("archivo_registros", archivo);
@@ -62,13 +60,13 @@ export function getCarga(idUsuario, idCarga) {
 }
 
 // DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
-// Done - Eliminar comentario al terminar el proyecto
+// Falta manejo de errores en dashboard
 export function deleteCarga(idUsuario, idCarga) {
     return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            id_usuario: idUsuario,
+            // id_usuario: idUsuario,
             id_carga: idCarga,
         },
     }).then((response) => {
@@ -106,7 +104,7 @@ export async function getTablero(idUsuario, idTablero) {
 }
 
 // DELETE - Elimina un tablero de la base de datos
-// Done - Eliminar comentario al terminar el proyecto
+// Falta manejo de errores en dashboard
 export async function deleteTablero(idUsuario, idTablero) {
     return await fetch(`http://127.0.0.1:5000/tableros/`, {
         method: "DELETE",

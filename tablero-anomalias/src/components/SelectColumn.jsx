@@ -3,7 +3,7 @@ import Papa from "papaparse";
 import { useLocation, useNavigate } from "react-router-dom";
 import Column from './Column';
 import Loading from "../components/Loading";
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap';
 import { postCarga } from "../api/requests";
 import * as XLSX from "xlsx";
 import { DataContext, IdsContext } from "../App";
@@ -25,6 +25,15 @@ function SelectColumn() {
 
 	//State to set loading
 	const [loading, setLoading] = useState(false);
+
+	//State to set error message
+	const [show, setShow] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
+	const handleShow = () => setShow(true);
+	const handleClose = () => {
+		setShow(false);
+		navegador("/upload", { replace: true });
+	}
 
 	//State to store processed data. Update when API sends response
 	const { anomalyData, setAnomalyData } = useContext(DataContext);
@@ -99,7 +108,8 @@ function SelectColumn() {
 			setIds({ ...ids, carga: solvedPromise.idNuevo });
 			setAnomalyData(solvedPromise.datos);
 		} else {
-
+			handleShow();
+			setErrorMessage(solvedPromise);
 		}
 	}
 
@@ -112,7 +122,6 @@ function SelectColumn() {
 					if (refForm.current[(index * 3) + 2].value && refForm.current[(index * 3) + 2].id !== event.target.id) {
 						refForm.current[(index * 3) + 2].value = false;
 						refForm.current[(index * 3) + 2].checked = false;
-
 					}
 				}
 			}
@@ -166,7 +175,21 @@ function SelectColumn() {
 				:
 				<Loading message={ "Procesando Información..." } />
 			}
-
+			<Modal
+				show={ show }
+				backdrop="static"
+				keyboard={ false }
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>Error de carga</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					{ errorMessage }. Volver a la pantalla de upload para intentarlo de nuevo.
+				</Modal.Body>
+				<Modal.Footer>
+					<Button style={ { backgroundColor: "#ff8300", border: "none" } } onClick={ handleClose }>Volver a Upload</Button>
+				</Modal.Footer>
+			</Modal>
 		</div>
 	);
 };
