@@ -60,13 +60,12 @@ export function getCarga(idUsuario, idCarga) {
 }
 
 // DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
-// Falta manejo de errores en dashboard
 export function deleteCarga(idUsuario, idCarga) {
     return fetch(`http://127.0.0.1:5000/cargas/`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
-            // id_usuario: idUsuario,
+            id_usuario: idUsuario,
             id_carga: idCarga,
         },
     }).then((response) => {
@@ -104,7 +103,6 @@ export async function getTablero(idUsuario, idTablero) {
 }
 
 // DELETE - Elimina un tablero de la base de datos
-// Falta manejo de errores en dashboard
 export async function deleteTablero(idUsuario, idTablero) {
     return await fetch(`http://127.0.0.1:5000/tableros/`, {
         method: "DELETE",
