@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deleteCarga, deleteTablero, getCarga } from '../api/requests';
-import { IdsContext, DataContext } from "../App";
+import { deleteCarga, deleteTablero, getCarga } from '../../api/requests';
+import { IdsContext, DataContext } from "../../App";
 import { AvailableDataContext } from './Upload';
 
 function BoardRow(props) {

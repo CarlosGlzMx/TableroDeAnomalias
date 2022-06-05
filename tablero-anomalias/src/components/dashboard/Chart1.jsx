@@ -13,7 +13,6 @@ function Chart1() {
 
 	// Observa cualquier cambio en la configuración
 	useEffect(() => {
-		console.log(anomalyData);
 		// Itera los registros y los cuenta como normales o anomalías
 		let [normales, anomalias] = [0, 0];
 		for (const [, value] of Object.entries(anomalyData.scores)) {

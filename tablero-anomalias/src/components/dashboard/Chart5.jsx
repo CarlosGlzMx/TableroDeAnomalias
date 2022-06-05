@@ -68,7 +68,7 @@ function Chart5() {
         },
       ]
     
-      const filterList = filters.map(filters => <option value={filters.id}>
+      const filterList = filters.map(filters => <option key={`filtros5-${filters.id}`} value={filters.id}>
         {filters.name}</option>)
       
 	return (
@@ -78,12 +78,10 @@ function Chart5() {
             Anomalías por dos variables
             </div>
           <div className="horizontalFilters">
-            <select className="form-select" aria-label="Default select example">
-            <option selected>Filtrar por</option>
+            <select className="form-select" aria-label="Default select example" defaultValue={"Filtrar por"}>
               {filterList}
             </select>
-            <select className="form-select" aria-label="Default select example">
-            <option selected>Filtrar por</option>
+            <select className="form-select" aria-label="Default select example" defaultValue={"Filtrar por"}>
               {filterList}
             </select>
           </div>

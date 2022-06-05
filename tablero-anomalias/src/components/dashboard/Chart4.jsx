@@ -88,7 +88,7 @@ function Chart4() {
 			};
 			variableName.push(tmp);
 		}
-		filterList.current = variableName.map(variableName => <option value={ variableName.variable }>
+		filterList.current = variableName.map(variableName => <option key={`filtros4-${filters.id}`} value={ variableName.variable }>
 			{ variableName.variable }</option>)
 	}, [anomalyData]);
 
@@ -102,15 +102,14 @@ function Chart4() {
 			<div className="chart_title">
 				Anomalías por una variable
 			</div>
-			<select className="form-select" aria-label="Default select example">
-				<option selected>Filtrar por</option>
+			<select className="form-select" aria-label="Default select example" defaultValue={"Filtrar por"}>
 				{ filterList.current }
 			</select>
 
 
 			<ResponsiveContainer>
 				<BarChart
-					width={ 500 }
+					width={ 1600 }
 					height={ 300 }
 					data={ data3 }
 					layout="vertical" barCategoryGap={ 45 }

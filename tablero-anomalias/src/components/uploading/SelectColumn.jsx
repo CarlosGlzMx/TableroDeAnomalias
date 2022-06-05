@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import Papa from "papaparse";
 import { useLocation, useNavigate } from "react-router-dom";
 import Column from './Column';
-import Loading from "../components/Loading";
+import Loading from "./Loading";
 import { Form, Button } from 'react-bootstrap';
-import { postCarga } from "../api/requests";
+import { postCarga } from "../../api/requests";
 import * as XLSX from "xlsx";
-import { DataContext, IdsContext } from "../App";
+import { DataContext, IdsContext } from "../../App";
 
 
 function SelectColumn() {
