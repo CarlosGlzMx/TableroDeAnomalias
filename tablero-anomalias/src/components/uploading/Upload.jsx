@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import AnomalyBg from "../components/images/AnomalyBG.png";
-import BoardRow from "../components/BoardRow";
-import Loading from "../components/Loading";
-import { getDatosDisponibles } from "../api/requests";
-import { IdsContext } from "../App";
+import AnomalyBg from "../../images/AnomalyBG.png";
+import BoardRow from "./BoardRow";
+import Loading from "./Loading";
+import { getDatosDisponibles } from "../../api/requests";
+import { IdsContext } from "../../App";
 
 export const AvailableDataContext = createContext([[], () => { }]);
 
@@ -94,7 +94,7 @@ function Upload() {
 					backgroundColor: "white"
 				} }>
 					<div className="w-100 h-50 p-4">
-						<div className="h4">Cargas disponibles</div>
+						<div data-testid = "titulo-cargas" className="h4">Cargas disponibles</div>
 						<ul style={ {
 							overflow: 'scroll',
 							maxHeight: '22vh',

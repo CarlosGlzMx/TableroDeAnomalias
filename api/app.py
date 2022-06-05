@@ -78,6 +78,7 @@ def methods_uploads():
         try: new_id = db_manager.save_data(file_name, user_id, resulting_data.copy(), relevant_columns, date_column)
         except Exception as e:
           return Response("Error en el guardado de datos: " + str(e), 500)
+        resulting_data.rename(columns = {date_column : 'fecha'}, inplace=True)
 
         # Regreso de datos
         # Configura la respuesta al sitio web

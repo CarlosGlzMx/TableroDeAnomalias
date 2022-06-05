@@ -77,7 +77,7 @@ function Chart4() {
  
 			<ResponsiveContainer>
 				<BarChart
-					width={ 500 }
+					width={ 1600 }
 					height={ 300 }
 					data={ data3 }
 					layout="vertical" barCategoryGap={ 45 }

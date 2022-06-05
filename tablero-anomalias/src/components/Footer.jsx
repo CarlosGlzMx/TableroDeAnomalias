@@ -8,7 +8,7 @@ function Footer() {
 		return (
 			<div className="Footer" style={{ height:"6vh"}}>
 				<footer className="bg-secondary text-light h-100 text-center">
-					<small className="align-middle">Copyright &copy; Ternium</small>
+					<small data-testid="footer-label" className="align-middle">Copyright &copy; Ternium</small>
 				</footer>
 			</div>
 		);

@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Container, Offcanvas, Nav } from "react-bootstrap";
-import Logo from "../components/images/Ternium_Logo.png";
+import Logo from "../images/Ternium_Logo.png";
 
 
 function Header() {

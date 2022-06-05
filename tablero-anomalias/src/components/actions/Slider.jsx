@@ -1,5 +1,5 @@
-import { React, useState, useEffect, useContext } from "react";
-import { ConfigContext } from "../App";
+import { React, useState, useContext } from "react";
+import { ConfigContext } from "../../App";
 
 export default function Slider() {
   // Importa el contexto que guarda la configuración del tablero

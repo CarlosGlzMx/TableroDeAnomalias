@@ -84,7 +84,7 @@ function AnomaliesTable() {
       <div className = "anomaliesTable m-3 p-2" style={{border:"0.3rem dashed #ff8300", borderRadius: "0.8rem"}}>
         {
           anomalyList.map((row, index) => {
-            return <ListedAnomaly anomaly = {row} index = {index}/>
+            return <ListedAnomaly key={`listed-anomaly-${index}`} anomaly = {row} index = {index}/>
           })
         }
       </div>    

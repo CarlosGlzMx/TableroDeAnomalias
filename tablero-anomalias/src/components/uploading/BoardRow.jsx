@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deleteCarga, deleteTablero, getCarga } from '../api/requests';
-import { IdsContext, DataContext } from "../App";
+import { deleteCarga, deleteTablero, getCarga } from '../../api/requests';
+import { IdsContext, DataContext } from "../../App";
 import { AvailableDataContext } from './Upload';
 
 function BoardRow(props) {
@@ -47,9 +47,9 @@ function BoardRow(props) {
 		let response = undefined;
 
 		if (props.type === "carga") {
-			response = await deleteCarga(ids["usuario"], props.id);
+			response = await deleteCarga(ids.usuario, props.id);
 		} else if (props.type === "tablero") {
-			response = await deleteTablero(ids["usuario"], props.id);
+			response = await deleteTablero(ids.usuario, props.id);
 		}
 
 		errorHandler(response, "delete");
