@@ -109,7 +109,7 @@ function Chart5() {
                 <YAxis type="category" width={150} padding={{ left: 20 }} dataKey="name" />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="Anomalías" fill="#485458" stackId="stack" />
+                <Bar dataKey="Anomalías" fill="#ff7304" stackId="stack" />
                 <Bar dataKey="Datos_Regulares" fill="#ffba26" stackId="stack" />
             </BarChart>
         </ResponsiveContainer>
