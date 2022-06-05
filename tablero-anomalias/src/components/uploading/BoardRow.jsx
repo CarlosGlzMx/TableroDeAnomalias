@@ -47,9 +47,9 @@ function BoardRow(props) {
 		let response = undefined;
 
 		if (props.type === "carga") {
-			response = await deleteCarga(ids["usuario"], props.id);
+			response = await deleteCarga(ids.usuario, props.id);
 		} else if (props.type === "tablero") {
-			response = await deleteTablero(ids["usuario"], props.id);
+			response = await deleteTablero(ids.usuario, props.id);
 		}
 
 		errorHandler(response, "delete");
