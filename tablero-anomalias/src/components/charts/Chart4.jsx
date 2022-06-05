@@ -1,17 +1,18 @@
-import { React, useContext, useEffect, useRef } from "react";
+import { React, useContext, useEffect, ReactDOM, useState } from "react";
 import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
 	Tooltip,
 	BarChart,
 	XAxis,
-	YAxis,
+	YAxis, 
 	Legend,
 	CartesianGrid,
 	Bar,
 	ResponsiveContainer,
 } from "recharts";
-import { DataContext } from "../../App";
+import { DataContext, ConfigContext } from "../../App";
+import { colorChannel } from "@mui/system";
 
 function Chart4() {
 	const data3 = [
@@ -19,95 +20,61 @@ function Chart4() {
 			name: 'Planta A',
 			Anomalías: 200,
 			Datos_Regulares: 1500,
-			//amt: 2400,
 		},
 		{
 			name: 'Planta B',
 			Anomalías: 324,
 			Datos_Regulares: 1398,
-			//amt: 2210,
 		},
 		{
 			name: 'Planta C',
 			Anomalías: 106,
 			Datos_Regulares: 856,
-			//amt: 2290,
 		},
 		{
 			name: 'Planta D',
 			Anomalías: 230,
 			Datos_Regulares: 1001,
-			//amt: 2000,
 		}
 	];
 
-
-	const filters = [
-		{
-			id: 1,
-			name: "filtro 1",
-			details: "Detalles de Anomalia 1"
-		},
-		{
-			id: 2,
-			name: "filtro 2",
-			details: "Detalles de Anomalia 2"
-		},
-		{
-
-			id: 3,
-			name: "filtro 3",
-			details: "Detalles de Anomalia 3"
-		},
-		{
-
-			id: 46,
-			name: "filtro 4",
-			details: "Detalles de Anomalia 4"
-		},
-	]
-
-	// #2 Llamar el contexto
+	// Llamar el contexto
 	const { anomalyData } = useContext(DataContext);
-	var filterList = useRef();
+	const { config, setConfig } = useContext(ConfigContext);
 
-
+	// Se genera el array para llenar el dropdown de los filtros
+	const [dropDownData, setDropDownData] = useState([]);
+	
+	
 	useEffect(() => {
-		const variableName = [];
-		var item;
-		var tmp;
-
-		for (var i = 0; i < 5; i++) {
-
-			// for (const [, value] of Object.entries(anomalyData["datos"])) {
-
-			item = anomalyData[3];
-			tmp = {
-				'variable': item,
-
-			};
-			variableName.push(tmp);
+		var variableName = [];
+		var columnStructure;
+		for (const column_name of Object.keys(anomalyData)) {
+			if(column_name != "fecha" && column_name != "scores" && column_name != "id"){
+				columnStructure = column_name;
+				variableName.push(columnStructure);
+			}
 		}
-		filterList.current = variableName.map(variableName => <option value={ variableName.variable }>
-			{ variableName.variable }</option>)
-	}, [anomalyData]);
+		setDropDownData(variableName);
+	}, [dropDownData]);
 
-
-
-
+	
 
 	return (
-
 		<div className="chart c4">
 			<div className="chart_title">
 				Anomalías por una variable
 			</div>
-			<select className="form-select" aria-label="Default select example">
-				<option selected>Filtrar por</option>
-				{ filterList.current }
+			<select className="form-select" aria-label="Default select example" 
+			onChange={(e) => 
+			setConfig({...config,seleccion_g4: e.target.value})}>
+				{
+					dropDownData.map(variable => 
+						<option value={variable}>{ variable }</option>
+					)
+				}
 			</select>
-
-
+ 
 			<ResponsiveContainer>
 				<BarChart
 					width={ 500 }
@@ -131,8 +98,11 @@ function Chart4() {
 				</BarChart>
 			</ResponsiveContainer>
 		</div>
-
+	
 	);
+	
+
+	
 }
 
 export default Chart4;

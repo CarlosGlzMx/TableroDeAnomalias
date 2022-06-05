@@ -1,4 +1,4 @@
-import {React} from "react";
+import { React, useContext, useEffect, ReactDOM, useState } from "react";
 import {
     Tooltip,
     BarChart,
@@ -9,6 +9,7 @@ import {
     Bar,
     ResponsiveContainer,
   } from "recharts";
+import { DataContext, ConfigContext } from "../../App";
 import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -42,34 +43,27 @@ function Chart5() {
         }
       ];
 
+      // Llamar el contexto
+      const { anomalyData } = useContext(DataContext);
+      const { config, setConfig } = useContext(ConfigContext);
 
-      const filters = [
-        {
-          id: 1,
-          name: "filtro 1",
-          details: "Detalles de Anomalia 1"
-        },
-        {
-          id: 2,
-          name: "filtro 2",
-          details: "Detalles de Anomalia 2"
-        },
-        {
-    
-          id: 3,
-          name: "filtro 3",
-          details: "Detalles de Anomalia 3"
-        },
-        {
-    
-          id: 46,
-          name: "filtro 4",
-          details: "Detalles de Anomalia 4"
-        },
-      ]
-    
-      const filterList = filters.map(filters => <option value={filters.id}>
-        {filters.name}</option>)
+      // Se genera el array para llenar el dropdown de los filtros
+      const [dropDownData, setDropDownData] = useState([]);
+      
+      
+      useEffect(() => {
+        var variableName = [];
+        var columnStructure;
+        for (const column_name of Object.keys(anomalyData)) {
+          if(column_name != "FECHA" && column_name != "scores" && column_name != "id"){
+            columnStructure = column_name;
+            variableName.push(columnStructure);
+          }
+        }
+        setDropDownData(variableName);
+      }, [dropDownData]);
+
+        
       
 	return (
 
@@ -78,14 +72,24 @@ function Chart5() {
             Anomalías por dos variables
             </div>
           <div className="horizontalFilters">
-            <select className="form-select" aria-label="Default select example">
-            <option selected>Filtrar por</option>
-              {filterList}
-            </select>
-            <select className="form-select" aria-label="Default select example">
-            <option selected>Filtrar por</option>
-              {filterList}
-            </select>
+          <select className="form-select" aria-label="Default select example" 
+			onChange={(e) => 
+			setConfig({...config,seleccion_g4: e.target.value})}>
+				{
+					dropDownData.map(variable => 
+						<option value={variable}>{ variable }</option>
+					)
+				}
+			</select>
+      <select className="form-select" aria-label="Default select example" 
+			onChange={(e) => 
+			setConfig({...config,seleccion_g4: e.target.value})}>
+				{
+					dropDownData.map(variable => 
+						<option value={variable}>{ variable }</option>
+					)
+				}
+			</select>
           </div>
           <ResponsiveContainer>
           <BarChart 
