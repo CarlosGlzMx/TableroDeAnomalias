@@ -17,7 +17,7 @@ export const ConfigContext = createContext([[], () => {}]);
 export const DataContext = createContext([[], () => {}]);
 
 // Variables por defecto para los contextos
-//Usuario temporal para el desarrollo eliminar al final
+// Usuario temporal para el desarrollo eliminar al final
 const defaultIds = { usuario: "Charlie", carga: undefined, tablero: undefined };
 const defaultConfig = {
     fecha_min: "2020-10-10",

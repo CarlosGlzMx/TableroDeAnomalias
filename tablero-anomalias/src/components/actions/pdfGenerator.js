@@ -1,7 +1,7 @@
 import html2canvas from "html2canvas";
 import jspdf from "jspdf";
 
-function printPdf() {
+export function printPdf() {
     // Basado en código de Zolotarenko, E. https://start-up.house/en/blog/articles/converting-html-to-pdf
     // Crea el archivo PDF por llenar con componentes de manera personalizada
     const pdf = new jspdf({ unit: "pt", format: "letter" });

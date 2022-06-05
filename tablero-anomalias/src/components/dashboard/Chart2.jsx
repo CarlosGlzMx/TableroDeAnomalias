@@ -61,7 +61,7 @@ function Chart2() {
           <Line
             type="monotone"
             dataKey="Anomalías"
-            stroke="#ff7304"
+            stroke="#485458"
             dot={false}
           />
           <Line

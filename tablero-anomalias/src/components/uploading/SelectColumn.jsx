@@ -3,7 +3,7 @@ import Papa from "papaparse";
 import { useLocation, useNavigate } from "react-router-dom";
 import Column from './Column';
 import Loading from "./Loading";
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap';
 import { postCarga } from "../../api/requests";
 import * as XLSX from "xlsx";
 import { DataContext, IdsContext } from "../../App";
@@ -162,7 +162,7 @@ function SelectColumn() {
 					<div className="mb-4 d-flex justify-content-center">
 						<Button
 							style={ {
-								backgroundColor: "#ff8300",
+								backgroundColor: "#485458",
 								border: "none"
 							} }
 							className="mx-auto"
@@ -187,7 +187,7 @@ function SelectColumn() {
 					{ errorMessage }. Volver a la pantalla de upload para intentarlo de nuevo.
 				</Modal.Body>
 				<Modal.Footer>
-					<Button style={ { backgroundColor: "#ff8300", border: "none" } } onClick={ handleClose }>Volver a Upload</Button>
+					<Button style={ { backgroundColor: "#485458", border: "none" } } onClick={ handleClose }>Volver a Upload</Button>
 				</Modal.Footer>
 			</Modal>
 		</div>

@@ -163,7 +163,7 @@ function Actions() {
 						Cancelar
 					</Button>
 					{ error === undefined ?
-						<Button style={ { backgroundColor: "#ff8300", border: "none" } } onClick={ handleClickDelete }>Eliminar</Button>
+						<Button style={ { backgroundColor: "#485458", border: "none" } } onClick={ handleClickDelete }>Eliminar</Button>
 						:
 						<></>
 					}

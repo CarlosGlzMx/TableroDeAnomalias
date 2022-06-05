@@ -6,7 +6,7 @@ import Logo from "../images/Ternium_Logo.png";
 function Header() {
 	return (
 		<Navbar
-			style={ { backgroundColor: "#ff8300", height: "12vh"} }
+			style={ { backgroundColor: "#485458", height: "12vh"} }
 			expand={ false } className = "header">
 			<Container fluid>
 				<Navbar.Brand href="/">
@@ -21,7 +21,7 @@ function Header() {
 					aria-labelledby="offcanvasNavbarLabel"
 					placement="end"
 					style={ {
-						backgroundColor: "#ff8300",
+						backgroundColor: "#485458",
 					} }
 				>
 					<Offcanvas.Header closeButton>

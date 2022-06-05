@@ -77,7 +77,7 @@ function Upload() {
 					to="/selectColumn"
 					state={ { file, type } }>
 					<Button
-						style={ { backgroundColor: "#ff8300", border: "none" } }
+						style={ { backgroundColor: "#485458", border: "none" } }
 						size="sm"
 						disabled={ isValid === undefined ? true : !isValid } >
 						Seleccionar Columnas
@@ -89,12 +89,12 @@ function Upload() {
 					width: "40%",
 					height: "66vh",
 					margin: "8vh",
-					border: "0.3rem dashed #ff8300",
+					border: "0.3rem dashed #485458",
 					borderRadius: "0.5rem",
 					backgroundColor: "white"
 				} }>
 					<div className="w-100 h-50 p-4">
-						<div data-testid = "titulo-cargas" className="h4">Cargas disponibles</div>
+						<div className="h4">Cargas disponibles</div>
 						<ul style={ {
 							overflow: 'scroll',
 							maxHeight: '22vh',

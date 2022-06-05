@@ -7,8 +7,8 @@ function Footer() {
 	if (location.pathname !== "/dashboard") {
 		return (
 			<div className="Footer" style={{ height:"6vh"}}>
-				<footer className="bg-secondary text-light h-100 text-center">
-					<small data-testid="footer-label" className="align-middle">Copyright &copy; Ternium</small>
+				<footer className="bg-secondary text-light h-100 text-center d-flex align-items-center justify-content-center">
+					<small>Copyright &copy; Ternium</small>
 				</footer>
 			</div>
 		);

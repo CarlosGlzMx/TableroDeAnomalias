@@ -121,7 +121,7 @@ function BoardRow(props) {
 					<Button variant="secondary" onClick={ handleClose }>
 						Cancelar
 					</Button>
-					<Button style={ { backgroundColor: "#ff8300", border: "none" } } onClick={ handleClickDelete }>Eliminar</Button>
+					<Button style={ { backgroundColor: "#485458", border: "none" } } onClick={ handleClickDelete }>Eliminar</Button>
 				</Modal.Footer>
 			</Modal>
 		</>
