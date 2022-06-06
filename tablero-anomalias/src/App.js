@@ -8,8 +8,11 @@ import {
     Dashboard,
     Footer,
 } from "./components";
-import "./App.css";
+
+// Importante mantener este orden para la prioridad de nuestro CSS sobre Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/colors.css";
+import "./styles/App.css";
 
 // Creación de contextos desde el componente mayor de la aplicación para acceso compartido
 export const IdsContext = createContext([[], () => {}]);

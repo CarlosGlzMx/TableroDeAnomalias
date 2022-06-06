@@ -2,6 +2,7 @@ import { React, useState, useContext, useEffect } from "react";
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Label, Cell } from "recharts";
 import { DataContext, ConfigContext } from "../../App";
 
+const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
 function Chart3() {
 	// Contextos necesarios para las gráficas
@@ -65,7 +66,7 @@ function Chart3() {
 				>
 					<Bar dataKey="Cantidad">
 						{graphData.map((entry, i) => (
-							<Cell key={`cell-${i}`} fill = { entry["Grupo"] > config["umbral_anomalia"] ? "#fe9000" : "#ffba26"}/>
+							<Cell key={`cell-${i}`} fill = { entry["Grupo"] > config["umbral_anomalia"] ? naranjaAnomalia : grisNormal }/>
 						))}
 					</Bar>
 					<XAxis dataKey = "Grupo" interval = {NUM_BARRAS - 1}><Label value = "Puntaje de anomalía" position={"insideBottom"}></Label></XAxis>

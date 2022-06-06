@@ -2,6 +2,8 @@ import { React, useState, useContext, useEffect } from "react";
 import { DataContext, ConfigContext } from "../../App";
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend, Label } from "recharts";
 
+const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
+
 function Chart1() {
 	// Contextos necesarios para la gráfica
 	const { config } = useContext(ConfigContext);
@@ -25,8 +27,6 @@ function Chart1() {
 		setAnomalyPct(Math.round(anomalias / (normales + anomalias) * 100));
 	}, [anomalyData, config]);
 
-	const COLORS = ['#ffba26', '#fe9000'];
-
 	return (
 		<div className="chart c2">
 			<div className="chart_title">
@@ -47,10 +47,10 @@ function Chart1() {
 						endAngle={450}
 						wrapperStyle={{ position: 'relative' }}
 					>
-						<Label value={`${anomalyPct}%`} position="center" style={{ fontSize: "2rem", fontWeight: "bold", fill: "#fe9000" }} ></Label>
+						<Label value={`${anomalyPct}%`} position="center" style={{ fontSize: "2rem", fontWeight: "bold", fill: naranjaAnomalia}} ></Label>
 						<Tooltip />
 						{graphData.map((entry, index) => (
-							<Cell key={`cell-${index}`} fill={COLORS[index]} />
+							<Cell key={`cell-${index}`} fill =  {index ? naranjaAnomalia : grisNormal } />
 						))}
 					</Pie>
 					<Tooltip />

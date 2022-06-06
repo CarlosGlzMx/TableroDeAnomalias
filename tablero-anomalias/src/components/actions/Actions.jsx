@@ -159,11 +159,11 @@ function Actions() {
 					{ error === undefined ? "¿Seguro que quieres eliminar este elemento?" : error }
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={ handleClose }>
+					<Button className = "secondary-button" onClick={ handleClose }>
 						Cancelar
 					</Button>
 					{ error === undefined ?
-						<Button style={ { backgroundColor: "#485458", border: "none" } } onClick={ handleClickDelete }>Eliminar</Button>
+						<Button className = "primary-button" onClick={ handleClickDelete }>Eliminar</Button>
 						:
 						<></>
 					}

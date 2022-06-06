@@ -51,10 +51,9 @@ function Upload() {
 	}, [type, isValid, file, listaCargas, listaTableros, ids, error]);
 
 	return (
-		<div className="Upload" style={ { display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" } }>
-			<div className="p-4" style={ {
-				width: "40%", height: "66vh", margin: "8vh", border: "0.3rem dashed #6C757D",
-				borderRadius: "0.5rem", backgroundColor: "#EEEEEE"
+		<div className="full-center Upload" style={ { backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" } }>
+			<div className="card-gray p-4" style={ {
+				width: "40%", height: "66vh", margin: "8vh", borderRadius: "0.5rem"
 			} }>
 				<Form validated={ isValid } >
 					<Form.Group controlId="formFile" className="mb-3">
@@ -76,22 +75,19 @@ function Upload() {
 				<Link
 					to="/selectColumn"
 					state={ { file, type } }>
-					<Button
-						style={ { backgroundColor: "#485458", border: "none" } }
+					<Button className = "primary-button"
 						size="sm"
-						disabled={ isValid === undefined ? true : !isValid } >
+						disabled = { isValid === undefined ? true : !isValid } >
 						Seleccionar Columnas
 					</Button>
 				</Link>
 			</div>
 			<AvailableDataContext.Provider value={ { setCargas, listaTableros, setTableros, setError } }>
-				<div style={ {
+				<div className = "card-light" style={ {
 					width: "40%",
 					height: "66vh",
 					margin: "8vh",
-					border: "0.3rem dashed #485458",
-					borderRadius: "0.5rem",
-					backgroundColor: "white"
+					borderRadius: "0.5rem"
 				} }>
 					<div className="w-100 h-50 p-4">
 						<div className="h4">Cargas disponibles</div>

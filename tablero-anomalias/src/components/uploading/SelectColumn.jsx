@@ -160,12 +160,7 @@ function SelectColumn() {
 						}
 					</div>
 					<div className="mb-4 d-flex justify-content-center">
-						<Button
-							style={ {
-								backgroundColor: "#485458",
-								border: "none"
-							} }
-							className="mx-auto"
+						<Button className="primary-button mx-auto"
 							type={ 'submit' }
 							size="lg">
 							Seleccionar Columnas
@@ -187,7 +182,7 @@ function SelectColumn() {
 					{ errorMessage }. Volver a la pantalla de upload para intentarlo de nuevo.
 				</Modal.Body>
 				<Modal.Footer>
-					<Button style={ { backgroundColor: "#485458", border: "none" } } onClick={ handleClose }>Volver a Upload</Button>
+					<Button className = "primary-button" onClick={ handleClose }>Volver a Upload</Button>
 				</Modal.Footer>
 			</Modal>
 		</div>

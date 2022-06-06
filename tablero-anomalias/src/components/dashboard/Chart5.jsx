@@ -1,4 +1,4 @@
-import { React, useContext, useEffect, ReactDOM, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import {
     Tooltip,
     BarChart,
@@ -10,36 +10,31 @@ import {
     ResponsiveContainer,
   } from "recharts";
 import { DataContext, ConfigContext } from "../../App";
-import "../../App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
+const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
 function Chart5() {
 
     const data3 = [
         {
           name: 'Planta A',
+          Registros: 1500,
           Anomalías: 200,
-          Datos_Regulares: 1500,
-          //amt: 2400,
         },
         {
           name: 'Planta B',
+          Registros: 1398,
           Anomalías: 324,
-          Datos_Regulares: 1398,
-          //amt: 2210,
         },
         {
           name: 'Planta C',
+          Registros: 856,
           Anomalías: 106,
-          Datos_Regulares: 856,
-          //amt: 2290,
         },
         {
           name: 'Planta D',
+          Registros: 1001,
           Anomalías: 230,
-          Datos_Regulares: 1001,
-          //amt: 2000,
         }
       ];
 
@@ -55,13 +50,13 @@ function Chart5() {
         var variableName = [];
         var columnStructure;
         for (const column_name of Object.keys(anomalyData)) {
-          if(column_name != "FECHA" && column_name != "scores" && column_name != "id"){
+          if(column_name !== "FECHA" && column_name !== "scores" && column_name !== "id"){
             columnStructure = column_name;
             variableName.push(columnStructure);
           }
         }
         setDropDownData(variableName);
-      }, [dropDownData]);
+      }, [dropDownData, anomalyData]);
 
         
       
@@ -104,13 +99,13 @@ function Chart5() {
           bottom: 45,
         }}
       >
-                <CartesianGrid strokeDasharray="6 6" />
+                <CartesianGrid />
                 <XAxis type="number" hide />
                 <YAxis type="category" width={150} padding={{ left: 20 }} dataKey="name" />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="Anomalías" fill="#485458" stackId="stack" />
-                <Bar dataKey="Datos_Regulares" fill="#ffba26" stackId="stack" />
+                <Bar dataKey="Anomalías" fill = {naranjaAnomalia} stackId="stack" />
+                <Bar dataKey="Registros" fill = {grisNormal} stackId="stack" />
             </BarChart>
         </ResponsiveContainer>
         </div>

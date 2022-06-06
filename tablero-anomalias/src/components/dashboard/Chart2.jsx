@@ -4,13 +4,14 @@ import {
   XAxis,
   YAxis,
   Legend,
-  CartesianGrid,
   ResponsiveContainer,
   LineChart,
   Line,
   Label,
 } from "recharts";
 import { DataContext, ConfigContext } from "../../App";
+
+const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
 function Chart2() {
   // Contextos necesarios para la gráfica
@@ -52,23 +53,22 @@ function Chart2() {
       <div className="chart_title">Anomalías por fecha</div>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart width={500} height={300} data={graphData}>
-          <CartesianGrid />
           <XAxis dataKey="Fecha" interval={graphData.length - 2}>
             <Label value="Fecha" position={"insideBottom"}></Label>
           </XAxis>
           <YAxis tickCount={2}><Label value="Cantidad" angle={-90}></Label></YAxis>
           <Tooltip />
           <Line
-            type="monotone"
-            dataKey="Anomalías"
-            stroke="#485458"
-            dot={false}
+            type = "monotone"
+            dataKey = "Registros"
+            stroke = {grisNormal}
+            dot = {false}
           />
           <Line
-            type="monotone"
-            dataKey="Registros"
-            stroke="#ffba26"
-            dot={false}
+            type = "monotone"
+            dataKey = "Anomalías"
+            stroke = {naranjaAnomalia}
+            dot = {false}
           />
           <Legend />
         </LineChart>

@@ -85,21 +85,13 @@ function BoardRow(props) {
 				<div>
 					<Button
 						size="sm"
-						style={ {
-							color: 'black',
-							borderColor: 'transparent',
-							backgroundColor: 'transparent'
-						} }
+						className = "icon-dark"
 						onClick={ handleClickAccess }>
 						<VisibilityIcon fontSize="small" />
 					</Button>
 					<Button
 						size="sm"
-						style={ {
-							color: 'black',
-							borderColor: 'transparent',
-							backgroundColor: 'transparent'
-						} }
+						className = "icon-dark"
 						onClick={ handleShow }>
 						<DeleteIcon fontSize="small" />
 					</Button>
@@ -121,7 +113,7 @@ function BoardRow(props) {
 					<Button variant="secondary" onClick={ handleClose }>
 						Cancelar
 					</Button>
-					<Button style={ { backgroundColor: "#485458", border: "none" } } onClick={ handleClickDelete }>Eliminar</Button>
+					<Button className = 'primary-button' onClick={ handleClickDelete }>Eliminar</Button>
 				</Modal.Footer>
 			</Modal>
 		</>

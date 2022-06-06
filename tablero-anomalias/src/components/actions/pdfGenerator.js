@@ -8,7 +8,7 @@ export function printPdf() {
 
     // Agrega el encabezado ajustado a un pdf tamaño carta
     const [header_w, header_h] = [612, 33]
-    const header = document.querySelector(".header");
+    const header = document.querySelector("#header");
     html2canvas(header).then((canvas) => {
         const imagen = canvas.toDataURL("image/jpeg");
         pdf.addImage(imagen, "JPEG", 0, 0, header_w, header_h);

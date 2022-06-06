@@ -4,18 +4,20 @@
     margin: 0;
 }
 
-/* */
-
-
 html {
     font-size: 102.5%;
-    background-color: rgb(221, 221, 221);
-
 }
+
 
 
 h4 {
     margin: 20px !important;
+}
+
+.full-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
@@ -70,7 +72,6 @@ h4 {
 .c4,
 .c5,
 .c6 {
-    background-color: rgb(255, 254, 254);
     border-radius: 15px;
 }
 
@@ -110,18 +111,7 @@ h4 {
 }
 
 .dropdown-toggle {
-    background-color: #485458 !important;
-    border-color: #485458 !important;
     font-weight: bolder !important;
-
-}
-
-.btn-check:active+.btn-success:focus,
-.btn-check:checked+.btn-success:focus,
-.btn-success.active:focus,
-.btn-success:active:focus,
-.show>.btn-success.dropdown-toggle:focus {
-    box-shadow: 0 0 0 .25rem #485458 !important;
 }
 
 .horizontalFilters {
@@ -133,30 +123,14 @@ h4 {
 
 }
 
-.action-bar {
-    width: 100%;
-    background-color: #FF8400;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-}
-
-.action {
-    display: flex;
-    width: 100%;
-}
-
 .action-left h3 {
-    font-size: 18px;
     text-align: center;
     font-weight: bold;
-    color: white;
 }
 
 .action-left h4 {
-    font-size: 20px;
+    font-size: 1rem;
     text-align: center;
-    color: white;
     font-weight: bolder;
 }
 
@@ -170,8 +144,10 @@ h4 {
     display: inline-flex;
     width: 45%;
     font-weight: bold;
-    color: white;
+}
 
+.row-separator {
+    margin-right: 5vw;
 }
 
 label {
@@ -187,13 +163,9 @@ label {
 }
 
 .list-group-item-primary {
-    color: #fe9000 !important;
-    background-color: #ffffff !important;
     font-weight: bolder;
-    border: 2px solid #ffffff !important;
+    border: 2px solid #ffffff;
     cursor: pointer;
-    font-size: 22px;
-    
 }
 
 .list-group {
@@ -201,17 +173,13 @@ label {
     overflow: auto;
 }
 
-
-.list-group-item-primary:hover {
-    color: #ffffff !important;
-    background-color: #fe9000 !important;
-
+.action-bar {
+    font-size: 1rem;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
 }
-
-#customRange1 {
-    accent-color: #fe9000;
-}
-
 
 .chart_title{
     width: '100%'; 

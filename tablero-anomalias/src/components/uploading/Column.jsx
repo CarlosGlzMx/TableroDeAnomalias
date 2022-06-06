@@ -10,8 +10,7 @@ const Column = (props) => {
 
 	return (
 		<div
-			className="p-3 d-flex justify-content-between ms-5"
-			style={ { marginRight: '5vw', borderTop: "solid grey 1px"} } >
+			className="row-separator p-3 d-flex justify-content-between ms-5">
 			<div style={ { width: '30vw', display: "flex", alignItems: "center" } } >
 				<h6>{ props.index }  { props.name }</h6>
 			</div>
