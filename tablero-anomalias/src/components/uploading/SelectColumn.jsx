@@ -105,7 +105,7 @@ function SelectColumn() {
 
 		if (response[1] === 200) {
 			setIds({ ...ids, carga: solvedPromise.idNuevo });
-			window.localStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
+			window.localStorage.setItem("anomalyData", JSON.stringify(solvedPromise.datos));
 			setSaveData(true);
 		} else {
 			handleShow();
@@ -182,7 +182,7 @@ function SelectColumn() {
 					{ errorMessage }. Volver a la pantalla de upload para intentarlo de nuevo.
 				</Modal.Body>
 				<Modal.Footer>
-					<Button className = "primary-button" onClick={ handleClose }>Volver a Upload</Button>
+					<Button className="primary-button" onClick={ handleClose }>Volver a Upload</Button>
 				</Modal.Footer>
 			</Modal>
 		</div>
