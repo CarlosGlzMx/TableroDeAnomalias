@@ -38,11 +38,11 @@ const defaultConfig = {
     max_score: 0.5,
 };
 
-// -- Pendientes --
+// -- Pendientes Leyva --
 // Manejo correcto de ids
 // Manejo correcto de config
 // Post y carga de tableros
-// -- Pendientes --
+// -- Pendientes Leyva --
 
 function App() {
     // Tres variables que deben de ser accesibles desde toda la aplicación
