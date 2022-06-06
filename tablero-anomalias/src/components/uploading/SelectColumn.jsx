@@ -6,7 +6,7 @@ import Loading from "./Loading";
 import { Form, Button, Modal } from 'react-bootstrap';
 import { postCarga } from "../../api/requests";
 import * as XLSX from "xlsx";
-import { DataContext, IdsContext } from "../../App";
+import { IdsContext } from "../../App";
 
 
 function SelectColumn() {
@@ -35,8 +35,7 @@ function SelectColumn() {
 		navegador("/upload", { replace: true });
 	}
 
-	//State to store processed data. Update when API sends response
-	const { anomalyData, setAnomalyData } = useContext(DataContext);
+	const [saveData, setSaveData] = useState(false);
 
 	const navegador = useNavigate();
 
@@ -79,10 +78,10 @@ function SelectColumn() {
 			}
 		}
 
-		if (anomalyData !== undefined && (ids.carga !== undefined || ids.tablero !== undefined)) {
+		if (saveData && (ids.carga !== undefined || ids.tablero !== undefined)) {
 			navegador("/dashboard", { replace: true });
 		}
-	}, [fileData, fileType, ids, anomalyData, navegador]);
+	}, [fileData, fileType, ids, saveData, navegador]);
 
 
 	async function submitHandler(event) {
@@ -106,7 +105,8 @@ function SelectColumn() {
 
 		if (response[1] === 200) {
 			setIds({ ...ids, carga: solvedPromise.idNuevo });
-			setAnomalyData(solvedPromise.datos);
+			window.localStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
+			setSaveData(true);
 		} else {
 			handleShow();
 			setErrorMessage(solvedPromise);
@@ -131,9 +131,9 @@ function SelectColumn() {
 	return (
 		<div className="SelectColumn" style={ { minHeight: "82vh" } }>
 			<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
-				<h2>{ (loading || anomalyData) ? "Aplicando Inteligencia Artificial" : "Define los actores para entrenar el modelo" }</h2>
+				<h2>{ (loading || saveData) ? "Aplicando Inteligencia Artificial" : "Define los actores para entrenar el modelo" }</h2>
 			</div>
-			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ?
+			{ (tableRows.length !== 0 && !loading && !saveData) ?
 				<Form
 					ref={ refForm }
 					onSubmit={ submitHandler }

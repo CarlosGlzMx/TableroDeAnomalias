@@ -75,15 +75,15 @@ function Upload() {
 				<Link
 					to="/selectColumn"
 					state={ { file, type } }>
-					<Button className = "primary-button"
+					<Button className="primary-button"
 						size="sm"
-						disabled = { isValid === undefined ? true : !isValid } >
+						disabled={ isValid === undefined ? true : !isValid } >
 						Seleccionar Columnas
 					</Button>
 				</Link>
 			</div>
 			<AvailableDataContext.Provider value={ { setCargas, listaTableros, setTableros, setError } }>
-				<div className = "card-light" style={ {
+				<div className="card-light" style={ {
 					width: "40%",
 					height: "66vh",
 					margin: "8vh",

@@ -3,13 +3,14 @@ import {
 	Tooltip,
 	BarChart,
 	XAxis,
-	YAxis, 
+	YAxis,
 	Legend,
 	CartesianGrid,
 	Bar,
 	ResponsiveContainer,
 } from "recharts";
-import { DataContext, ConfigContext } from "../../App";
+import { ConfigContext } from "../../App";
+import { DataContext } from "./Dashboard";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
@@ -43,13 +44,13 @@ function Chart4() {
 
 	// Se genera el array para llenar el dropdown de los filtros
 	const [dropDownData, setDropDownData] = useState([]);
-	
-	
+
+
 	useEffect(() => {
 		var variableName = [];
 		var columnStructure;
 		for (const column_name of Object.keys(anomalyData)) {
-			if(column_name !== "fecha" && column_name !== "scores" && column_name !== "id"){
+			if (column_name !== "fecha" && column_name !== "scores" && column_name !== "id") {
 				columnStructure = column_name;
 				variableName.push(columnStructure);
 			}
@@ -57,23 +58,23 @@ function Chart4() {
 		setDropDownData(variableName);
 	}, [dropDownData, anomalyData]);
 
-	
+
 
 	return (
 		<div className="chart c4">
 			<div className="chart_title">
 				Anomalías por una variable
 			</div>
-			<select className="form-select" aria-label="Default select example" 
-			onChange={(e) => 
-			setConfig({...config,seleccion_g4: e.target.value})}>
+			<select className="form-select" aria-label="Default select example"
+				onChange={ (e) =>
+					setConfig({ ...config, seleccion_g4: e.target.value }) }>
 				{
-					dropDownData.map(variable => 
-						<option value={variable}>{ variable }</option>
+					dropDownData.map(variable =>
+						<option key={ variable } value={ variable }>{ variable }</option>
 					)
 				}
 			</select>
- 
+
 			<ResponsiveContainer>
 				<BarChart
 					width={ 1600 }
@@ -92,16 +93,16 @@ function Chart4() {
 					<YAxis type="category" width={ 150 } padding={ { left: 20 } } dataKey="name" />
 					<Tooltip />
 					<Legend />
-					<Bar dataKey="Anomalías" fill = {naranjaAnomalia} stackId="stack" />
-					<Bar dataKey="Registros" fill = {grisNormal} stackId="stack" />
+					<Bar dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" />
+					<Bar dataKey="Registros" fill={ grisNormal } stackId="stack" />
 				</BarChart>
 			</ResponsiveContainer>
 		</div>
-	
-	);
-	
 
-	
+	);
+
+
+
 }
 
 export default Chart4;

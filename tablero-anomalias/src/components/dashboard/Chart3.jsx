@@ -1,6 +1,7 @@
 import { React, useState, useContext, useEffect } from "react";
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Label, Cell } from "recharts";
-import { DataContext, ConfigContext } from "../../App";
+import { ConfigContext } from "../../App";
+import { DataContext } from "./Dashboard";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
@@ -10,9 +11,9 @@ function Chart3() {
 	const { anomalyData } = useContext(DataContext);
 
 	// Datos que alimentan la gráfica de pastel
-	const [ graphData, setGraphData ] = useState([{}]);
-	const [ NUM_BARRAS, INICIO, FIN ] = [20, config["min_score"], config["max_score"]]
-	 
+	const [graphData, setGraphData] = useState([{}]);
+	const [NUM_BARRAS, INICIO, FIN] = [20, config["min_score"], config["max_score"]]
+
 	// Observa cualquier cambio en la configuración
 	useEffect(() => {
 		// Constantes de parametrización
@@ -36,9 +37,9 @@ function Chart3() {
 		// Pasa los datos al formato que espera Recharts
 		const processesData = [];
 		for (const [scoreGroup, count] of Object.entries(bars)) {
-			processesData.push({"Grupo": Math.round(parseFloat(scoreGroup) * 1000) / 1000, "Cantidad": count});
+			processesData.push({ "Grupo": Math.round(parseFloat(scoreGroup) * 1000) / 1000, "Cantidad": count });
 		}
-		processesData.sort((a,b) => {
+		processesData.sort((a, b) => {
 			if (a["Grupo"] > b["Grupo"]) return 1;
 			else return -1;
 		})
@@ -54,9 +55,9 @@ function Chart3() {
 
 			<ResponsiveContainer width="100%" height="100%">
 				<BarChart
-					width = { 150 }
-					height = { 40 }
-					data = { graphData }
+					width={ 150 }
+					height={ 40 }
+					data={ graphData }
 					margin={ {
 						top: 15,
 						right: 10,
@@ -65,12 +66,12 @@ function Chart3() {
 					} }
 				>
 					<Bar dataKey="Cantidad">
-						{graphData.map((entry, i) => (
-							<Cell key={`cell-${i}`} fill = { entry["Grupo"] > config["umbral_anomalia"] ? naranjaAnomalia : grisNormal }/>
-						))}
+						{ graphData.map((entry, i) => (
+							<Cell key={ `cell-${i}` } fill={ entry["Grupo"] > config["umbral_anomalia"] ? naranjaAnomalia : grisNormal } />
+						)) }
 					</Bar>
-					<XAxis dataKey = "Grupo" interval = {NUM_BARRAS - 1}><Label value = "Puntaje de anomalía" position={"insideBottom"}></Label></XAxis>
-					<YAxis tickCount={2}><Label value = "Observaciones" angle = {-90}></Label></YAxis>
+					<XAxis dataKey="Grupo" interval={ NUM_BARRAS - 1 }><Label value="Puntaje de anomalía" position={ "insideBottom" }></Label></XAxis>
+					<YAxis tickCount={ 2 }><Label value="Observaciones" angle={ -90 }></Label></YAxis>
 					<Tooltip />
 				</BarChart >
 			</ResponsiveContainer >

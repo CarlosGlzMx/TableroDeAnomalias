@@ -4,14 +4,15 @@ import { Button, Modal } from 'react-bootstrap';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteCarga, deleteTablero, getCarga } from '../../api/requests';
-import { IdsContext, DataContext } from "../../App";
+import { IdsContext } from "../../App";
 import { AvailableDataContext } from './Upload';
 
 function BoardRow(props) {
 
 	const { ids, setIds } = useContext(IdsContext);
 	const { setCargas, setTableros, setError } = useContext(AvailableDataContext);
-	const { anomalyData, setAnomalyData } = useContext(DataContext);
+
+	const [saveData, setSaveData] = useState(false);
 
 	const [show, setShow] = useState(false);
 
@@ -21,10 +22,10 @@ function BoardRow(props) {
 	const navegador = useNavigate();
 
 	useEffect(() => {
-		if (anomalyData !== undefined && (ids.carga !== undefined || ids.tablero !== undefined)) {
+		if (saveData && (ids.carga !== undefined || ids.tablero !== undefined)) {
 			navegador("/dashboard", { replace: true });
 		}
-	}, [anomalyData, ids, navegador]);
+	}, [ids, navegador, saveData]);
 
 	async function errorHandler(response, requestType) {
 		const solvedPromise = await response[0];
@@ -33,7 +34,8 @@ function BoardRow(props) {
 				setCargas(undefined);
 				setTableros(undefined);
 			} else if (requestType === "get") {
-				setAnomalyData(solvedPromise);
+				window.localStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
+				setSaveData(true);
 			}
 		} else {
 			setError(true);

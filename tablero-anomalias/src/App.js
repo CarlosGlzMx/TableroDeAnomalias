@@ -13,6 +13,7 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/colors.css";
 import "./styles/App.css";
+import { AddAlarmSharp } from "@mui/icons-material";
 
 // Creación de contextos desde el componente mayor de la aplicación para acceso compartido
 export const IdsContext = createContext([[], () => {}]);
@@ -37,32 +38,33 @@ const defaultConfig = {
     max_score: 0.5,
 };
 
+// -- Pendientes --
+// Manejo correcto de ids
+// Manejo correcto de config
+// Post y carga de tableros
+// -- Pendientes --
+
 function App() {
     // Tres variables que deben de ser accesibles desde toda la aplicación
     // Variable que contiene ids de usuario, de cargas
     const [ids, setIds] = useState(defaultIds);
     // Variable que contiene los filtros seleccionados para las gráficas
     const [config, setConfig] = useState(defaultConfig);
-    // Variable que contiene los datos JSON para la generación de gráficas
-    const [anomalyData, setAnomalyData] = useState(undefined);
 
     return (
         <Router>
             <Header />
             <IdsContext.Provider value={{ ids, setIds }}>
                 <ConfigContext.Provider value={{ config, setConfig }}>
-                    <DataContext.Provider
-                        value={{ anomalyData, setAnomalyData }}>
-                        <Routes>
-                            <Route path="/" element={<Login />} />
-                            <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/upload" element={<Upload />} />
-                            <Route
-                                path="/selectColumn"
-                                element={<SelectColumn />}
-                            />
-                        </Routes>
-                    </DataContext.Provider>
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/upload" element={<Upload />} />
+                        <Route
+                            path="/selectColumn"
+                            element={<SelectColumn />}
+                        />
+                    </Routes>
                 </ConfigContext.Provider>
             </IdsContext.Provider>
             <Footer />

@@ -1,5 +1,6 @@
 import { React, useState, useContext, useEffect } from "react";
-import { DataContext, ConfigContext } from "../../App";
+import { ConfigContext } from "../../App";
+import { DataContext } from "./Dashboard";
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend, Label } from "recharts";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
@@ -35,23 +36,23 @@ function Chart1() {
 			<ResponsiveContainer width="100%" height="100%">
 				<PieChart>
 					<Pie
-						data = {graphData}
-						innerRadius = {90}
-						outerRadius = {130}
-						labelLine = {false}
-						fill = "#fe9000"
-						paddingAngle={5}
+						data={ graphData }
+						innerRadius={ 90 }
+						outerRadius={ 130 }
+						labelLine={ false }
+						fill="#fe9000"
+						paddingAngle={ 5 }
 						dataKey="value"
 						nameKey="name"
-						startAngle={90}
-						endAngle={450}
-						wrapperStyle={{ position: 'relative' }}
+						startAngle={ 90 }
+						endAngle={ 450 }
+						wrapperStyle={ { position: 'relative' } }
 					>
-						<Label value={`${anomalyPct}%`} position="center" style={{ fontSize: "2rem", fontWeight: "bold", fill: naranjaAnomalia}} ></Label>
+						<Label value={ `${anomalyPct}%` } position="center" style={ { fontSize: "2rem", fontWeight: "bold", fill: naranjaAnomalia } } ></Label>
 						<Tooltip />
-						{graphData.map((entry, index) => (
-							<Cell key={`cell-${index}`} fill =  {index ? naranjaAnomalia : grisNormal } />
-						))}
+						{ graphData.map((entry, index) => (
+							<Cell key={ `cell-${index}` } fill={ index ? naranjaAnomalia : grisNormal } />
+						)) }
 					</Pie>
 					<Tooltip />
 					<Legend />
