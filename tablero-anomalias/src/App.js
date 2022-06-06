@@ -22,10 +22,10 @@ export const ConfigContext = createContext([[], () => {}]);
 // Usuario temporal para el desarrollo eliminar al final
 const defaultIds = { usuario: undefined, carga: undefined, tablero: undefined };
 const defaultConfig = {
-    fecha_min: "2020-10-10",
-    fecha_max: "2020-10-30",
-    fecha_inicio: "2020-10-15",
-    fecha_fin: "2020-10-25",
+    fecha_min: "2021-05-10",
+    fecha_max: "2021-11-30",
+    fecha_inicio: "2021-05-15",
+    fecha_fin: "2021-11-01",
     seleccion_g4: undefined,
     seleccion_g5_1: undefined,
     selecciong5_2: undefined,

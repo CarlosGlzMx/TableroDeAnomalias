@@ -8,12 +8,14 @@ function ListedAnomaly(props) {
 	const [viewModal, setViewModal] = useState(false);
 
 	const detailsArray = Object.keys(props.anomaly).map((value, index) => {
-		return <li key={ value }><b>{ value }</b> : { props.anomaly[value] }</li>
+		if (value !== "fecha") {
+			return <li key={ value }><b>{ value }</b> : { props.anomaly[value] }</li>
+		}
 	})
 
 	return (
 		<div className="ListedAnomaly m-0 p-2 row-separator d-flex justify-content-between">
-			<div>Anomalía { props.index } - { props.anomaly["Fecha principal"] }</div>
+			<div>Anomalía { props.index + 1} - { props.anomaly["Fecha"] }</div>
 				{
 					props.anomaly["Puntaje de anomalía"] < 0.05 ?
 					<span style = {{ fontWeight: "bold",  color: lowColor}}>Anomalía baja</span> :

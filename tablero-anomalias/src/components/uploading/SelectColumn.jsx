@@ -6,7 +6,6 @@ import Loading from "./Loading";
 import { Form, Button, Modal } from 'react-bootstrap';
 import { postCarga } from "../../api/requests";
 import * as XLSX from "xlsx";
-import dateParser from "../dateParser";
 import { IdsContext } from "../../App";
 
 
@@ -106,7 +105,7 @@ function SelectColumn() {
 
 		if (response[1] === 200) {
 			setIds({ ...ids, carga: parseInt(solvedPromise.idNuevo) });
-			localStorage.setItem("anomalyData", JSON.stringify(dateParser(solvedPromise.datos)));
+			localStorage.setItem("anomalyData", JSON.stringify(solvedPromise.datos));
 			localStorage.setItem("ids", JSON.stringify({ ...ids, carga: parseInt(solvedPromise.idNuevo) }));
 			setSaveData(true);
 		} else {

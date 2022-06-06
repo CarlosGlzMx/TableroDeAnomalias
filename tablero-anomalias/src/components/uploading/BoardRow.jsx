@@ -6,7 +6,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteCarga, deleteTablero, getCarga } from '../../api/requests';
 import { IdsContext } from "../../App";
 import { AvailableDataContext } from './Upload';
-import dateParser from '../dateParser';
 
 function BoardRow(props) {
 
@@ -68,7 +67,7 @@ function BoardRow(props) {
 				setCargas(undefined);
 				setTableros(undefined);
 			} else if (requestType === "get") {
-				localStorage.setItem("anomalyData", JSON.stringify(dateParser(solvedPromise)));
+				localStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
 				localStorage.setItem("ids", JSON.stringify(props.type === "carga" ? { ...ids, carga: props.id } : { ...ids, tablero: props.id }));
 				setIds(undefined);
 				setSaveData(true);

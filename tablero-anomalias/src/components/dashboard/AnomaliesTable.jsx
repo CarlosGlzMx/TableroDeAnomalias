@@ -2,6 +2,7 @@ import { React, useEffect, useState, useContext } from "react";
 import ListedAnomaly from "./ListedAnomaly";
 import { ConfigContext } from "../../App";
 import { DataContext } from "./Dashboard";
+import { dateInRange } from "./auxMethods";
 
 function AnomaliesTable() {
   // Contextos necesarios para las tabla de anomalías dinámica
@@ -16,12 +17,14 @@ function AnomaliesTable() {
     let temporalAnomalyList = [];
 
     for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
-			if (anomalyData["scores"][i] > config["umbral_anomalia"]) {
-        let anomalyToList = {};
-        for (const detail of detailHeaders) {
-          anomalyToList[detail === "scores" ? "Puntaje de anomalía" : detail === "fecha" ? "Fecha principal" : detail] = anomalyData[detail][i];  
+			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
+        if (anomalyData["scores"][i] > config["umbral_anomalia"]) {
+          let anomalyToList = {};
+          for (const detail of detailHeaders) {
+            anomalyToList[detail === "scores" ? "Puntaje de anomalía" : detail] = anomalyData[detail][i];  
+          }
+          temporalAnomalyList.push(anomalyToList);
         }
-        temporalAnomalyList.push(anomalyToList);
       }
 		}
     setAnomalyList(temporalAnomalyList);

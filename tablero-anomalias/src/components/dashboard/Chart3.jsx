@@ -2,6 +2,7 @@ import { React, useState, useContext, useEffect } from "react";
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Label, Cell } from "recharts";
 import { ConfigContext } from "../../App";
 import { DataContext } from "./Dashboard";
+import { dateInRange } from "./auxMethods";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
@@ -26,10 +27,12 @@ function Chart3() {
 		}
 
 		// Llena las barras con cada score asignado
-		for (const [, value] of Object.entries(anomalyData.scores)) {
-			for (const bar_limit of Object.keys(bars)) {
-				if (value >= parseFloat(bar_limit) && value < parseFloat(bar_limit) + INTERVAL) {
-					bars[bar_limit] += 1;
+		for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
+			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
+				for (const bar_limit of Object.keys(bars)) {
+					if (anomalyData["scores"][i] >= parseFloat(bar_limit) && anomalyData["scores"][i] < parseFloat(bar_limit) + INTERVAL) {
+						bars[bar_limit] += 1;
+					}
 				}
 			}
 		}

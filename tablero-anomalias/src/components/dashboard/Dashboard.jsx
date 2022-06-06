@@ -8,6 +8,7 @@ import Chart6 from "./Chart6";
 import Actions from "../actions/Actions";
 import AnomaliesTable from "./AnomaliesTable";
 import Loading from "../uploading/Loading";
+import { dateParser } from "./auxMethods"; 
 
 export const DataContext = createContext([[], () => { }]);
 
@@ -15,11 +16,9 @@ function Dashboard() {
 
 	// Variable que contiene los datos JSON para la generación de gráficas
 	const [anomalyData, setAnomalyData] = useState(undefined);
-
 	useEffect(() => {
-		console.log(anomalyData)
 		if (anomalyData === undefined) {
-			setAnomalyData(JSON.parse(localStorage.getItem("anomalyData")));
+			setAnomalyData(dateParser(JSON.parse(localStorage.getItem("anomalyData"))));
 		}
 	}, [anomalyData, setAnomalyData]);
 
