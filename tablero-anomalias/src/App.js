@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import {
     Header,
@@ -13,16 +13,14 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/colors.css";
 import "./styles/App.css";
-import { AddAlarmSharp } from "@mui/icons-material";
 
 // Creación de contextos desde el componente mayor de la aplicación para acceso compartido
 export const IdsContext = createContext([[], () => {}]);
 export const ConfigContext = createContext([[], () => {}]);
-export const DataContext = createContext([[], () => {}]);
 
 // Variables por defecto para los contextos
 // Usuario temporal para el desarrollo eliminar al final
-const defaultIds = { usuario: "Charlie", carga: undefined, tablero: undefined };
+const defaultIds = { usuario: undefined, carga: undefined, tablero: undefined };
 const defaultConfig = {
     fecha_min: "2020-10-10",
     fecha_max: "2020-10-30",
@@ -40,16 +38,25 @@ const defaultConfig = {
 
 // -- Pendientes Leyva --
 // Manejo correcto de ids
-// Manejo correcto de config
-// Post y carga de tableros
+// Eliminar localstorage fuera de la sesion y manejo de errores
+// Post y carga de tableros, Manejo correcto de config
 // -- Pendientes Leyva --
 
 function App() {
-    // Tres variables que deben de ser accesibles desde toda la aplicación
+    // Dos variables que deben de ser accesibles desde toda la aplicación
     // Variable que contiene ids de usuario, de cargas
-    const [ids, setIds] = useState(defaultIds);
+    const [ids, setIds] = useState(undefined);
     // Variable que contiene los filtros seleccionados para las gráficas
     const [config, setConfig] = useState(defaultConfig);
+
+    useEffect(() => {
+        if (localStorage.getItem("ids") && ids === undefined) {
+            setIds(JSON.parse(localStorage.getItem("ids")));
+        }
+    }, [ids, setIds]);
+
+    // Descomentar al terminar manejo de ids
+    console.log(ids);
 
     return (
         <Router>

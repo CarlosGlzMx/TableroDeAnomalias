@@ -28,7 +28,7 @@ function Upload() {
 	useEffect(() => {
 
 		async function handleRequest() {
-			const datosDisponibles = await getDatosDisponibles(ids["usuario"]);
+			const datosDisponibles = await getDatosDisponibles(ids.usuario);
 			const solvedPromise = await datosDisponibles[0]
 			if (datosDisponibles[1] === 200) {
 				setCargas(solvedPromise.cargas);
@@ -40,7 +40,9 @@ function Upload() {
 			}
 		}
 
-		if (listaCargas === undefined || listaTableros === undefined) handleRequest();
+		if ((listaCargas === undefined || listaTableros === undefined) && ids !== undefined) {
+			handleRequest();
+		}
 
 		if (type !== "") {
 			setIsValid(type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || type === "text/csv");
