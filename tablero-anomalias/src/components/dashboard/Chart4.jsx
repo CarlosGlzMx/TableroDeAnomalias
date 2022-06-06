@@ -45,7 +45,7 @@ function Chart4() {
 	// Se genera el array para llenar el dropdown de los filtros
 	const [dropDownData, setDropDownData] = useState([]);
 
-
+	/*
 	useEffect(() => {
 		var variableName = [];
 		var columnStructure;
@@ -57,6 +57,7 @@ function Chart4() {
 		}
 		setDropDownData(variableName);
 	}, [dropDownData, anomalyData]);
+	*/
 
 
 

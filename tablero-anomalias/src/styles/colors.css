@@ -78,6 +78,11 @@
     filter: brightness(0.8);
 }
 
+.primary-button:focus, .primary-button:active {
+    background-color: var(--naranja-ternium);
+    box-shadow: none;
+}
+
 .secondary-button {
     background-color: var(--gris-ternium);
     border: none;

@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
 import { Modal, Button } from "react-bootstrap";
 
+const [lowColor, midColor, highColor] = ["#006600","#FF9900","#FF3300"]
+
 function ListedAnomaly(props) {
 	// Variable para poder abrir y cerrar los modales
 	const [viewModal, setViewModal] = useState(false);
 
 	const detailsArray = Object.keys(props.anomaly).map((value, index) => {
-		return <li key={ value }>{ value } : { props.anomaly[value] }</li>
+		return <li key={ value }><b>{ value }</b> : { props.anomaly[value] }</li>
 	})
 
 	return (
-		<div className="ListedAnomaly w-100 p-2" onClick={ () => { if (!viewModal) setViewModal(true) } }>
-			<h3>{ props.index } - { props.anomaly.name }</h3>
+		<div className="ListedAnomaly m-0 p-2 row-separator d-flex justify-content-between">
+			<div>Anomalía { props.index } - { props.anomaly["Fecha principal"] }</div>
+				{
+					props.anomaly["Puntaje de anomalía"] < 0.05 ?
+					<span style = {{ fontWeight: "bold",  color: lowColor}}>Anomalía baja</span> :
+					props.anomaly["Puntaje de anomalía"] < 0.15 ?
+					<span style = {{ fontWeight: "bold",  color: midColor}}>Anomalía media</span> :
+					<span style = {{ fontWeight: "bold",  color: highColor}}>Anomalía crítica</span>
+				}
+			<Button className="primary-button" onClick={ () => { if (!viewModal) setViewModal(true) } }>Ver detalle</Button>
 			<Modal show={ viewModal } onHide={ () => setViewModal(false) }>
 				<Modal.Header closeButton>
-					<Modal.Title>Detalles de la anomalía</Modal.Title>
+					<Modal.Title>Detalles de la anomalía {props.index}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<ul>{ detailsArray }</ul>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="secondary" onClick={ () => setViewModal(false) }>
+					<Button className="secondary-button" onClick={ () => setViewModal(false) }>
 						Cerrar
 					</Button>
 				</Modal.Footer>

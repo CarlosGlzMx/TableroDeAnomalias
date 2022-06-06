@@ -1,95 +1,44 @@
-import { React, useState } from "react";
+import { React, useEffect, useState, useContext } from "react";
 import ListedAnomaly from "./ListedAnomaly";
-
+import { ConfigContext } from "../../App";
+import { DataContext } from "./Dashboard";
 
 function AnomaliesTable() {
-    // Variable filtrada que enlista las anomalías
-    const [anomalyList, setAnomalyList] = useState([
-      {
-        id: 1,
-        name: "Anomalia 1",
-        details: "Detalles de Anomalia 1"
-      },
-      {
-        id: 2,
-        name: "Anomalia 2",
-        details: "Detalles de Anomalia 2"
-      },
-      {
+  // Contextos necesarios para las tabla de anomalías dinámica
+  const { config } = useContext(ConfigContext);
+  const { anomalyData } = useContext(DataContext);
 
-        id: 3,
-        name: "Anomalia 3",
-        details: "Detalles de Anomalia 3"
-      },
-      {
+  // Variable filtrada que enlista las anomalías
+  const [anomalyList, setAnomalyList] = useState([]);
 
-        id: 4,
-        name: "Anomalia 4",
-        details: "Detalles de Anomalia 4"
-      },
-      {
+  useEffect(() => {
+    const detailHeaders = Object.keys(anomalyData);
+    let temporalAnomalyList = [];
 
-        id: 5,
-        name: "Anomalia 5",
-        details: "Detalles de Anomalia 5"
-      },
-      {
+    for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
+			if (anomalyData["scores"][i] > config["umbral_anomalia"]) {
+        let anomalyToList = {};
+        for (const detail of detailHeaders) {
+          anomalyToList[detail === "scores" ? "Puntaje de anomalía" : detail === "fecha" ? "Fecha principal" : detail] = anomalyData[detail][i];  
+        }
+        temporalAnomalyList.push(anomalyToList);
+      }
+		}
+    setAnomalyList(temporalAnomalyList);
+  }, [config, anomalyData]);
 
-        id: 6,
-        name: "Anomalia 6",
-        details: "Detalles de Anomalia 6"
-      },
-      {
-
-        id: 7,
-        name: "Anomalia 7",
-        details: "Detalles de Anomalia 7"
-      },
-      {
-
-        id: 8,
-        name: "Anomalia 8",
-        details: "Detalles de Anomalia 8"
-      },
-
-      {
-
-        id: 9,
-        name: "Anomalia 9",
-        details: "Detalles de Anomalia 9"
-      },
-      {
-
-        id: 10,
-        name: "Anomalia 10",
-        details: "Detalles de Anomalia 10"
-      },
-      {
-
-        id: 11,
-        name: "Anomalia 11",
-        details: "Detalles de Anomalia 11"
-      },
-      {
-
-        id: 12,
-        name: "Anomalia 12",
-        details: "Detalles de Anomalia 12"
-      },
-    ])
-
-	return (
+  return (
     <div className="p-0">
       <h4>Tabla de anomalías encontradas</h4>
-      <div className = "card-light anomaliesTable m-3 p-2" style={{border:"0.3rem", borderStyle: "dashed", borderRadius: "0.8rem"}}>
+      <div className="w-75 card-light anomaliesTable my-4 p-4 mx-auto" style={{ border: "0.3rem", borderStyle: "dashed", borderRadius: "0.8rem" }}>
         {
           anomalyList.map((row, index) => {
-            return <ListedAnomaly key={`listed-anomaly-${index}`} anomaly = {row} index = {index}/>
+            return <ListedAnomaly key={`listed-anomaly-${index}`} anomaly={row} index={index} />
           })
         }
-      </div>    
+      </div>
     </div>
-	);
+  );
 }
 
 export default AnomaliesTable;

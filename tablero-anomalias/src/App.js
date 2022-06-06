@@ -13,7 +13,6 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/colors.css";
 import "./styles/App.css";
-import { AddAlarmSharp } from "@mui/icons-material";
 
 // Creación de contextos desde el componente mayor de la aplicación para acceso compartido
 export const IdsContext = createContext([[], () => {}]);
