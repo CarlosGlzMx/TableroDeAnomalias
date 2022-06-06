@@ -104,8 +104,9 @@ function SelectColumn() {
 		const solvedPromise = await response[0];
 
 		if (response[1] === 200) {
-			setIds({ ...ids, carga: solvedPromise.idNuevo });
-			window.localStorage.setItem("anomalyData", JSON.stringify(solvedPromise.datos));
+			setIds({ ...ids, carga: parseInt(solvedPromise.idNuevo) });
+			localStorage.setItem("anomalyData", JSON.stringify(solvedPromise.datos));
+			localStorage.setItem("ids", JSON.stringify({ ...ids, carga: parseInt(solvedPromise.idNuevo) }));
 			setSaveData(true);
 		} else {
 			handleShow();

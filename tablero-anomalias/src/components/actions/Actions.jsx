@@ -13,7 +13,7 @@ import { printPdf } from "./pdfGenerator"
 function Actions() {
 
 	const { ids, setIds } = useContext(IdsContext);
-	const { config, setConfig } = useContext(ConfigContext);
+	// const { config, setConfig } = useContext(ConfigContext);
 
 	// Manejo de errores
 	const [error, setError] = useState(undefined);
@@ -40,7 +40,6 @@ function Actions() {
 		let response = undefined;
 		if (ids.tablero === undefined && ids.carga !== undefined) {
 			response = await deleteCarga(ids.usuario, ids.carga);
-
 		} else if (ids.tablero !== undefined && ids.carga !== undefined) {
 			response = await deleteTablero(ids.usuario, ids.tablero);
 		}
@@ -56,6 +55,8 @@ function Actions() {
 		const solvedPromise = await response[0];
 		if (response[1] === 200) {
 			localStorage.removeItem("anomalyData");
+			localStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
+			setIds(undefined);
 			setDeleted(true);
 		} else {
 			setError(solvedPromise + ". Intente de nuevo o recargue la pagina.");

@@ -12,9 +12,9 @@ import Loading from "../uploading/Loading";
 export const DataContext = createContext([[], () => { }]);
 
 function Dashboard() {
-	// const { ids, setIds } = useContext(IdsContext);
+
 	// Variable que contiene los datos JSON para la generación de gráficas
-	const [anomalyData, setAnomalyData] = useState();
+	const [anomalyData, setAnomalyData] = useState(undefined);
 
 	useEffect(() => {
 		if (anomalyData === undefined) {

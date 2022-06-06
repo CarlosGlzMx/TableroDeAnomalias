@@ -22,32 +22,15 @@ function BoardRow(props) {
 	const navegador = useNavigate();
 
 	useEffect(() => {
-		if (saveData && (ids.carga !== undefined || ids.tablero !== undefined)) {
+		if (saveData) {
 			navegador("/dashboard", { replace: true });
 		}
 	}, [ids, navegador, saveData]);
 
-	async function errorHandler(response, requestType) {
-		const solvedPromise = await response[0];
-		if (response[1] === 200) {
-			if (requestType === "delete") {
-				setCargas(undefined);
-				setTableros(undefined);
-			} else if (requestType === "get") {
-				window.localStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
-				setSaveData(true);
-			}
-		} else {
-			setError(true);
-			setCargas(solvedPromise + ". Cargue la pagina de nuevo.");
-			setTableros(solvedPromise + ". Cargue la pagina de nuevo.");
-		}
-	}
-
 	async function handleClickDelete(e) {
 		e.preventDefault();
-		let response = undefined;
 
+		let response = undefined;
 		if (props.type === "carga") {
 			response = await deleteCarga(ids.usuario, props.id);
 		} else if (props.type === "tablero") {
@@ -73,6 +56,29 @@ function BoardRow(props) {
 		errorHandler(response, "get");
 	}
 
+	async function errorHandler(response, requestType) {
+		const solvedPromise = await response[0];
+		if (response[1] === 200) {
+			if (requestType === "delete") {
+				if (props.id === ids.carga || props.id === ids.tablero) {
+					localStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
+					setIds(undefined);
+				}
+				setCargas(undefined);
+				setTableros(undefined);
+			} else if (requestType === "get") {
+				localStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
+				localStorage.setItem("ids", JSON.stringify(props.type === "carga" ? { ...ids, carga: props.id } : { ...ids, tablero: props.id }));
+				setIds(undefined);
+				setSaveData(true);
+			}
+		} else {
+			setError(true);
+			setCargas(solvedPromise + ". Cargue la pagina de nuevo.");
+			setTableros(solvedPromise + ". Cargue la pagina de nuevo.");
+		}
+	}
+
 	return (
 		<>
 			<li
@@ -87,13 +93,13 @@ function BoardRow(props) {
 				<div>
 					<Button
 						size="sm"
-						className = "icon-dark"
+						className="icon-dark"
 						onClick={ handleClickAccess }>
 						<VisibilityIcon fontSize="small" />
 					</Button>
 					<Button
 						size="sm"
-						className = "icon-dark"
+						className="icon-dark"
 						onClick={ handleShow }>
 						<DeleteIcon fontSize="small" />
 					</Button>
@@ -115,7 +121,7 @@ function BoardRow(props) {
 					<Button variant="secondary" onClick={ handleClose }>
 						Cancelar
 					</Button>
-					<Button className = 'primary-button' onClick={ handleClickDelete }>Eliminar</Button>
+					<Button className='primary-button' onClick={ handleClickDelete }>Eliminar</Button>
 				</Modal.Footer>
 			</Modal>
 		</>
