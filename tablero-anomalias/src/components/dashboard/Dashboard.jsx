@@ -17,15 +17,9 @@ function Dashboard() {
 	const [anomalyData, setAnomalyData] = useState(undefined);
 
 	useEffect(() => {
+		console.log(anomalyData)
 		if (anomalyData === undefined) {
 			setAnomalyData(JSON.parse(localStorage.getItem("anomalyData")));
-			/* RECORTAME
-			 function (datos) => {
-				for (var i = 0; i < Object.keys(datos.fecha).length; i++) {
-					datos.fecha[i] = Date(datos.fecha[i]);
-				}
-			}
-			RECORTAME */
 		}
 	}, [anomalyData, setAnomalyData]);
 
