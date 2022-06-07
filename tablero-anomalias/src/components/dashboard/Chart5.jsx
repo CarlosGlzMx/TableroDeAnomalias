@@ -65,7 +65,7 @@ function Chart5() {
 
 		// Traduce los datos a una lista que pueda procesar el app
 		for (const [key, value] of Object.entries(groupedByVarsValue)) {
-			listedBars.push({"Variables": key, "Normales": value["normales"], "Anomalías": value["anomalias"] });
+			listedBars.push({ "Variables": key, "Normales": value["normales"], "Anomalías": value["anomalias"] });
 		}
 
 		// Ordena y hace slice para limitar la cantidad de barras acumuladas
@@ -86,55 +86,55 @@ function Chart5() {
 				Anomalías por dos variables
 			</div>
 			<div className="horizontalFilters">
-				<select className="form-select" aria-label="Default select example" defaultValue={""}
-					onChange={(e) =>
-						setConfig({ ...config, seleccion_g5_1: e.target.value })}>
+				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
+					onChange={ (e) =>
+						setConfig({ ...config, seleccion_g5_1: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 1</option>
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["seleccion_g5_2"]) {
-								return <option key={variable + "filer5-1"} value={variable}>{variable}</option>
+								return <option key={ variable + "filer5-1" } value={ variable }>{ variable }</option>
 							}
-						}
-						)
+							return null;
+						})
 					}
 				</select>
-				<select className="form-select" aria-label="Default select example" defaultValue={""}
-					onChange={(e) =>
-						setConfig({ ...config, seleccion_g5_2: e.target.value })}>
+				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
+					onChange={ (e) =>
+						setConfig({ ...config, seleccion_g5_2: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 2</option>
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["seleccion_g5_1"]) {
-								return <option key={variable + "filer5-2"} value={variable}>{variable}</option>
+								return <option key={ variable + "filer5-2" } value={ variable }>{ variable }</option>
 							}
-						}
-						)
+							return null;
+						})
 					}
 				</select>
 			</div>
-			<ResponsiveContainer width={"100%"} aspect={1}>
+			<ResponsiveContainer width={ "100%" } aspect={ 1 }>
 				<BarChart
-					data = {graphData}
+					data={ graphData }
 					layout="vertical"
-					barCategoryGap={5}
-					margin={{
+					barCategoryGap={ 5 }
+					margin={ {
 						top: 30,
 						bottom: 60,
-					}}
+					} }
 				>
 					<CartesianGrid />
 					<XAxis type="number" />
-					<YAxis tick={false} type="category" dataKey="Variables">
-						<Label value = {
-							!config["seleccion_g5_1"] || !config["seleccion_g5_2"] ? "":
-							`${config["seleccion_g5_1"]} x ${config["seleccion_g5_2"]}`
-					} angle={ -90 }></Label>
+					<YAxis tick={ false } type="category" dataKey="Variables">
+						<Label value={
+							!config["seleccion_g5_1"] || !config["seleccion_g5_2"] ? "" :
+								`${config["seleccion_g5_1"]} x ${config["seleccion_g5_2"]}`
+						} angle={ -90 }></Label>
 					</YAxis>
 					<Tooltip />
 					<Legend />
-					<Bar dataKey="Anomalías" fill={naranjaAnomalia} stackId="stack" />
-					<Bar dataKey="Normales" fill={grisNormal} stackId="stack" />
+					<Bar dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" />
+					<Bar dataKey="Normales" fill={ grisNormal } stackId="stack" />
 				</BarChart>
 			</ResponsiveContainer>
 		</div>
