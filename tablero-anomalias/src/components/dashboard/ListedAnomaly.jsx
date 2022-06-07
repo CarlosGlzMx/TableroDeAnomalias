@@ -8,7 +8,7 @@ function ListedAnomaly(props) {
 	const [viewModal, setViewModal] = useState(false);
 
 	const detailsArray = Object.keys(props.anomaly).map((value, index) => {
-		if (value !== "fecha") {
+		if (value !== "fecha" && value !== "id") {
 			return <li key={ value }><b>{ value }</b> : { props.anomaly[value] }</li>
 		}
 		return null;
