@@ -7,7 +7,7 @@ import { ConfigContext } from "../dashboard/Dashboard";
 import Slider from "./Slider";
 import Dates from "./Dates";
 
-import { deleteCarga, deleteTablero } from "../../api/requests";
+import { deleteCarga, deleteTablero, postTablero } from "../../api/requests";
 import { printPdf } from "./pdfGenerator"
 
 
@@ -35,6 +35,7 @@ function Actions() {
 		setShow(true);
 	}
 
+	const [nombre, setName] = useState("");
 	const [deleted, setDeleted] = useState(false);
 
 	const navegador = useNavigate();
@@ -52,6 +53,7 @@ function Actions() {
 		if (ids.tablero === undefined && ids.carga !== undefined) {
 			response = await deleteCarga(ids.usuario, ids.carga);
 		} else if (ids.tablero !== undefined && ids.carga !== undefined) {
+			//Revisar que funcione
 			response = await deleteTablero(ids.usuario, ids.tablero);
 		}
 
@@ -72,6 +74,16 @@ function Actions() {
 		} else {
 			setError(solvedPromise + ". Intente de nuevo o recargue la pagina.");
 		}
+	}
+
+	async function handleClickPost(e) {
+		e.preventDefault();
+		let response = await postTablero(ids.usuario, ids.carga, nombre, config);
+		console.log(response);
+	}
+
+	function newTab() {
+		window.open("http://localhost:3000/").focus()
 	}
 
 	return (
@@ -143,7 +155,7 @@ function Actions() {
 					</svg>
 				</button>
 
-				<button className="btn btn-default">
+				<button className="btn btn-default" onClick={ newTab }>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="6vh"
@@ -179,6 +191,7 @@ function Actions() {
 										type="text"
 										placeholder="Nombre"
 										autoFocus
+										onChange={ (e) => setName(e.target.value) }
 									/>
 								</Form.Group>
 							</Form>
@@ -191,7 +204,7 @@ function Actions() {
 						Cancelar
 					</Button>
 					{ error === undefined ?
-						<Button className="primary-button" onClick={ type === "delete" ? handleClickDelete : null }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
+						<Button disabled={ (type === "post" && nombre === "") ? true : false } className="primary-button" onClick={ type === "delete" ? handleClickDelete : null }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
 						:
 						<></>
 					}

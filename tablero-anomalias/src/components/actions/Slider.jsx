@@ -1,4 +1,4 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useContext, useEffect } from "react";
 import { ConfigContext } from "../dashboard/Dashboard";
 
 export default function Slider() {
@@ -6,6 +6,12 @@ export default function Slider() {
 	const { config, setConfig } = useContext(ConfigContext);
 	const [sliderValue, setSliderValue] = useState(config["umbral_anomalia"]);
 
+	useEffect(() => {
+		if (sliderValue !== config["umbral_anomalia"]) {
+			setConfig({ ...config, umbral_anomalia: sliderValue });
+		}
+
+	}, [sliderValue, config, setConfig]);
 	return (
 		<div className="Slider">
 			<h6 className="m-0 pt-2 pb-1 full-center">Seleccione la precisión del modelo: { sliderValue }</h6>
