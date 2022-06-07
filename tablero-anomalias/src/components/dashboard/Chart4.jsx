@@ -83,7 +83,7 @@ function Chart4() {
 			<div className="chart_title">
 				Anomalías por una variable
 			</div>
-			<div className="horizontalFilters">
+			<div className="d-flex">
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
 					onChange={ (e) => setConfig({ ...config, seleccion_g4: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro</option>

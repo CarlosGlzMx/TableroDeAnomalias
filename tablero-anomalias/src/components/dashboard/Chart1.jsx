@@ -52,7 +52,7 @@ function Chart1() {
 						{ graphData.map((entry, index) => (
 							<Cell key={ `cell-${index}` } fill={ index ? naranjaAnomalia : grisNormal } />
 						)) }
-						<Label value={ `${anomalyPct}%` } position="center" style={ { fontSize: "2rem", fontWeight: "bold", fill: naranjaAnomalia } } ></Label>
+						<Label id = "anomaly-pct-label" value={ `${anomalyPct}%` } position="center"></Label>
 					</Pie>
 					<Tooltip />
 					<Legend />

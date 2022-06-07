@@ -84,7 +84,7 @@ function Chart5() {
 			<div className="chart_title">
 				Anomalías por dos variables
 			</div>
-			<div className="horizontalFilters">
+			<div className="d-flex">
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
 					onChange={ (e) =>
 						setConfig({ ...config, seleccion_g5_1: e.target.value }) }>

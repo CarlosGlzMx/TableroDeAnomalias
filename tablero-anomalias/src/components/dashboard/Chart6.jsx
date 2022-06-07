@@ -58,7 +58,7 @@ function Chart6() {
 			<div className="chart_title">
 				Frecuencia de anomalías
 			</div>
-			<div className="horizontalFilters">
+			<div className="d-flex">
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
 					onChange={ (e) => setConfig({ ...config, seleccion_g6_1: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 1</option>

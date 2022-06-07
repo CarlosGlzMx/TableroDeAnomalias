@@ -53,7 +53,7 @@ function Dashboard() {
 		<>
 			{ (anomalyData === undefined) ?
 				<div className="SelectColumn" style={ { minHeight: "82vh" } }>
-					<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
+					<div className = "text-center" style={ { height: "20vh", paddingX: "5vh" } }>
 						<h2>Cargando...</h2>
 					</div>
 					<Loading />

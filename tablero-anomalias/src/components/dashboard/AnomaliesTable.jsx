@@ -32,7 +32,7 @@ function AnomaliesTable() {
 	return (
 		<div className="p-0">
 			<h4>Tabla de anomalías encontradas</h4>
-			<div id="anomalies-scrollable-card" className="w-75 card-light anomaliesTable my-4 p-4 mx-auto pb-0" style={ { border: "0.3rem", borderStyle: "dashed", borderRadius: "0.8rem" } }>
+			<div id="anomalies-scrollable-card" className="w-75 card-light anomaliesTable my-4 p-4 mx-auto pb-0">
 				{
 					anomalyList.map((row, index) => {
 						return <ListedAnomaly key={ `listed-anomaly-${index}` } anomaly={ row } index={ index } />

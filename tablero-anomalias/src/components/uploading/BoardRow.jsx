@@ -85,13 +85,8 @@ function BoardRow(props) {
 	return (
 		<>
 			<li
-				className="h6"
-				style={ {
-					display: 'flex',
-					justifyContent: 'space-between',
-					alignItems: 'baseline',
-					paddingRight: '10px'
-				} }>
+				className="h6 d-flex justify-content-between align-items baseline"
+				style={ { paddingRight: '10px'} }>
 				{ props.name }
 				<div>
 					<Button

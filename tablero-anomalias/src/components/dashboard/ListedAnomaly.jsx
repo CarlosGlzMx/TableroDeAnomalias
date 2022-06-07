@@ -19,10 +19,10 @@ function ListedAnomaly(props) {
 			<div>Anomalía { props.index + 1 } - { props.anomaly["Fecha"] }</div>
 			{
 				props.anomaly["Puntaje de anomalía"] > -0.1 ?
-					<span style={ { fontWeight: "bold", color: lowColor } }>Anomalía baja</span> :
+					<span style={ { color: lowColor } }><b>Anomalía baja</b></span> :
 					props.anomaly["Puntaje de anomalía"] > -0.3 ?
-						<span style={ { fontWeight: "bold", color: midColor } }>Anomalía media</span> :
-						<span style={ { fontWeight: "bold", color: highColor } }>Anomalía crítica</span>
+						<span style={ { color: midColor } }><b>Anomalía media</b></span> :
+						<span style={ { color: highColor } }><b>Anomalía crítica</b></span>
 			}
 			<Button className="primary-button" onClick={ () => { if (!viewModal) setViewModal(true) } }>Ver detalle</Button>
 			<Modal show={ viewModal } onHide={ () => setViewModal(false) }>
