@@ -19,11 +19,11 @@ const defaultConfig = {
 	fecha_max: "2021-11-30",
 	fecha_inicio: "2021-05-15",
 	fecha_fin: "2021-11-01",
-	seleccion_g4: undefined,
-	seleccion_g5_1: undefined,
-	selecciong5_2: undefined,
-	seleccion_g6_1: undefined,
-	seleccion_g6_2: undefined,
+	seleccion_g4: "",
+	seleccion_g5_1: "",
+	selecciong5_2: "",
+	seleccion_g6_1: "",
+	seleccion_g6_2: "",
 	umbral_anomalia: 0,
 	min_score: -0.25,
 	max_score: 0.15,
@@ -34,14 +34,20 @@ function Dashboard() {
 	// Variable que contiene los datos JSON para la generación de gráficas
 	const [anomalyData, setAnomalyData] = useState(undefined);
 	// Variable que contiene los filtros seleccionados para las gráficas
-	const [config, setConfig] = useState(defaultConfig);
-
+	const [config, setConfig] = useState(undefined);
 
 	useEffect(() => {
 		if (anomalyData === undefined) {
 			setAnomalyData(dateParser(JSON.parse(sessionStorage.getItem("anomalyData"))));
 		}
-	}, [anomalyData, setAnomalyData]);
+
+		if (config === undefined && sessionStorage.getItem("config")) {
+			setConfig(JSON.parse(sessionStorage.getItem("config")));
+		} else {
+			setConfig(defaultConfig);
+			sessionStorage.setItem("config", JSON.stringify(defaultConfig));
+		}
+	}, [anomalyData, setAnomalyData, config]);
 
 	return (
 		<>
