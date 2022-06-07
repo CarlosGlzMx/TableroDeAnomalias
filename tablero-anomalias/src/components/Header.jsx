@@ -11,6 +11,11 @@ function Header() {
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
+	const [menuOpen, setMenuOpen] = useState(false);
+
+	const toggleMenu = () => { setMenuOpen(!menuOpen) };
+	const handleCloseMenu = () => setMenuOpen(false)
+
 	const navegador = useNavigate();
 
 	function handleClickLogOut() {
@@ -25,13 +30,14 @@ function Header() {
 			setMessage("No se han cargado datos.");
 			handleShow();
 		} else {
+			handleCloseMenu();
 			navegador(item, { replace: false });
 		}
 	}
 
 	return (
 		<>
-			<Navbar id="header" style={ { height: "12vh" } } expand={ false }>
+			<Navbar id="header" style={ { height: "12vh" } } expand={ false } >
 				<Container fluid>
 					<Navbar.Brand href="/">
 						<img alt="Logo Ternium" src={ Logo } className="d-inline-block align-top" width="100" />
@@ -39,11 +45,14 @@ function Header() {
 					<Navbar.Text className="light-text fw-bold fs-5">
 						Panel de Anomalías
 					</Navbar.Text>
-					<Navbar.Toggle aria-controls="navbar-hidden-menu" />
+					<Navbar.Toggle aria-controls="navbar-hidden-menu" onClick={ toggleMenu } />
 					<Navbar.Offcanvas
 						id="navbar-hidden-menu"
 						aria-labelledby="navbar-hidden-menu-label"
 						placement="end"
+						restoreFocus={ false }
+						show={ menuOpen }
+						onHide={ handleCloseMenu }
 					>
 						<Offcanvas.Header closeButton>
 							<Offcanvas.Title className="light-text" id="navbar-hidden-menu-label">Panel de Anomalias</Offcanvas.Title>
