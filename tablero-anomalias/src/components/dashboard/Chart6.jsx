@@ -92,7 +92,7 @@ function Chart6() {
       <Legend />
       <Scatter dataKey = "tipo" name = "Anomalia_1" data = {data01} fill = {grisNormal} shape = "circle" />
       <Scatter dataKey = "tipo" name = "Anomalia_2" data = {data02} fill = {naranjaAnomalia} shape = "circle" />
-			<Legend />
+      
     </ScatterChart>
   </ResponsiveContainer>
     </div>

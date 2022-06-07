@@ -3,7 +3,7 @@
     padding: 0;
     margin: 0;
 }
-
+ 
 html {
     font-size: 102.5%;
 }
@@ -55,6 +55,10 @@ img {
 
 }
 
+#anomaliesTable_div {
+    max-height: 500px;
+    overflow: scroll;
+}
 .anomaliesTable {
     width: 98%;
     overflow: auto;

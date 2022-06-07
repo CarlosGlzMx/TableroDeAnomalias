@@ -75,7 +75,7 @@ function Chart4() {
 					)
 				}
 			</select>
-
+ 
 			<ResponsiveContainer>
 				<BarChart
 					width={ 1600 }
