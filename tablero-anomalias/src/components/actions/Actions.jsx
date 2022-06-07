@@ -54,8 +54,8 @@ function Actions() {
 	async function errorHandler(response) {
 		const solvedPromise = await response[0];
 		if (response[1] === 200) {
-			localStorage.removeItem("anomalyData");
-			localStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
+			sessionStorage.removeItem("anomalyData");
+			sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
 			setIds(undefined);
 			setDeleted(true);
 		} else {

@@ -1,5 +1,5 @@
 import { React, useState, useContext, useEffect } from "react";
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Label, Cell } from "recharts";
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Label, Cell, Legend, Line } from "recharts";
 import { ConfigContext } from "../../App";
 import { DataContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
@@ -72,9 +72,17 @@ function Chart3() {
 						{ graphData.map((entry, i) => (
 							<Cell key={ `cell-${i}` } fill={ entry["Grupo"] <= config["umbral_anomalia"] ? naranjaAnomalia : grisNormal } />
 						)) }
+						
 					</Bar>
 					<XAxis dataKey="Grupo" interval={ NUM_BARRAS - 1 }><Label value="Puntaje de anomalía" position={ "insideBottom" }></Label></XAxis>
 					<YAxis tickCount={ 2 }><Label value="Observaciones" angle={ -90 }></Label></YAxis>
+					<Line
+						type="monotone"
+						dataKey="Registros"
+						stroke={ grisNormal }
+						dot={ false }
+					/>
+					<Legend />
 					<Tooltip />
 				</BarChart >
 			</ResponsiveContainer >

@@ -60,7 +60,6 @@ function Upload() {
 				<Form validated={ isValid } >
 					<Form.Group controlId="formFile" className="mb-3">
 						<Form.Label>Carga un archivo de tipo .csv o .xlsx</Form.Label>
-
 						<Form.Control
 							isInvalid={ isValid === undefined ? null : !isValid }
 							accept=".csv, .xlsx"

@@ -61,14 +61,17 @@ function BoardRow(props) {
 		if (response[1] === 200) {
 			if (requestType === "delete") {
 				if (props.id === ids.carga || props.id === ids.tablero) {
-					localStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
+					sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
+					sessionStorage.removeItem("anomalyData");
 					setIds(undefined);
 				}
 				setCargas(undefined);
 				setTableros(undefined);
 			} else if (requestType === "get") {
-				localStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
-				localStorage.setItem("ids", JSON.stringify(props.type === "carga" ? { ...ids, carga: props.id } : { ...ids, tablero: props.id }));
+				sessionStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
+				sessionStorage.setItem("ids", JSON.stringify(props.type === "carga" ?
+					{ ...ids, carga: props.id, tablero: undefined } : { ...ids, tablero: props.id, carga: undefined }
+				));
 				setIds(undefined);
 				setSaveData(true);
 			}

@@ -19,8 +19,6 @@ export const IdsContext = createContext([[], () => {}]);
 export const ConfigContext = createContext([[], () => {}]);
 
 // Variables por defecto para los contextos
-// Usuario temporal para el desarrollo eliminar al final
-const defaultIds = { usuario: undefined, carga: undefined, tablero: undefined };
 const defaultConfig = {
     fecha_min: "2021-05-10",
     fecha_max: "2021-11-30",
@@ -37,9 +35,10 @@ const defaultConfig = {
 };
 
 // -- Pendientes Leyva --
-// Manejo correcto de ids (Falta manejo de ids en boardrow)
+// Manejo correcto de ids (Falta manejo de ids en logout y acceso a dashboard prematuro)
 // Eliminar localstorage fuera de la sesion y manejo de errores
-// Post y carga de tableros, Manejo correcto de config
+// Post y carga de tableros
+// Manejo correcto de config (BoardRow get, BoardRow delete, Dashboard post, Logout)
 // -- Pendientes Leyva --
 
 function App() {
@@ -50,8 +49,8 @@ function App() {
     const [config, setConfig] = useState(defaultConfig);
 
     useEffect(() => {
-        if (localStorage.getItem("ids") && ids === undefined) {
-            setIds(JSON.parse(localStorage.getItem("ids")));
+        if (sessionStorage.getItem("ids") && ids === undefined) {
+            setIds(JSON.parse(sessionStorage.getItem("ids")));
         }
     }, [ids, setIds]);
 
