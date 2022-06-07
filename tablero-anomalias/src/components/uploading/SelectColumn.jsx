@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Column from './Column';
 import Loading from "./Loading";
 import { Form, Button, Modal } from 'react-bootstrap';
-import { postCarga } from "../../api/requests";
+import { postCarga, getCarga } from "../../api/requests";
 import * as XLSX from "xlsx";
 import { IdsContext } from "../../App";
 
@@ -101,13 +101,21 @@ function SelectColumn() {
 
 		setLoading(true);
 		const response = await postCarga(fileData, columnas, ids["usuario"])
+		console.log(response);
 		const solvedPromise = await response[0];
 
 		if (response[1] === 200) {
-			setIds({ ...ids, carga: parseInt(solvedPromise.idNuevo) });
-			sessionStorage.setItem("anomalyData", JSON.stringify(solvedPromise.datos));
-			sessionStorage.setItem("ids", JSON.stringify({ ...ids, carga: parseInt(solvedPromise.idNuevo) }));
-			setSaveData(true);
+			const responseGet = await getCarga(ids.usuario, response[2]);
+			const carga = await responseGet[0];
+			if (responseGet[1] === 200) {
+				setIds({ ...ids, carga: parseInt(solvedPromise[2]) });
+				sessionStorage.setItem("anomalyData", JSON.stringify(carga));
+				sessionStorage.setItem("ids", JSON.stringify({ ...ids, carga: parseInt(solvedPromise[2]) }));
+				setSaveData(true);
+			} else {
+				handleShow();
+				setErrorMessage(carga);
+			}
 		} else {
 			handleShow();
 			setErrorMessage(solvedPromise);

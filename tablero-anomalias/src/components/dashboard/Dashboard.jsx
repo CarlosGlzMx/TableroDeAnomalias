@@ -19,11 +19,11 @@ const defaultConfig = {
 	fecha_max: "2021-11-30",
 	fecha_inicio: "2021-05-15",
 	fecha_fin: "2021-11-01",
-	seleccion_g4: "",
-	seleccion_g5_1: "",
-	seleccion_g5_2: "",
-	seleccion_g6_1: "",
-	seleccion_g6_2: "",
+	seleccion_g4: undefined,
+	seleccion_g5_1: undefined,
+	seleccion_g5_2: undefined,
+	seleccion_g6_1: undefined,
+	seleccion_g6_2: undefined,
 	umbral_anomalia: 0,
 	min_score: -0.25,
 	max_score: 0.15,
@@ -53,7 +53,7 @@ function Dashboard() {
 		<>
 			{ (anomalyData === undefined) ?
 				<div className="SelectColumn" style={ { minHeight: "82vh" } }>
-					<div className = "text-center" style={ { height: "20vh", paddingX: "5vh" } }>
+					<div className="text-center" style={ { height: "20vh", paddingX: "5vh" } }>
 						<h2>Cargando...</h2>
 					</div>
 					<Loading />

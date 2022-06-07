@@ -78,8 +78,16 @@ function Actions() {
 
 	async function handleClickPost(e) {
 		e.preventDefault();
-		let response = await postTablero(ids.usuario, ids.carga, nombre, config);
-		console.log(response);
+		const response = await postTablero(ids.usuario, ids.carga, nombre, config);
+		const solvedPromise = await response[0];
+
+		if (response[1] === 200) {
+			handleClose();
+			sessionStorage.setItem("config", JSON.stringify(config));
+			sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario, tablero: response[0] }));
+		} else {
+			setError(solvedPromise + ". Intente de nuevo o recargue la pagina.");
+		}
 	}
 
 	function newTab() {
@@ -204,7 +212,7 @@ function Actions() {
 						Cancelar
 					</Button>
 					{ error === undefined ?
-						<Button disabled={ (type === "post" && nombre === "") ? true : false } className="primary-button" onClick={ type === "delete" ? handleClickDelete : null }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
+						<Button disabled={ (type === "post" && nombre === "") ? true : false } className="primary-button" onClick={ type === "delete" ? handleClickDelete : handleClickPost }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
 						:
 						<></>
 					}
