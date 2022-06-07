@@ -21,7 +21,7 @@ const defaultConfig = {
 	fecha_fin: "2021-11-01",
 	seleccion_g4: "",
 	seleccion_g5_1: "",
-	selecciong5_2: "",
+	seleccion_g5_2: "",
 	seleccion_g6_1: "",
 	seleccion_g6_2: "",
 	umbral_anomalia: 0,
@@ -43,7 +43,7 @@ function Dashboard() {
 
 		if (config === undefined && sessionStorage.getItem("config")) {
 			setConfig(JSON.parse(sessionStorage.getItem("config")));
-		} else {
+		} else if (config === undefined && !sessionStorage.getItem("config")) {
 			setConfig(defaultConfig);
 			sessionStorage.setItem("config", JSON.stringify(defaultConfig));
 		}
