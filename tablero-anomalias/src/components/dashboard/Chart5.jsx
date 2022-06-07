@@ -10,8 +10,7 @@ import {
 	ResponsiveContainer,
 	Label
 } from "recharts";
-import { ConfigContext } from "../../App";
-import { DataContext } from "./Dashboard";
+import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];

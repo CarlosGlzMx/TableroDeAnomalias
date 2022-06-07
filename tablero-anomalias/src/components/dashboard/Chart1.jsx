@@ -1,9 +1,7 @@
 import { React, useState, useContext, useEffect } from "react";
-import { ConfigContext } from "../../App";
-import { DataContext } from "./Dashboard";
+import { DataContext, ConfigContext } from "./Dashboard";
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend, Label } from "recharts";
 import { dateInRange } from "./auxMethods";
-// import { minHeight } from "@mui/system";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 

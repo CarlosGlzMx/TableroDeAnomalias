@@ -10,8 +10,7 @@ import {
 	Legend,
 	ResponsiveContainer,
 } from 'recharts';
-import { ConfigContext } from "../../App";
-import { DataContext } from "./Dashboard";
+import { DataContext, ConfigContext } from "./Dashboard";
 
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
