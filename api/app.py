@@ -152,7 +152,7 @@ def methods_boards():
         records_df = pd.DataFrame(rows, columns = headers)
 
         # Configura la respuesta al sitio web
-        response_to_web = Response(records_df.to_csv(index = False), 200)
+        response_to_web = Response(records_df.to_json(), 200)
         response_to_web.headers["Content-Type"] = "text/csv"
         for key, value in info.items():
             response_to_web.headers[key] = value
