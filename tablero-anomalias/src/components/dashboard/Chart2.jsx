@@ -9,8 +9,7 @@ import {
 	Line,
 	Label,
 } from "recharts";
-import { ConfigContext } from "../../App";
-import { DataContext } from "./Dashboard";
+import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
@@ -32,7 +31,7 @@ function Chart2() {
 		for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
 			// Filtra por el rango de fechas
 			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
-			// De ser necesario, inicializa los objetos
+				// De ser necesario, inicializa los objetos
 				if (!groupedByDate[anomalyData.fecha[i]]) {
 					groupedByDate[anomalyData.fecha[i]] = { "registros": 0, "anomalias": 0 };
 				}

@@ -10,8 +10,7 @@ import {
 	ResponsiveContainer,
 	Label
 } from "recharts";
-import { ConfigContext } from "../../App";
-import { DataContext } from "./Dashboard";
+import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
@@ -65,7 +64,7 @@ function Chart4() {
 
 		// Traduce los datos a una lista que pueda procesar el app
 		for (const [key, value] of Object.entries(groupedByVarValue)) {
-			listedBars.push({"Variable 1": key, "Normales": value["normales"], "Anomalías": value["anomalias"] });
+			listedBars.push({ "Variable 1": key, "Normales": value["normales"], "Anomalías": value["anomalias"] });
 		}
 
 		// Ordena y hace slice para limitar la cantidad de barras acumuladas
@@ -85,36 +84,36 @@ function Chart4() {
 				Anomalías por una variable
 			</div>
 			<div className="horizontalFilters">
-			<select className="form-select" aria-label="Default select example" defaultValue = {""}
-				onChange={(e) => setConfig({ ...config, seleccion_g4: e.target.value })}>
-				<option value="" disabled hidden>Variable filtro</option>
-				{
-					dropDownData.map(variable =>
-						<option key={variable} value={variable}>{variable}</option>
-					)
-				}
-			</select>
+				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
+					onChange={ (e) => setConfig({ ...config, seleccion_g4: e.target.value }) }>
+					<option value="" disabled hidden>Variable filtro</option>
+					{
+						dropDownData.map(variable =>
+							<option key={ variable } value={ variable }>{ variable }</option>
+						)
+					}
+				</select>
 			</div>
-			
-			<ResponsiveContainer width={"100%"} aspect={1}>
+
+			<ResponsiveContainer width={ "100%" } aspect={ 1 }>
 				<BarChart
-					data={graphData}
+					data={ graphData }
 					layout="vertical"
-					barCategoryGap={2}
-					margin={{
+					barCategoryGap={ 2 }
+					margin={ {
 						top: 30,
 						bottom: 60,
-					}}
+					} }
 				>
 					<CartesianGrid />
 					<XAxis type="number" />
-					<YAxis tick={false} type="category" dataKey="Variable 1">
-						<Label value = {config["seleccion_g4"]} angle={ -90 }></Label>
+					<YAxis tick={ false } type="category" dataKey="Variable 1">
+						<Label value={ config["seleccion_g4"] } angle={ -90 }></Label>
 					</YAxis>
 					<Tooltip />
 					<Legend />
-					<Bar dataKey = "Anomalías" fill = {naranjaAnomalia} stackId = "stack" />
-					<Bar dataKey = "Normales" fill = {grisNormal} stackId = "stack" />
+					<Bar dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" />
+					<Bar dataKey="Normales" fill={ grisNormal } stackId="stack" />
 				</BarChart>
 			</ResponsiveContainer>
 		</div>
