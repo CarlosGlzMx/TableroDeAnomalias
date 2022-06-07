@@ -35,8 +35,6 @@ const defaultConfig = {
 };
 
 // -- Pendientes Leyva --
-// Manejo correcto de ids (Falta manejo de ids en logout y acceso a dashboard prematuro)
-// Eliminar localstorage fuera de la sesion y manejo de errores
 // Post y carga de tableros
 // Manejo correcto de config (BoardRow get, BoardRow delete, Dashboard post, Logout)
 // -- Pendientes Leyva --
