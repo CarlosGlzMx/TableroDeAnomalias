@@ -20,7 +20,7 @@ const Login = () => {
 		// Variable por reemplazar por la respuesta del login
 		var validSession = true;
 		if (validSession) {
-			localStorage.setItem('ids', JSON.stringify({ ...ids, usuario: "Charlie" }));
+			sessionStorage.setItem('ids', JSON.stringify({ ...ids, usuario: "Charlie" }));
 			setIds({ ...ids, usuario: "Charlie" });
 			navegador('/upload', { replace: true });
 		}

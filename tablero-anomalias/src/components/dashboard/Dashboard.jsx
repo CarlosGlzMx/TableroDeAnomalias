@@ -19,7 +19,7 @@ function Dashboard() {
 	useEffect(() => {
 		console.log(anomalyData)
 		if (anomalyData === undefined) {
-			setAnomalyData(JSON.parse(localStorage.getItem("anomalyData")));
+			setAnomalyData(JSON.parse(sessionStorage.getItem("anomalyData")));
 		}
 	}, [anomalyData, setAnomalyData]);
 
