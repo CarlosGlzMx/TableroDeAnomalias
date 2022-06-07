@@ -55,8 +55,8 @@ img {
 
 }
 
-#anomaliesTable_div {
-    max-height: 500px;
+#anomalies-scrollable-card {
+    max-height: 70vh;
     overflow: scroll;
 }
 .anomaliesTable {
