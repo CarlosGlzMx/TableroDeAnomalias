@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { IdsContext, ConfigContext } from "../../App";
+import { IdsContext } from "../../App";
+import { ConfigContext } from "../dashboard/Dashboard";
 import Slider from "./Slider";
 import Dates from "./Dates";
 
@@ -13,16 +14,26 @@ import { printPdf } from "./pdfGenerator"
 function Actions() {
 
 	const { ids, setIds } = useContext(IdsContext);
-	// const { config, setConfig } = useContext(ConfigContext);
+	const { config, setConfig } = useContext(ConfigContext);
 
 	// Manejo de errores
 	const [error, setError] = useState(undefined);
+
+	// Manejo del Modal
+	const [type, setType] = useState("");
 	const [show, setShow] = useState(false);
 	const handleClose = () => {
 		setShow(false);
 		setError(undefined);
 	};
-	const handleShow = () => setShow(true);
+	const handleShow = (type) => {
+		if (type === "delete") {
+			setType("delete");
+		} else if (type === "post") {
+			setType("post");
+		}
+		setShow(true);
+	}
 
 	const [deleted, setDeleted] = useState(false);
 
@@ -74,7 +85,7 @@ function Actions() {
 			</div>
 
 			<div className="action-right">
-				<button className="btn btn-default" onClick={ handleShow }>
+				<button className="btn btn-default" onClick={ () => handleShow("delete") }>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="6vh"
@@ -119,7 +130,7 @@ function Actions() {
 					</svg>
 				</button>
 
-				<button className="btn btn-default">
+				<button className="btn btn-default" onClick={ () => handleShow("post") }>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="6vh"
@@ -154,23 +165,39 @@ function Actions() {
 				keyboard={ false }
 			>
 				<Modal.Header closeButton>
-					<Modal.Title>Eliminar</Modal.Title>
+					<Modal.Title>{ type === "delete" ? "Eliminar" : "Guardar Tablero" }</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					{ error === undefined ? "¿Seguro que quieres eliminar este elemento?" : error }
+					{ type === "delete" ?
+						error === undefined ? "¿Seguro que quieres eliminar este elemento?" : error
+						:
+						error === undefined ?
+							<Form>
+								<Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+									<Form.Label>Nombre Tablero</Form.Label>
+									<Form.Control
+										type="text"
+										placeholder="Nombre"
+										autoFocus
+									/>
+								</Form.Group>
+							</Form>
+							:
+							error
+					}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button className="secondary-button" onClick={ handleClose }>
 						Cancelar
 					</Button>
 					{ error === undefined ?
-						<Button className="primary-button" onClick={ handleClickDelete }>Eliminar</Button>
+						<Button className="primary-button" onClick={ type === "delete" ? handleClickDelete : null }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
 						:
 						<></>
 					}
 				</Modal.Footer>
 			</Modal>
-		</div>
+		</div >
 	);
 }
 
