@@ -1,4 +1,4 @@
-import {React} from "react";
+import { React, useContext, useState, useEffect } from "react";
 import {
   ScatterChart,
   Scatter,
@@ -10,10 +10,20 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { ConfigContext } from "../../App";
+import { DataContext } from "./Dashboard";
+
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
 function Chart6() {
+	// Contextos necesarios para las gráficas
+	const { config, setConfig } = useContext(ConfigContext);
+	const { anomalyData } = useContext(DataContext);
+
+	// Datos necesarios para la lista de opciones en el filtro
+	const [dropDownData, setDropDownData] = useState([]);
+
   const data01 = [
     { tipo: "Regulares", x: 100, y: 200, z: 200 },
     { tipo: "Regulares", x: 120, y: 100, z: 260 },
@@ -31,73 +41,75 @@ function Chart6() {
     { tipo: "Anomalías", x: 210, y: 220, z: 230 },
   ];
 
+  // Actualiza las opciones de los filtros ante el cambio de datos cargados
+  useEffect(() => {
+    var variableNames = [];
+    for (const column_name of Object.keys(anomalyData)) {
+      if (!(["fecha", "Fecha", "scores", "id"].includes(column_name))) {
+        variableNames.push(column_name);
+      }
+    }
+    setDropDownData(variableNames);
+  }, [anomalyData]);
 
-  const filters = [
-    {
-      id: 1,
-      name: "filtro 1",
-      details: "Detalles de Anomalia 1"
-    },
-    {
-      id: 2,
-      name: "filtro 2",
-      details: "Detalles de Anomalia 2"
-    },
-    {
 
-      id: 3,
-      name: "filtro 35",
-      details: "Detalles de Anomalia 35"
-    },
-    {
-
-      id: 46,
-      name: "filtro 4",
-      details: "Detalles de Anomalia 4"
-    },
-  ]
-
-  const filterList = filters.map(filters => <option key={`filtros6-${filters.id}`} value={filters.id}>
-    {filters.name}</option>)
-	return (
+  return (
 
     <div className="chart c6">
       <div className="chart_title">
         Frecuencia de anomalías
-        </div>
-          <div className="horizontalFilters">
-            <select className="form-select" aria-label="Default select example" defaultValue={"Filtrar por"}>
-              {filterList}
-            </select>
-            <select className="form-select" aria-label="Default select example" defaultValue={"Filtrar por"}>
-              {filterList}
-            </select>
-          </div>
-          <ResponsiveContainer width="100%" height="100%">
-    <ScatterChart
-      width={400}
-      height={400}
-      margin={{
-        top: 20,
-        right: 20,
-        bottom: 20,
-        left: 20,
-      }}
-    >
-      <CartesianGrid />
-      <XAxis type = "number" dataKey = "x" name = "stature" unit = "" />
-      <YAxis type = "number" dataKey = "y" name = "weight" unit = "" />
-      <ZAxis type = "number" dataKey = "z" range = {[60, 400]} name = "score" unit = "km" />
-      <Tooltip cursor = {{ strokeDasharray: '3 3' }} />
-      <Legend />
-      <Scatter dataKey = "tipo" name = "Anomalia_1" data = {data01} fill = {grisNormal} shape = "circle" />
-      <Scatter dataKey = "tipo" name = "Anomalia_2" data = {data02} fill = {naranjaAnomalia} shape = "circle" />
-			<Legend />
-    </ScatterChart>
-  </ResponsiveContainer>
+      </div>
+      <div className="horizontalFilters">
+      <select className="form-select" aria-label="Default select example" defaultValue={""}
+					onChange={ (e) => setConfig({ ...config, seleccion_g6_1: e.target.value }) }>
+						<option value = "" disabled hidden>Variable filtro 1</option>
+					{
+						dropDownData.map(variable =>{
+              if (variable !== config["seleccion_g6_2"]) {
+                return <option key={ variable + "filer6-1" } value={ variable }>{ variable }</option>
+                }
+              }
+            )
+					}
+				</select>
+				<select className="form-select" aria-label="Default select example" defaultValue={""}
+					onChange={ (e) => setConfig({ ...config, seleccion_g6_2: e.target.value }) }>
+						<option value = "" disabled hidden>Variable filtro 2</option>
+					{
+						dropDownData.map(variable => {
+              if (variable !== config["seleccion_g6_1"]) {
+                return <option key={ variable + "filer6-2" } value={ variable }>{ variable }</option>
+                }
+              }
+						)
+					}
+				</select>
+      </div>
+      <ResponsiveContainer width="100%" height="100%">
+        <ScatterChart
+          width={400}
+          height={400}
+          margin={{
+            top: 20,
+            right: 20,
+            bottom: 20,
+            left: 20,
+          }}
+        >
+          <CartesianGrid />
+          <XAxis type="number" dataKey="x" name="stature" unit="" />
+          <YAxis type="number" dataKey="y" name="weight" unit="" />
+          <ZAxis type="number" dataKey="z" range={[60, 400]} name="score" unit="km" />
+          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+          <Legend />
+          <Scatter dataKey="tipo" name="Anomalia_1" data={data01} fill={grisNormal} shape="circle" />
+          <Scatter dataKey="tipo" name="Anomalia_2" data={data02} fill={naranjaAnomalia} shape="circle" />
+          <Legend />
+        </ScatterChart>
+      </ResponsiveContainer>
     </div>
-    
-	);
+
+  );
 }
 
 export default Chart6;

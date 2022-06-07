@@ -70,7 +70,7 @@ function Chart3() {
 				>
 					<Bar dataKey="Cantidad">
 						{ graphData.map((entry, i) => (
-							<Cell key={ `cell-${i}` } fill={ entry["Grupo"] > config["umbral_anomalia"] ? naranjaAnomalia : grisNormal } />
+							<Cell key={ `cell-${i}` } fill={ entry["Grupo"] <= config["umbral_anomalia"] ? naranjaAnomalia : grisNormal } />
 						)) }
 					</Bar>
 					<XAxis dataKey="Grupo" interval={ NUM_BARRAS - 1 }><Label value="Puntaje de anomalía" position={ "insideBottom" }></Label></XAxis>

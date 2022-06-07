@@ -18,7 +18,7 @@ function AnomaliesTable() {
 
     for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
 			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
-        if (anomalyData["scores"][i] > config["umbral_anomalia"]) {
+        if (anomalyData["scores"][i] <= config["umbral_anomalia"]) {
           let anomalyToList = {};
           for (const detail of detailHeaders) {
             anomalyToList[detail === "scores" ? "Puntaje de anomalía" : detail] = anomalyData[detail][i];  

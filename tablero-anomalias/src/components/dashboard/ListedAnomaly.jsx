@@ -17,9 +17,9 @@ function ListedAnomaly(props) {
 		<div className="ListedAnomaly m-0 p-2 row-separator d-flex justify-content-between">
 			<div>Anomalía { props.index + 1} - { props.anomaly["Fecha"] }</div>
 				{
-					props.anomaly["Puntaje de anomalía"] < 0.05 ?
+					props.anomaly["Puntaje de anomalía"] > -0.1 ?
 					<span style = {{ fontWeight: "bold",  color: lowColor}}>Anomalía baja</span> :
-					props.anomaly["Puntaje de anomalía"] < 0.15 ?
+					props.anomaly["Puntaje de anomalía"] > -0.3 ?
 					<span style = {{ fontWeight: "bold",  color: midColor}}>Anomalía media</span> :
 					<span style = {{ fontWeight: "bold",  color: highColor}}>Anomalía crítica</span>
 				}

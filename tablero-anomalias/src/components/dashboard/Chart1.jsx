@@ -3,6 +3,7 @@ import { ConfigContext } from "../../App";
 import { DataContext } from "./Dashboard";
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend, Label } from "recharts";
 import { dateInRange } from "./auxMethods";
+import { minHeight } from "@mui/system";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
@@ -21,7 +22,7 @@ function Chart1() {
 		let [normales, anomalias] = [0, 0];
 		for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
 			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
-				anomalyData["scores"][i] >= config["umbral_anomalia"] ? anomalias += 1 : normales += 1
+				anomalyData["scores"][i] <= config["umbral_anomalia"] ? anomalias += 1 : normales += 1
 			}
 		}
 
@@ -35,7 +36,7 @@ function Chart1() {
 			<div className="chart_title">
 				Cantidad de anomalías
 			</div>
-			<ResponsiveContainer width="100%" height="100%">
+			<ResponsiveContainer className="d-flex justify-content-center">
 				<PieChart>
 					<Pie
 						data={ graphData }
@@ -50,11 +51,10 @@ function Chart1() {
 						endAngle={ 450 }
 						wrapperStyle={ { position: 'relative' } }
 					>
-						<Label value={ `${anomalyPct}%` } position="center" style={ { fontSize: "2rem", fontWeight: "bold", fill: naranjaAnomalia } } ></Label>
-						<Tooltip />
 						{ graphData.map((entry, index) => (
 							<Cell key={ `cell-${index}` } fill={ index ? naranjaAnomalia : grisNormal } />
 						)) }
+						<Label value={ `${anomalyPct}%` } position="center" style={ { fontSize: "2rem", fontWeight: "bold", fill: naranjaAnomalia } } ></Label>
 					</Pie>
 					<Tooltip />
 					<Legend />

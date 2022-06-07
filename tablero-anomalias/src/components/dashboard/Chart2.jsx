@@ -39,7 +39,7 @@ function Chart2() {
 
 				// Incrementa por uno la cantidad de registros en esta fecha
 				groupedByDate[anomalyData.fecha[i]]["registros"] += 1;
-				if (anomalyData.scores[i] >= config["umbral_anomalia"]) {
+				if (anomalyData.scores[i] <= config["umbral_anomalia"]) {
 					groupedByDate[anomalyData.fecha[i]]["anomalias"] += 1;
 				}
 			}
