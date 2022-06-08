@@ -1,5 +1,5 @@
 import { React, useState, useContext, useEffect } from "react";
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Label, Cell, Legend, Line } from "recharts";
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Label, Cell } from "recharts";
 import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
 
@@ -42,7 +42,7 @@ function Chart3() {
 			// Pasa los datos al formato que espera Recharts
 			const processesData = [];
 			for (const [scoreGroup, count] of Object.entries(bars)) {
-				processesData.push({ "Grupo": Math.round(parseFloat(scoreGroup) * 1000) / 1000, "Cantidad de anomalías": count });
+				processesData.push({ "Grupo": Math.round(parseFloat(scoreGroup) * 1000) / 1000, "Registros": count });
 			}
 			processesData.sort((a, b) => {
 				if (a["Grupo"] > b["Grupo"]) return 1;
@@ -60,35 +60,22 @@ function Chart3() {
 			<div className="chart_title">Comportamiento de los datos</div>
 			{(graphData.length > 0) ? (
 				<ResponsiveContainer width="100%" height="100%">
-					<BarChart
-						width={150}
-						height={40}
-						data={graphData}
-						margin={{
-							top: 15,
-							right: 10,
-							left: 20,
-							bottom: 32,
+					<BarChart data={graphData}
+						margin = {{
+							top: 20,
+							left: 0,
+							right : 60,
+							bottom: 20
 						}}
 					>
-						<Bar dataKey="Cantidad de anomalías" fill={naranjaAnomalia}>
+						<Bar dataKey="Registros">
 							{graphData.map((entry, i) => (
 								<Cell key={`cell-${i}`} fill={entry["Grupo"] <= config["umbral_anomalia"] ? naranjaAnomalia : grisNormal} />
 							))}
-
 						</Bar>
 						<XAxis dataKey="Grupo" interval={NUM_BARRAS - 1}><Label value="Puntaje de anomalía" position={"insideBottom"}></Label></XAxis>
 						<YAxis tickCount={2}><Label value="Observaciones" angle={-90}></Label></YAxis>
-						<Line
-							type="monotone"
-							dataKey="Registros"
-							stroke={grisNormal}
-							dot={false}
-						/>
-						<Legend />
 						<Tooltip />
-
-						<Legend />
 					</BarChart >
 				</ResponsiveContainer >
 			) : (

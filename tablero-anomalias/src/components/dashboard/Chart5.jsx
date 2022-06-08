@@ -83,7 +83,7 @@ function Chart5() {
 		<div className="chart c5 d-flex flex-column justify-content-start">
 			<div className="chart_title">Anomalías por dos variables</div>
 			<div className="d-flex">
-				<select className="form-select" aria-label="Default select example" defaultValue={""}
+				<select className="form-select m-2" aria-label="Default select example" defaultValue={""}
 					onChange={(e) =>
 						setConfig({ ...config, filtro_g5_1: e.target.value })}>
 					<option value="" disabled hidden>Variable filtro 1</option>
@@ -96,7 +96,7 @@ function Chart5() {
 						})
 					}
 				</select>
-				<select className="form-select" aria-label="Default select example" defaultValue={""}
+				<select className="form-select m-2" aria-label="Default select example" defaultValue={""}
 					onChange={(e) =>
 						setConfig({ ...config, filtro_g5_2: e.target.value })}>
 					<option value="" disabled hidden>Variable filtro 2</option>
@@ -118,7 +118,7 @@ function Chart5() {
 						barCategoryGap={5}
 						margin={{
 							top: 30,
-							bottom: 60,
+							bottom: 90,
 						}}
 					>
 						<CartesianGrid />

@@ -9,8 +9,10 @@ import {
 	Line,
 	Label,
 } from "recharts";
+import DateTooltip from "./DateTooltip";
 import { DataContext, ConfigContext } from "./Dashboard";
-import { dateInRange } from "./auxMethods";
+import { dateInRange, formatDate, dateTickFormatter } from "./auxMethods";
+
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
@@ -18,17 +20,16 @@ function Chart2() {
 	// Contextos necesarios para la gráfica
 	const { config } = useContext(ConfigContext);
 	const { anomalyData } = useContext(DataContext);
-
+	
 	// Datos para la generación de la gráfica
 	const [graphData, setGraphData] = useState([]);
+	const [graphLimits, setGraphLimits] = useState([]);
 
 	// Observa cualquier cambio en la configuración
 	useEffect(() => {
 		// Contadores por fecha de datos registrados y anomalías
 		let groupedByDate = {};
 		let listedDates = [];
-		let listedDatesFinal = []
-		let listedDatesFinal1 = []
 
 		for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
 			// Filtra por el rango de fechas
@@ -46,54 +47,52 @@ function Chart2() {
 			}
 		}
 
-
-
-		// Traduce los datos a una lista que pueda procesar el app
-		var reducedDate
-		var dateObject1
+		// Genera la lista para la gráfica, con información adicional de timestamp
 		for (const [key, value] of Object.entries(groupedByDate)) {
-			dateObject1 = new Date(key);
-			//reducedDate = dateObject1.toLocaleDateString()
-			listedDates.push({ "Fecha": dateObject1, "Registros": value["registros"], "Anomalías": value["anomalias"] });
-
+			let date = new Date(key);
+			listedDates.push({
+				"Fecha": formatDate(date),
+				"Stamp": date.getTime() / 1000,
+				"Registros": value["registros"],
+				"Anomalías": value["anomalias"] 
+			})
 		}
 
-		listedDatesFinal = listedDates.slice().sort((a, b) => a.Fecha - b.Fecha);
-		//console.log(listedDatesFinal[1].Fecha)
-		//  for (var i = 0; listedDatesFinal.length - 1; i++){
-		//     	dateObject1 = listedDatesFinal[i].Fecha;
-		//     	reducedDate = dateObject1.toLocaleDateString()
-		//     	listedDatesFinal1.push({ "Fecha": reducedDate, "Registros": listedDatesFinal[i].Registros, "Anomalías": listedDatesFinal[i].Anomalías });
-		//     }
-		//  for (const [key, value] of Object.entries(groupedByDate)) {
-		//  	dateObject1 = new Date (key);
-		//  	reducedDate = dateObject1.toLocaleDateString()
-		//  	listedDatesFinal.push({ "Fecha": reducedDate, "Registros": value["registros"], "Anomalías": value["anomalias"] });
+		// Reordena en fecha ascendente
+		listedDates.sort((a, b) => {
+			if (a["Stamp"] > b["Stamp"]) return 1;
+			else if (a["Stamp"] < b["Stamp"]) return -1;
+			else return 0;
+		})
 
-		// // }
-
-		setGraphData(listedDatesFinal);
+		// Guarda los límites de la gráfica
+		if (listedDates.length){
+			setGraphLimits([listedDates[0]["Stamp"], listedDates[listedDates.length - 1]["Stamp"]])
+			setGraphData(listedDates);
+		}
 	}, [anomalyData, config]);
-
-	//console.log(graphData[1].Fecha);
 
 	return (
 		<div className="chart c2">
 			<div className="chart_title">Anomalías por fecha</div>
 			{(graphData.length > 0) ? (
 				<ResponsiveContainer width="100%" height="100%">
-					<LineChart width={500} height={300} data={graphData}>
-						<XAxis dataKey="Fecha" interval={graphData.length - 2}>
+					<LineChart width={500} height={300} data={graphData}
+						margin = {{right:50, bottom: 10, top: 20}}
+					>
+						<XAxis tickCount={3} type = "number" dataKey="Stamp" tickFormatter = {dateTickFormatter}
+						domain={graphLimits}>
 							<Label value="Fecha" position={"insideBottom"}></Label>
 						</XAxis>
 						<YAxis tickCount={2}><Label value="Cantidad" angle={-90}></Label></YAxis>
-						<Tooltip />
+						<Tooltip content = {<DateTooltip/>}/>
 						<Line
 							type="monotone"
 							dataKey="Registros"
 							stroke={grisNormal}
 							dot={false}
 						/>
+						
 						<Line
 							type="monotone"
 							dataKey="Anomalías"
@@ -101,7 +100,6 @@ function Chart2() {
 							dot={false}
 						/>
 						<Legend />
-
 					</LineChart>
 				</ResponsiveContainer>
 			) : (

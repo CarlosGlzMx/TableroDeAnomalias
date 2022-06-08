@@ -39,6 +39,12 @@
     border-color: var(--acero-ternium);
 }
 
+.date-tooltip {
+    background-color: var(--blanco-ternium);
+    border: 1px solid var(--gris-claro-ternium);
+    padding: 6;
+}
+
 /* Barra de acciones */
 .action-bar {
     background-color: var(--naranja-ternium);

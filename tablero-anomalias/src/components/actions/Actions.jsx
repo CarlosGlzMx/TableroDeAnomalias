@@ -14,7 +14,7 @@ import { printPdf } from "./pdfGenerator"
 function Actions() {
 
 	const { ids, setIds } = useContext(IdsContext);
-	const { config, setConfig } = useContext(ConfigContext);
+	const { config } = useContext(ConfigContext);
 
 	// Manejo de errores
 	const [error, setError] = useState(undefined);

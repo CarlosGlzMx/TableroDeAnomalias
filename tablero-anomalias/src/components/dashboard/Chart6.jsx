@@ -12,7 +12,6 @@ import {
 	Label
 } from 'recharts';
 import { DataContext, ConfigContext } from "./Dashboard";
-import { dateInRange } from "./auxMethods";
 
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
@@ -57,16 +56,17 @@ function Chart6() {
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
 		// Para generar los datos futuros
+		setGraphData([]);
 	}, [anomalyData, config]);
 
 
 	return (
-		<div className="chart c6">
+		<div className="chart c6 d-flex flex-column justify-content-start">
 			<div className="chart_title">
-				Frecuencia de anomalías
+				Dispersión de anomalías
 			</div>
 			<div className="d-flex">
-				<select className="form-select" aria-label="Default select example" defaultValue={""}
+				<select className="form-select m-2" aria-label="Default select example" defaultValue={""}
 					onChange={(e) => setConfig({ ...config, filtro_g6_1: e.target.value })}>
 					<option value="" disabled hidden>Variable filtro 1</option>
 					{
@@ -78,7 +78,7 @@ function Chart6() {
 						})
 					}
 				</select>
-				<select className="form-select" aria-label="Default select example" defaultValue={""}
+				<select className="form-select m-2" aria-label="Default select example" defaultValue={""}
 					onChange={(e) => setConfig({ ...config, filtro_g6_2: e.target.value })}>
 					<option value="" disabled hidden>Variable filtro 2</option>
 					{

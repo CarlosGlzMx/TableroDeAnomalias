@@ -38,7 +38,6 @@ function Chart4() {
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
 		// Depende de que haya una selección en el filtro
-    console.log(config);
 		if (!config["filtro_g4"]) return;
 
     // Contadores por valor único de la variable elegida
@@ -90,7 +89,7 @@ function Chart4() {
       <div className="chart_title">Anomalías por una variable</div>
       <div className="d-flex">
         <select
-          className="form-select"
+          className="form-select m-2"
           aria-label="Default select example"
           defaultValue={""}
           onChange={(e) =>
@@ -115,7 +114,7 @@ function Chart4() {
             barCategoryGap={2}
             margin={{
               top: 30,
-              bottom: 60,
+              bottom: 90,
             }}
           >
             <CartesianGrid />
