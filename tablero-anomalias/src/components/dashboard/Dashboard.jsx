@@ -13,22 +13,6 @@ import { dateParser } from "./auxMethods";
 export const DataContext = createContext([[], () => { }]);
 export const ConfigContext = createContext([[], () => { }]);
 
-// Variables por defecto para los contextos
-const defaultConfig = {
-	fecha_min: "2021-05-10",
-	fecha_max: "2021-11-30",
-	fecha_inicio: "2021-05-15",
-	fecha_fin: "2021-11-01",
-	filtro_g4: undefined,
-	filtro_g5_1: undefined,
-	filtro_g5_2: undefined,
-	filtro_g6_1: undefined,
-	filtro_g6_2: undefined,
-	umbral_anomalia: 0,
-	min_score: -0.25,
-	max_score: 0.15,
-};
-
 function Dashboard() {
 
 	// Variable que contiene los datos JSON para la generación de gráficas
@@ -37,15 +21,9 @@ function Dashboard() {
 	const [config, setConfig] = useState(undefined);
 
 	useEffect(() => {
-		if (anomalyData === undefined) {
+		if (anomalyData === undefined || config === undefined) {
 			setAnomalyData(dateParser(JSON.parse(sessionStorage.getItem("anomalyData"))));
-		}
-
-		if (config === undefined && sessionStorage.getItem("config")) {
 			setConfig(JSON.parse(sessionStorage.getItem("config")));
-		} else if (config === undefined && !sessionStorage.getItem("config")) {
-			setConfig(defaultConfig);
-			sessionStorage.setItem("config", JSON.stringify(defaultConfig));
 		}
 	}, [anomalyData, setAnomalyData, config]);
 

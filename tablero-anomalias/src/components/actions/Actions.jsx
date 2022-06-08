@@ -22,8 +22,7 @@ function Actions() {
 	// Manejo del Modal
 	const [type, setType] = useState("");
 	const [show, setShow] = useState(false);
-	const handleClose = (e) => {
-		e.preventDefault();
+	const handleClose = () => {
 		setNombre("");
 		setShow(false);
 		setError(undefined);
@@ -56,7 +55,6 @@ function Actions() {
 		if (ids.tablero === undefined && ids.carga !== undefined) {
 			response = await deleteCarga(ids.usuario, ids.carga);
 		} else if (ids.tablero !== undefined && ids.carga !== undefined) {
-			//Revisar que funcione
 			response = await deleteTablero(ids.usuario, ids.tablero);
 		}
 
@@ -71,6 +69,7 @@ function Actions() {
 		const solvedPromise = await response[0];
 		if (response[1] === 200) {
 			sessionStorage.removeItem("anomalyData");
+			sessionStorage.removeItem("config");
 			sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
 			setIds(undefined);
 			setDeleted(true);
@@ -79,27 +78,34 @@ function Actions() {
 		}
 	}
 
-	async function handleClickPost(e) {
+	function checkFilters(e) {
 		e.preventDefault();
 
-		// console.log(config);
-		// config.forEach(element => {
-		// 	if (element === undefined) {
-		// 		setError("Por favor seleccione una opción en cada filtro.");
-		// 		return;
-		// 	}
-		// });
+		let continueCheck = true;
+		Object.entries(config).forEach(element => {
+			if (element[1] === undefined || element[1] === "") {
+				continueCheck = false;
+			}
+		});
 
+		if (continueCheck) {
+			handleClickPost();
+		} else {
+			setError("Faltan campos por completar");
+		}
+	}
+
+	async function handleClickPost() {
 		const response = await postTablero(ids.usuario, ids.carga, nombre, config);
 		const solvedPromise = await response[0];
 		const id = parseInt(await response[2]);
 
 		if (response[1] === 200) {
-			setNombre("");
-			handleClose();
+			setIds({ ...ids, tablero: id });
 			sessionStorage.setItem("config", JSON.stringify(config));
 			sessionStorage.setItem("ids", JSON.stringify({ ...ids, tablero: id }));
 			setIds(undefined);
+			handleClose();
 		} else {
 			setError(solvedPromise + ". Intente de nuevo o recargue la pagina.");
 		}
@@ -226,7 +232,7 @@ function Actions() {
 							Cancelar
 						</Button>
 						{ error === undefined ?
-							<Button type="submit" disabled={ (type === "post" && nombre === "") ? true : false } className="primary-button" onClick={ type === "delete" ? handleClickDelete : handleClickPost }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
+							<Button type="submit" disabled={ (type === "post" && nombre === "") ? true : false } className="primary-button" onClick={ type === "delete" ? handleClickDelete : checkFilters }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
 							:
 							<></>
 						}

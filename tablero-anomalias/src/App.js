@@ -17,11 +17,6 @@ import "./styles/App.css";
 // Creación de contextos desde el componente mayor de la aplicación para acceso compartido
 export const IdsContext = createContext([[], () => {}]);
 
-// -- Pendientes Leyva --
-// Post y carga de tableros
-// Manejo correcto de config (BoardRow get, BoardRow delete, Dashboard post, Logout)
-// -- Pendientes Leyva --
-
 function App() {
     // Variable que contiene ids de usuario, de cargas
     const [ids, setIds] = useState(undefined);
