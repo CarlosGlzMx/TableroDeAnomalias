@@ -1,29 +1,41 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { IdsContext, ConfigContext } from "../../App";
+import { IdsContext } from "../../App";
+import { ConfigContext } from "../dashboard/Dashboard";
 import Slider from "./Slider";
 import Dates from "./Dates";
 
-import { deleteCarga, deleteTablero } from "../../api/requests";
+import { deleteCarga, deleteTablero, postTablero } from "../../api/requests";
 import { printPdf } from "./pdfGenerator"
 
 
 function Actions() {
 
 	const { ids, setIds } = useContext(IdsContext);
-	// const { config, setConfig } = useContext(ConfigContext);
+	const { config, setConfig } = useContext(ConfigContext);
 
 	// Manejo de errores
 	const [error, setError] = useState(undefined);
+
+	// Manejo del Modal
+	const [type, setType] = useState("");
 	const [show, setShow] = useState(false);
 	const handleClose = () => {
 		setShow(false);
 		setError(undefined);
 	};
-	const handleShow = () => setShow(true);
+	const handleShow = (type) => {
+		if (type === "delete") {
+			setType("delete");
+		} else if (type === "post") {
+			setType("post");
+		}
+		setShow(true);
+	}
 
+	const [nombre, setName] = useState("");
 	const [deleted, setDeleted] = useState(false);
 
 	const navegador = useNavigate();
@@ -41,6 +53,7 @@ function Actions() {
 		if (ids.tablero === undefined && ids.carga !== undefined) {
 			response = await deleteCarga(ids.usuario, ids.carga);
 		} else if (ids.tablero !== undefined && ids.carga !== undefined) {
+			//Revisar que funcione
 			response = await deleteTablero(ids.usuario, ids.tablero);
 		}
 
@@ -54,13 +67,31 @@ function Actions() {
 	async function errorHandler(response) {
 		const solvedPromise = await response[0];
 		if (response[1] === 200) {
-			localStorage.removeItem("anomalyData");
-			localStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
+			sessionStorage.removeItem("anomalyData");
+			sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
 			setIds(undefined);
 			setDeleted(true);
 		} else {
 			setError(solvedPromise + ". Intente de nuevo o recargue la pagina.");
 		}
+	}
+
+	async function handleClickPost(e) {
+		e.preventDefault();
+		const response = await postTablero(ids.usuario, ids.carga, nombre, config);
+		const solvedPromise = await response[0];
+
+		if (response[1] === 200) {
+			handleClose();
+			sessionStorage.setItem("config", JSON.stringify(config));
+			sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario, tablero: response[0] }));
+		} else {
+			setError(solvedPromise + ". Intente de nuevo o recargue la pagina.");
+		}
+	}
+
+	function newTab() {
+		window.open("http://localhost:3000/").focus()
 	}
 
 	return (
@@ -74,7 +105,7 @@ function Actions() {
 			</div>
 
 			<div className="action-right">
-				<button className="btn btn-default" onClick={ handleShow }>
+				<button className="btn btn-default" onClick={ () => handleShow("delete") }>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="6vh"
@@ -119,7 +150,7 @@ function Actions() {
 					</svg>
 				</button>
 
-				<button className="btn btn-default">
+				<button className="btn btn-default" onClick={ () => handleShow("post") }>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="6vh"
@@ -132,7 +163,7 @@ function Actions() {
 					</svg>
 				</button>
 
-				<button className="btn btn-default">
+				<button className="btn btn-default" onClick={ newTab }>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="6vh"
@@ -154,23 +185,40 @@ function Actions() {
 				keyboard={ false }
 			>
 				<Modal.Header closeButton>
-					<Modal.Title>Eliminar</Modal.Title>
+					<Modal.Title>{ type === "delete" ? "Eliminar" : "Guardar Tablero" }</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					{ error === undefined ? "¿Seguro que quieres eliminar este elemento?" : error }
+					{ type === "delete" ?
+						error === undefined ? "¿Seguro que quieres eliminar este elemento?" : error
+						:
+						error === undefined ?
+							<Form>
+								<Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+									<Form.Label>Nombre Tablero</Form.Label>
+									<Form.Control
+										type="text"
+										placeholder="Nombre"
+										autoFocus
+										onChange={ (e) => setName(e.target.value) }
+									/>
+								</Form.Group>
+							</Form>
+							:
+							error
+					}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button className="secondary-button" onClick={ handleClose }>
 						Cancelar
 					</Button>
 					{ error === undefined ?
-						<Button className="primary-button" onClick={ handleClickDelete }>Eliminar</Button>
+						<Button disabled={ (type === "post" && nombre === "") ? true : false } className="primary-button" onClick={ type === "delete" ? handleClickDelete : handleClickPost }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
 						:
 						<></>
 					}
 				</Modal.Footer>
 			</Modal>
-		</div>
+		</div >
 	);
 }
 

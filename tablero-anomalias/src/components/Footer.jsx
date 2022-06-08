@@ -6,7 +6,7 @@ function Footer() {
 	const location = useLocation();
 	if (location.pathname !== "/dashboard") {
 		return (
-			<div className = "Footer" style={{ height:"6vh"}}>
+			<div id = "footer">
 				<footer className = "full-center light-text h-100" id = "footer">
 					<small>Copyright &copy; Ternium</small>
 				</footer>

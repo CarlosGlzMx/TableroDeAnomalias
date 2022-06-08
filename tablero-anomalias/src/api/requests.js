@@ -29,11 +29,9 @@ export function postCarga(archivo, columnas, idUsuario) {
     }).then((response) => {
         if (response.status === 200) {
             return [
-                response.json().then((data) => ({
-                    datos: { ...data },
-                    idNuevo: response.headers.get("id_nueva"),
-                })),
+                response.text(),
                 response.status,
+                response.headers.get("id_nueva"),
             ];
         } else {
             return [response.text(), response.status];
@@ -78,16 +76,24 @@ export function deleteCarga(idUsuario, idCarga) {
 }
 
 // POST - Guarda un tablero en la base de datos
-export async function postTablero(idUsuario, idCarga, tablero) {
+export async function postTablero(idUsuario, idCarga, nombre, config) {
+    console.log(config);
     return await fetch(`http://127.0.0.1:5000/tableros/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             id_usuario: idUsuario,
             id_carga: idCarga,
+            nombre_tablero: nombre,
         },
-        body: JSON.stringify(tablero),
-    }).then((response) => response.json());
+        body: JSON.stringify(config),
+    }).then((response) => {
+        if (response.status === 200) {
+            return [response.json(), response.status];
+        } else {
+            return [response.text(), response.status];
+        }
+    });
 }
 
 // GET - Devuelve un tablero guardado previamente

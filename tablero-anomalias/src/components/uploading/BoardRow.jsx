@@ -6,7 +6,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteCarga, deleteTablero, getCarga } from '../../api/requests';
 import { IdsContext } from "../../App";
 import { AvailableDataContext } from './Upload';
-import dateParser from '../dateParser';
 
 function BoardRow(props) {
 
@@ -62,14 +61,17 @@ function BoardRow(props) {
 		if (response[1] === 200) {
 			if (requestType === "delete") {
 				if (props.id === ids.carga || props.id === ids.tablero) {
-					localStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
+					sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
+					sessionStorage.removeItem("anomalyData");
 					setIds(undefined);
 				}
 				setCargas(undefined);
 				setTableros(undefined);
 			} else if (requestType === "get") {
-				localStorage.setItem("anomalyData", JSON.stringify(dateParser(solvedPromise)));
-				localStorage.setItem("ids", JSON.stringify(props.type === "carga" ? { ...ids, carga: props.id } : { ...ids, tablero: props.id }));
+				sessionStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
+				sessionStorage.setItem("ids", JSON.stringify(props.type === "carga" ?
+					{ ...ids, carga: props.id, tablero: undefined } : { ...ids, tablero: props.id, carga: undefined }
+				));
 				setIds(undefined);
 				setSaveData(true);
 			}
@@ -83,13 +85,8 @@ function BoardRow(props) {
 	return (
 		<>
 			<li
-				className="h6"
-				style={ {
-					display: 'flex',
-					justifyContent: 'space-between',
-					alignItems: 'baseline',
-					paddingRight: '10px'
-				} }>
+				className="h6 d-flex justify-content-between align-items baseline"
+				style={ { paddingRight: '10px'} }>
 				{ props.name }
 				<div>
 					<Button

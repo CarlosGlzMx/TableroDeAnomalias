@@ -1,4 +1,4 @@
-/* Archivo CSS exclusivo para los colores de la aplicación */
+/* Archivo CSS exclusivo para los colores de la aplicación (y los bordes por conveniencia */
 :root {
     --acero-ternium: #485458;
     --azul-marino-ternium: #003366;
@@ -56,11 +56,13 @@
 .card-gray {
     background-color: var(--gris-claro-ternium);
     border: 0.3rem dashed var(--acero-ternium);
+    border-radius: 0.5rem;
 }
 
 .card-light {
     background-color: var(--blanco-ternium);
     border: 0.3rem dashed var(--acero-ternium);
+    border-radius: 0.5rem;
 }
 
 /* Botones */
@@ -104,4 +106,8 @@
 
 #navbar-hidden-menu {
     background-color: var(--azul-marino-ternium);
+}
+
+#anomaly-pct-label {
+    fill: var(--naranja-claro-ternium); 
 }

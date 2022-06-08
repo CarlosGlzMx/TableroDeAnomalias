@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import AnomalyBg from "../../images/AnomalyBG.png";
 import BoardRow from "./BoardRow";
 import Loading from "./Loading";
 import { getDatosDisponibles } from "../../api/requests";
@@ -53,14 +52,12 @@ function Upload() {
 	}, [type, isValid, file, listaCargas, listaTableros, ids, error]);
 
 	return (
-		<div className="full-center Upload" style={ { backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" } }>
+		<div className="full-center standard-bg">
 			<div className="card-gray p-4" style={ {
-				width: "40%", height: "66vh", margin: "8vh", borderRadius: "0.5rem"
-			} }>
+				width: "40%", height: "66vh", margin: "8vh"} }>
 				<Form validated={ isValid } >
 					<Form.Group controlId="formFile" className="mb-3">
 						<Form.Label>Carga un archivo de tipo .csv o .xlsx</Form.Label>
-
 						<Form.Control
 							isInvalid={ isValid === undefined ? null : !isValid }
 							accept=".csv, .xlsx"
@@ -87,16 +84,11 @@ function Upload() {
 				<div className="card-light" style={ {
 					width: "40%",
 					height: "66vh",
-					margin: "8vh",
-					borderRadius: "0.5rem"
+					margin: "8vh"
 				} }>
-					<div className="w-100 h-50 p-4">
-						<div className="h4">Cargas disponibles</div>
-						<ul style={ {
-							overflow: 'scroll',
-							maxHeight: '22vh',
-							overflowX: 'hidden'
-						} }>
+					<div className = "w-100 h-50 p-4">
+						<div className = "h4">Cargas disponibles</div>
+						<ul className = "available-data-list">
 							{ (listaCargas === undefined || error) ?
 								error ?
 									<h5>{ "Error: " + listaCargas }</h5>
@@ -111,11 +103,7 @@ function Upload() {
 					</div>
 					<div className="w-100 h-50 p-4">
 						<div className="h4">Tableros guardados</div>
-						<ul style={ {
-							overflow: 'scroll',
-							maxHeight: '22vh',
-							overflowX: 'hidden'
-						} }>
+						<ul className = "available-data-list">
 							{ (listaTableros === undefined || error) ?
 								error ?
 									<h5>{ "Error: " + listaTableros }</h5>

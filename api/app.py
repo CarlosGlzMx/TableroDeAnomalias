@@ -4,11 +4,9 @@
 
 # Bibliotecas estándar para el manejo del API y los datos
 from operator import index
-from flask import Flask, make_response, request, render_template, abort, Response, send_file
+from flask import Flask, request, render_template, Response
 from flask_cors import CORS, cross_origin
-from numpy import dtype
 import pandas as pd
-import json
 
 # Modulos del equipo de trabajo para seccionamiento de tareas
 import model
@@ -67,7 +65,7 @@ def methods_uploads():
             temp_df = pd.read_csv(file_received, encoding='latin-1', low_memory=False)
         else:
             temp_df = pd.read_excel(file_received)
-        temp_df = processing.clean(temp_df, date_column)
+        temp_df, relevant_columns = processing.clean(temp_df, relevant_columns, date_column)
         try: temp_df = processing.verify_date(temp_df, date_column)
         except Exception as e: return Response("Columna de fechas inadecuada", 500)
         sliced_data = processing.slice_columns(temp_df, relevant_columns + [date_column])
@@ -78,12 +76,10 @@ def methods_uploads():
         try: new_id = db_manager.save_data(file_name, user_id, resulting_data.copy(), relevant_columns, date_column)
         except Exception as e:
           return Response("Error en el guardado de datos: " + str(e), 500)
-        resulting_data.rename(columns = {date_column : 'fecha'}, inplace=True)
 
         # Regreso de datos
         # Configura la respuesta al sitio web
-        response_to_web = Response(resulting_data.to_json() , 200)
-        response_to_web.headers["Content-Type"] = "text/csv"
+        response_to_web = Response("Se cargó correctamente" , 200)
         response_to_web.headers["id_nueva"] = new_id
         return response_to_web
     elif request.method == "GET":
@@ -94,10 +90,16 @@ def methods_uploads():
             return Response("No se ha proporcionado un id de usuario o un id de carga", 400)
         
         # Obtiene en un dataframe de Pandas los datos almacenados en la base de datos
-        try: headers, rows, info = db_manager.get_data(upload_id, user_id)
+        try: headers, data_types, rows, info = db_manager.get_data(upload_id, user_id)
         except Exception as e: return Response("Error en la obtención de datos: " + str(e), 500)
-        records_df = pd.DataFrame(rows, columns = headers)
-
+        
+        # Reconstruye un data frame que sirva a la hora de recastear a tipos de datos originales
+        try:
+            records_df = pd.DataFrame(rows, columns = headers)
+            for h, d in zip(headers, data_types):
+                records_df[h] = records_df[h].astype(d)
+        except Exception as e: return Response("Error en la reconstrucción de datos: " + str(e), 500)
+        
         # Configura la respuesta al sitio web
         response_to_web = Response(records_df.to_json(), 200)
         response_to_web.headers["Content-Type"] = "text/csv"
@@ -152,7 +154,7 @@ def methods_boards():
         records_df = pd.DataFrame(rows, columns = headers)
 
         # Configura la respuesta al sitio web
-        response_to_web = Response(records_df.to_csv(index = False), 200)
+        response_to_web = Response(records_df.to_json(), 200)
         response_to_web.headers["Content-Type"] = "text/csv"
         for key, value in info.items():
             response_to_web.headers[key] = value

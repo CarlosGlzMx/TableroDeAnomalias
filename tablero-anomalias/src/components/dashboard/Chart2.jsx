@@ -9,8 +9,8 @@ import {
 	Line,
 	Label,
 } from "recharts";
-import { ConfigContext } from "../../App";
-import { DataContext } from "./Dashboard";
+import { DataContext, ConfigContext } from "./Dashboard";
+import { dateInRange } from "./auxMethods";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
@@ -29,15 +29,18 @@ function Chart2() {
 		let listedDates = [];
 
 		for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
-			// De ser necesario, inicializa los objetos
-			if (!groupedByDate[anomalyData.fecha[i]]) {
-				groupedByDate[anomalyData.fecha[i]] = { "registros": 0, "anomalias": 0 };
-			}
+			// Filtra por el rango de fechas
+			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
+				// De ser necesario, inicializa los objetos
+				if (!groupedByDate[anomalyData.fecha[i]]) {
+					groupedByDate[anomalyData.fecha[i]] = { "registros": 0, "anomalias": 0 };
+				}
 
-			// Incrementa por uno la cantidad de registros en esta fecha
-			groupedByDate[anomalyData.fecha[i]]["registros"] += 1;
-			if (anomalyData.scores[i] >= config["umbral_anomalia"]) {
-				groupedByDate[anomalyData.fecha[i]]["anomalias"] += 1;
+				// Incrementa por uno la cantidad de registros en esta fecha
+				groupedByDate[anomalyData.fecha[i]]["registros"] += 1;
+				if (anomalyData.scores[i] <= config["umbral_anomalia"]) {
+					groupedByDate[anomalyData.fecha[i]]["anomalias"] += 1;
+				}
 			}
 		}
 
