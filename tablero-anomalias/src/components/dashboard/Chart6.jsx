@@ -103,6 +103,7 @@ function Chart6() {
     setArray1234(Name);
 		// Para generar los datos futuros
 	}, [anomalyData, config]);
+	console.log(graphData);
 
 	return (
 		<div className="chart c6">
@@ -110,64 +111,58 @@ function Chart6() {
 				Frecuencia de anomalías
 			</div>
 			<div className="d-flex">
-				<select className="form-select" aria-label="Default select example" defaultValue={""}
-					onChange={(e) => setConfig({ ...config, filtro_g6_1: e.target.value })}>
+				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
+					onChange={ (e) => setConfig({ ...config, filtro_g6_1: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 1</option>
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g6_2"]) {
-								return <option key={variable + "filer6-1"} value={variable}>{variable}</option>
+								return <option key={ variable + "filer6-1" } value={ variable }>{ variable }</option>
 							}
 							return null;
 						})
 					}
 				</select>
-				<select className="form-select" aria-label="Default select example" defaultValue={""}
-					onChange={(e) => setConfig({ ...config, filtro_g6_2: e.target.value })}>
+				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
+					onChange={ (e) => setConfig({ ...config, filtro_g6_2: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 2</option>
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g6_1"]) {
-								return <option key={variable + "filer6-2"} value={variable}>{variable}</option>
+								return <option key={ variable + "filer6-2" } value={ variable }>{ variable }</option>
 							}
 							return null;
 						})
 					}
 				</select>
 			</div>
-			{(graphData.length > 0) ? (
-				<ResponsiveContainer width="100%" height="100%">
-					<ScatterChart
-						width={400}
-						height={400}
-						margin={{
-							top: 20,
-							right: 20,
-							bottom: 20,
-							left: 20,
-						}}
-					>
-						<CartesianGrid />
-						<XAxis type="number" />
-						<YAxis tick={false} type="category" dataKey="Variables">
-							<Label value={
-								!config["filtros_g5_1"] || !config["filtros_g5_2"] ? "" :
-									`${config["filtros_g5_1"]} x ${config["filtros_g5_2"]}`
-							} angle={-90}></Label>
-						</YAxis>
-						<ZAxis type="number" dataKey="z" range={[60, 400]} name="score" unit="km" />
-						<Tooltip cursor={{ strokeDasharray: '3 3' }} />
-						<Legend />
-						<Scatter dataKey="Anomalías" fill={naranjaAnomalia} stackId="stack" data={data01} shape="circle" />
-						<Scatter dataKey="Normales" fill={grisNormal} stackId="stack" data={data02} shape="circle" />
-						<Legend />
-					</ScatterChart>
-				</ResponsiveContainer>
-			) : (
-				<div className="card-blue p-4 m-4 text-center">
-					<h3>No se encontraron datos para generar la gráfica</h3>
-				</div>
-			)}
+			<ResponsiveContainer width="100%" height="100%">
+				<ScatterChart
+					width={ 400 }
+					height={ 400 }
+					margin={ {
+						top: 20,
+						right: 20,
+						bottom: 20,
+						left: 20,
+					} }
+				>
+					<CartesianGrid />
+					<XAxis type="number" />
+					<YAxis tick={ false } type="category" dataKey="Variables">
+						<Label value={
+							!config["seleccion_g5_1"] || !config["seleccion_g5_2"] ? "" :
+								`${config["seleccion_g5_1"]} x ${config["seleccion_g5_2"]}`
+						} angle={ -90 }></Label>
+					</YAxis>
+					<ZAxis type="number" dataKey="z" range={ [60, 400] } name="score" unit="km" />
+					<Tooltip cursor={ { strokeDasharray: '3 3' } } />
+					<Legend />
+					<Scatter dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" data={ data01 } shape="circle" />
+					<Scatter dataKey="Normales" fill={ grisNormal } stackId="stack" data={ data02 } shape="circle" />
+					<Legend />
+				</ScatterChart>
+			</ResponsiveContainer>
 		</div>
 	);
 }
