@@ -75,10 +75,10 @@ function Chart2() {
 
 	//console.log(graphData[1].Fecha);
 
-	if (graphData.length > 0) {
-		return (
-			<div className="chart c2">
-				<div className="chart_title">Anomalías por fecha</div>
+	return (
+		<div className="chart c2">
+			<div className="chart_title">Anomalías por fecha</div>
+			{ (graphData.length > 0) ?
 				<ResponsiveContainer width="100%" height="100%">
 					<LineChart width={ 500 } height={ 300 } data={ graphData }>
 						<XAxis dataKey="Fecha" interval={ graphData.length - 2 }>
@@ -100,23 +100,22 @@ function Chart2() {
 						/>
 						<Legend />
 
-					</LineChart>
-				</ResponsiveContainer>
-			</div>
-		);
+					</LineChart >
+				</ResponsiveContainer >
+				:
 
-	} else {
-		return (
-			<div className="chart c2">
-				<div className="chart_title">Anomalías por fecha</div>
-				<ResponsiveContainer width="100%" height="100%">
-					<div className="chartError">
-						<h3>No fue posible mostrar gráfica debido a que no existe información suficiente</h3>
-					</div>
-				</ResponsiveContainer>
-			</div>
-		);
-	}
+
+				<div className="chart c2">
+					<div className="chart_title">Anomalías por fecha</div>
+					<ResponsiveContainer width="100%" height="100%">
+						<div className="chartError">
+							<h3>No fue posible mostrar gráfica debido a que no existe información suficiente</h3>
+						</div>
+					</ResponsiveContainer>
+				</div>
+			}
+		</div>
+	);
 }
 
 export default Chart2;

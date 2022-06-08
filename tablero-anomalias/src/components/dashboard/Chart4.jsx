@@ -38,6 +38,7 @@ function Chart4() {
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
 		// Depende de que haya una selección en el filtro
+		console.log(config);
 		if (!config["filtro_g4"]) return;
 
 		// Contadores por valor único de la variable elegida
