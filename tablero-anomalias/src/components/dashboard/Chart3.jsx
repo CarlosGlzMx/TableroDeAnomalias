@@ -4,7 +4,7 @@ import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
-
+ 
 function Chart3() {
 	// Contextos necesarios para las gráficas
 	const { config } = useContext(ConfigContext);
@@ -39,7 +39,7 @@ function Chart3() {
 		// Pasa los datos al formato que espera Recharts
 		const processesData = [];
 		for (const [scoreGroup, count] of Object.entries(bars)) {
-			processesData.push({ "Grupo": Math.round(parseFloat(scoreGroup) * 1000) / 1000, "Cantidad": count });
+			processesData.push({ "Grupo": Math.round(parseFloat(scoreGroup) * 1000) / 1000, "Cantidad de anomalías": count });
 		}
 		processesData.sort((a, b) => {
 			if (a["Grupo"] > b["Grupo"]) return 1;
@@ -67,7 +67,7 @@ function Chart3() {
 						bottom: 32,
 					} }
 				>
-					<Bar dataKey="Cantidad">
+					<Bar dataKey="Cantidad de anomalías" fill={ naranjaAnomalia }>
 						{ graphData.map((entry, i) => (
 							<Cell key={ `cell-${i}` } fill={ entry["Grupo"] <= config["umbral_anomalia"] ? naranjaAnomalia : grisNormal } />
 						)) }
@@ -83,6 +83,8 @@ function Chart3() {
 					/>
 					<Legend />
 					<Tooltip />
+					
+					<Legend />
 				</BarChart >
 			</ResponsiveContainer >
 		</div >

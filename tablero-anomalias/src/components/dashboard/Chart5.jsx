@@ -131,9 +131,9 @@ function Chart5() {
 						} angle={ -90 }></Label>
 					</YAxis>
 					<Tooltip />
-					<Legend />
 					<Bar dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" />
 					<Bar dataKey="Normales" fill={ grisNormal } stackId="stack" />
+					<Legend/>
 				</BarChart>
 			</ResponsiveContainer>
 		</div>

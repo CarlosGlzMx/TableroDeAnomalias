@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form } from 'react-bootstrap';
 import PsychologyIcon from '@mui/icons-material/Psychology';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const Column = (props) => {
 
@@ -10,7 +11,7 @@ const Column = (props) => {
 
 	return (
 		<div
-			className="row-separator p-3 d-flex justify-content-between ms-5">
+			className="row-separator p-3 d-flex justify-content-between mx-5">
 			<div className = "d-flex align-items-center" style = { { width: '30vw' }} >
 				<h6>{ props.index }  { props.name }</h6>
 			</div>
@@ -34,10 +35,7 @@ const Column = (props) => {
 					<option value="D-I" key="D-I">Dato Informativo</option>
 				</Form.Select>
 			</Form.Group>
-			<div className="d-flex flex-row" style={ { width: '10vw' } } >
-				<div className="me-3">
-					<PsychologyIcon fontSize="large" />
-				</div>
+			<div className="d-flex flex-row justify-content-center" style={ { width: '10vw' } } >
 				<div>
 					<Form.Check
 						type="checkbox"
@@ -47,6 +45,9 @@ const Column = (props) => {
 						onChange={ () => setCheckedIA(!checkedIA) }
 						disabled
 					/>
+				</div>
+				<div className="ms-3">
+					<PsychologyIcon fontSize="large" />
 				</div>
 			</div>
 			<Form.Group className="d-flex flex-row" style={ { width: '4vw' } } >
@@ -61,6 +62,10 @@ const Column = (props) => {
 						}, 100)
 					} }
 				/>
+
+				<div className="ms-3">
+					<CalendarMonthIcon fontSize="large"  />
+				</div>
 			</Form.Group>
 		</div >
 	);
