@@ -43,6 +43,22 @@ h4 {
     padding: 28px;
 }
 
+.chartError{
+    min-width: 33%;
+    height: 78vh;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 28px;
+} */
+
+.chartError h3{
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+
+
 @media (min-width: 600px) {
     .chart {
         width: 49%;
@@ -120,6 +136,8 @@ label {
     font-weight: bolder;
     font-size: 1.5rem;
 }
+
+
 
 #header {
     height: 12vh;

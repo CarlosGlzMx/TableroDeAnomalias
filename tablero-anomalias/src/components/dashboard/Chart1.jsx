@@ -28,38 +28,52 @@ function Chart1() {
 		setGraphData([{ name: "Datos regulares", value: normales }, { name: "Anomalías", value: anomalias }])
 		setAnomalyPct(Math.round(anomalias / (normales + anomalias) * 100));
 	}, [anomalyData, config]);
-
-	return (
-		<div className="chart c2">
-			<div className="chart_title">
-				Cantidad de anomalías
+	if (graphData.length > 0) {
+		return (
+			<div className="chart c2">
+				<div className="chart_title">
+					Cantidad de anomalías
+				</div>
+				<ResponsiveContainer className="d-flex justify-content-center">
+					<PieChart>
+						<Pie
+							data={ graphData }
+							innerRadius={ 90 }
+							outerRadius={ 130 }
+							labelLine={ false }
+							fill="#fe9000"
+							paddingAngle={ 5 }
+							dataKey="value"
+							nameKey="name"
+							startAngle={ 90 }
+							endAngle={ 450 }
+							wrapperStyle={ { position: 'relative' } }
+						>
+							{ graphData.map((entry, index) => (
+								<Cell key={ `cell-${index}` } fill={ index ? naranjaAnomalia : grisNormal } />
+							)) }
+							<Label id = "anomaly-pct-label" value={ `${anomalyPct}%` } position="center"></Label>
+						</Pie>
+						<Tooltip />
+						<Legend />
+					</PieChart>
+				</ResponsiveContainer>
 			</div>
-			<ResponsiveContainer className="d-flex justify-content-center">
-				<PieChart>
-					<Pie
-						data={ graphData }
-						innerRadius={ 90 }
-						outerRadius={ 130 }
-						labelLine={ false }
-						fill="#fe9000"
-						paddingAngle={ 5 }
-						dataKey="value"
-						nameKey="name"
-						startAngle={ 90 }
-						endAngle={ 450 }
-						wrapperStyle={ { position: 'relative' } }
-					>
-						{ graphData.map((entry, index) => (
-							<Cell key={ `cell-${index}` } fill={ index ? naranjaAnomalia : grisNormal } />
-						)) }
-						<Label id = "anomaly-pct-label" value={ `${anomalyPct}%` } position="center"></Label>
-					</Pie>
-					<Tooltip />
-					<Legend />
-				</PieChart>
-			</ResponsiveContainer>
-		</div>
-	);
+		);
+		
+	} else {
+		return (
+			<div className="chart c2">
+				<div className="chart_title">Anomalías por fecha</div>
+				<ResponsiveContainer width="100%" height="100%">
+					<div className="chartError">
+						<h3>No fue posible mostrar gráfica debido a que no existe información suficiente</h3>
+					</div>
+				</ResponsiveContainer>
+			</div>
+		);
+	}
+	
 }
 
 export default Chart1;

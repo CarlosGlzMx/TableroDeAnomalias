@@ -48,48 +48,63 @@ function Chart3() {
 		setGraphData(processesData);
 	}, [anomalyData, config, NUM_BARRAS, INICIO, FIN]);
 
-	return (
+	if (graphData.length > 0) {
+		return (
 
-		<div className="chart c3">
-			<div className="chart_title">
-				Comportamiento de los datos
+			<div className="chart c3">
+				<div className="chart_title">
+					Comportamiento de los datos
+				</div>
+	
+				<ResponsiveContainer width="100%" height="100%">
+					<BarChart
+						width={ 150 }
+						height={ 40 }
+						data={ graphData }
+						margin={ {
+							top: 15,
+							right: 10,
+							left: 20,
+							bottom: 32,
+						} }
+					>
+						<Bar dataKey="Cantidad de anomalías" fill={ naranjaAnomalia }>
+							{ graphData.map((entry, i) => (
+								<Cell key={ `cell-${i}` } fill={ entry["Grupo"] <= config["umbral_anomalia"] ? naranjaAnomalia : grisNormal } />
+							)) }
+	
+						</Bar>
+						<XAxis dataKey="Grupo" interval={ NUM_BARRAS - 1 }><Label value="Puntaje de anomalía" position={ "insideBottom" }></Label></XAxis>
+						<YAxis tickCount={ 2 }><Label value="Observaciones" angle={ -90 }></Label></YAxis>
+						<Line
+							type="monotone"
+							dataKey="Registros"
+							stroke={ grisNormal }
+							dot={ false }
+						/>
+						<Legend />
+						<Tooltip />
+						
+						<Legend />
+					</BarChart >
+				</ResponsiveContainer >
+			</div >
+	
+		);
+		
+	} else {
+		return (
+			<div className="chart c2">
+				<div className="chart_title">Anomalías por fecha</div>
+				<ResponsiveContainer width="100%" height="100%">
+					<div className="chartError">
+						<h3>No fue posible mostrar gráfica debido a que no existe información suficiente</h3>
+					</div>
+				</ResponsiveContainer>
 			</div>
+		);
+	}
 
-			<ResponsiveContainer width="100%" height="100%">
-				<BarChart
-					width={ 150 }
-					height={ 40 }
-					data={ graphData }
-					margin={ {
-						top: 15,
-						right: 10,
-						left: 20,
-						bottom: 32,
-					} }
-				>
-					<Bar dataKey="Cantidad de anomalías" fill={ naranjaAnomalia }>
-						{ graphData.map((entry, i) => (
-							<Cell key={ `cell-${i}` } fill={ entry["Grupo"] <= config["umbral_anomalia"] ? naranjaAnomalia : grisNormal } />
-						)) }
-
-					</Bar>
-					<XAxis dataKey="Grupo" interval={ NUM_BARRAS - 1 }><Label value="Puntaje de anomalía" position={ "insideBottom" }></Label></XAxis>
-					<YAxis tickCount={ 2 }><Label value="Observaciones" angle={ -90 }></Label></YAxis>
-					<Line
-						type="monotone"
-						dataKey="Registros"
-						stroke={ grisNormal }
-						dot={ false }
-					/>
-					<Legend />
-					<Tooltip />
-					
-					<Legend />
-				</BarChart >
-			</ResponsiveContainer >
-		</div >
-
-	);
 }
 
 export default Chart3;
