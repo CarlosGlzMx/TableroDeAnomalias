@@ -3,7 +3,6 @@
 # Desarrollo por el equipo 4 del Tec de Monterrey, Carlos González para Ternium
 
 # Bibliotecas estándar para el manejo del API y los datos
-from operator import index
 from flask import Flask, request, render_template, Response
 from flask_cors import CORS, cross_origin
 import pandas as pd
@@ -37,7 +36,7 @@ def list_available_data():
         data_names = db_manager.get_data_names(user_id)
         return Response(data_names, 200)
     except Exception as e:
-            return Response("Error en la consulta de datos: " + str(e), 500)
+        return Response("Error en la consulta de datos: " + str(e), 500)
 
 # 2 - POST - Carga de nuevos archivos a la base de datos, incluyendo llamar al modelo de IA
 # 4 - GET - Devuelve todos los datos asociados con una carga
@@ -70,12 +69,14 @@ def methods_uploads():
         except Exception as e: return Response("Columna de fechas inadecuada", 500)
         sliced_data = processing.slice_columns(temp_df, relevant_columns + [date_column])
         categorized_data = processing.categorize(sliced_data.copy(), AI_columns)
-        resulting_data = model.run_model(categorized_data, sliced_data)
+
+        # Se ejecuta el modelo de inteligencia artificial
+        try: resulting_data = model.run_model(categorized_data, sliced_data)
+        except Exception as e: return Response("Error en el modelo de IA: " + str(e), 500)
 
         # Se guardan los datos en la base de datos
         try: new_id = db_manager.save_data(file_name, user_id, resulting_data.copy(), relevant_columns, date_column)
-        except Exception as e:
-          return Response("Error en el guardado de datos: " + str(e), 500)
+        except Exception as e: return Response("Error en el guardado de datos: " + str(e), 500)
 
         # Configura la respuesta al sitio web
         response_to_web = Response("Se cargó correctamente" , 200)
