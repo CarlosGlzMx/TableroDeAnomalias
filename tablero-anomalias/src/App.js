@@ -20,7 +20,6 @@ export const IdsContext = createContext([[], () => {}]);
 function App() {
     // Variable que contiene ids de usuario, de cargas
     const [ids, setIds] = useState(undefined);
-    console.log(ids);
 
     useEffect(() => {
         if (sessionStorage.getItem("ids") && ids === undefined) {

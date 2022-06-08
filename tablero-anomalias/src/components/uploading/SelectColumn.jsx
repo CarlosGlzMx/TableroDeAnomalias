@@ -107,7 +107,6 @@ function SelectColumn() {
 
 		if (response[1] === 200) {
 			const responseGet = await getCarga(ids.usuario, id);
-			console.log(responseGet);
 			const carga = await responseGet[0];
 			if (responseGet[1] === 200) {
 				const filters = parseFilters(responseGet[2]);
