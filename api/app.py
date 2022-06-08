@@ -3,7 +3,6 @@
 # Desarrollo por el equipo 4 del Tec de Monterrey, Carlos González para Ternium
 
 # Bibliotecas estándar para el manejo del API y los datos
-from operator import index
 from flask import Flask, request, render_template, Response
 from flask_cors import CORS, cross_origin
 import pandas as pd
@@ -14,7 +13,11 @@ import processing
 import db_manager
 
 app = Flask(__name__)
+
 cors = CORS(app)
+HEADERS_CORS = ["id_nueva", "fecha_min", "fecha_max", "fecha_inicio", "fecha_fin", 
+    "filtro_g4", "filtro_g5_1", "filtro_g5_2", "filtro_g6_1", "filtro_g6_2", "umbral_anomalia",
+    "min_score", "max_score"]
 
 # Se numeran las rutas según su orden de uso por la aplicación
 # 1 - GET - Ruta por defecto con instrucciones de uso
@@ -37,13 +40,13 @@ def list_available_data():
         data_names = db_manager.get_data_names(user_id)
         return Response(data_names, 200)
     except Exception as e:
-            return Response("Error en la consulta de datos: " + str(e), 500)
+        return Response("Error en la consulta de datos: " + str(e), 500)
 
 # 2 - POST - Carga de nuevos archivos a la base de datos, incluyendo llamar al modelo de IA
 # 4 - GET - Devuelve todos los datos asociados con una carga
 # 5 - DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
 @app.route("/cargas/", methods = ["POST", "GET", "DELETE"])
-@cross_origin(expose_headers="id_nueva")
+@cross_origin(expose_headers = HEADERS_CORS)
 def methods_uploads():
     if request.method == "POST":
         # Verifica que venga un usuario y una clasificación de columnas del archivo
@@ -70,14 +73,15 @@ def methods_uploads():
         except Exception as e: return Response("Columna de fechas inadecuada", 500)
         sliced_data = processing.slice_columns(temp_df, relevant_columns + [date_column])
         categorized_data = processing.categorize(sliced_data.copy(), AI_columns)
-        resulting_data = model.run_model(categorized_data, sliced_data)
+
+        # Se ejecuta el modelo de inteligencia artificial
+        try: resulting_data = model.run_model(categorized_data, sliced_data)
+        except Exception as e: return Response("Error en el modelo de IA: " + str(e), 500)
 
         # Se guardan los datos en la base de datos
         try: new_id = db_manager.save_data(file_name, user_id, resulting_data.copy(), relevant_columns, date_column)
-        except Exception as e:
-          return Response("Error en el guardado de datos: " + str(e), 500)
+        except Exception as e: return Response("Error en el guardado de datos: " + str(e), 500)
 
-        # Regreso de datos
         # Configura la respuesta al sitio web
         response_to_web = Response("Se cargó correctamente" , 200)
         response_to_web.headers["id_nueva"] = new_id
@@ -122,7 +126,7 @@ def methods_uploads():
 # 7 - GET - Devuelve un tablero guardado previamente
 # 8 - DELETE - Elimina un tablero de la base de datos
 @app.route("/tableros/", methods = ['POST', 'GET', 'DELETE'])
-@cross_origin()
+@cross_origin(expose_headers = HEADERS_CORS)
 def methods_boards():
     if request.method == 'POST':
         # Lee el cuerpo y pasa a un diccionario de Python
@@ -137,10 +141,13 @@ def methods_boards():
             return Response("No se ha proporcionado un id de usuario, id de carga o un nombre de tablero", 400)
         
         # Guarda el tablero en la base de datos
-        try: db_manager.save_board(parameters)
+        try: new_id = db_manager.save_board(parameters)
         except Exception as e: return Response("Error en la base de datos: " + str(e), 500)
 
-        return Response("Tablero guardado correctamente", 200)
+        # Configura la respuesta al sitio web
+        response_to_web = Response("Tablero guardado correctamente" , 200)
+        response_to_web.headers["id_nueva"] = new_id
+        return response_to_web
     elif request.method == 'GET':
         # Verifica que venga un usuario y un identificador de carga
         user_id = request.headers.get("id_usuario")
@@ -149,10 +156,16 @@ def methods_boards():
             return Response("No se ha proporcionado un id de usuario o un id de tablero", 400)
         
         # Obtiene en un dataframe de Pandas los datos almacenados en la base de datos
-        try: headers, rows, info = db_manager.get_board(board_id, user_id)
+        try: headers, data_types, rows, info = db_manager.get_board(board_id, user_id)
         except Exception as e: return Response("Error en la obtención de datos: " + str(e), 500)
-        records_df = pd.DataFrame(rows, columns = headers)
-
+        
+        # Reconstruye un data frame que sirva a la hora de recastear a tipos de datos originales
+        try:
+            records_df = pd.DataFrame(rows, columns = headers)
+            for h, d in zip(headers, data_types):
+                records_df[h] = records_df[h].astype(d)
+        except Exception as e: return Response("Error en la reconstrucción de datos: " + str(e), 500)
+        
         # Configura la respuesta al sitio web
         response_to_web = Response(records_df.to_json(), 200)
         response_to_web.headers["Content-Type"] = "text/csv"

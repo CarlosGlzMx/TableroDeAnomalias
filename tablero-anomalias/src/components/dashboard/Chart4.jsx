@@ -35,44 +35,32 @@ function Chart4() {
     setDropDownData(variableNames);
   }, [anomalyData]);
 
-  // Actualización de los datos que alimentan a la gráfica de barras
-  useEffect(() => {
-    // Depende de que haya una selección en el filtro
-    if (!config["seleccion_g4"]) return;
+	// Actualización de los datos que alimentan a la gráfica de barras
+	useEffect(() => {
+		// Depende de que haya una selección en el filtro
+		if (!config["filtro_g4"]) return;
 
     // Contadores por valor único de la variable elegida
     let groupedByVarValue = {};
     let listedBars = [];
 
-    for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
-      // Filtra por el rango de fechas
-      if (
-        dateInRange(
-          anomalyData["fecha"][i],
-          config["fecha_inicio"],
-          config["fecha_fin"]
-        )
-      ) {
-        // De ser necesario, inicializa los objetos
-        if (!groupedByVarValue[anomalyData[config["seleccion_g4"]][i]]) {
-          groupedByVarValue[anomalyData[config["seleccion_g4"]][i]] = {
-            normales: 0,
-            anomalias: 0,
-          };
-        }
+		for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
+			// Filtra por el rango de fechas
+			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
+				// De ser necesario, inicializa los objetos
+				if (!groupedByVarValue[anomalyData[config["filtro_g4"]][i]]) {
+					groupedByVarValue[anomalyData[config["filtro_g4"]][i]] = { "normales": 0, "anomalias": 0 };
+				}
 
-        // Incrementa por uno según si es o no una anomalía para la variable elegida
-        if (anomalyData.scores[i] <= config["umbral_anomalia"]) {
-          groupedByVarValue[anomalyData[config["seleccion_g4"]][i]][
-            "anomalias"
-          ] += 1;
-        } else {
-          groupedByVarValue[anomalyData[config["seleccion_g4"]][i]][
-            "normales"
-          ] += 1;
-        }
-      }
-    }
+				// Incrementa por uno según si es o no una anomalía para la variable elegida
+				if (anomalyData.scores[i] <= config["umbral_anomalia"]) {
+					groupedByVarValue[anomalyData[config["filtro_g4"]][i]]["anomalias"] += 1;
+				}
+				else {
+					groupedByVarValue[anomalyData[config["filtro_g4"]][i]]["normales"] += 1;
+				}
+			}
+		}
 
     // Traduce los datos a una lista que pueda procesar el app
     for (const [key, value] of Object.entries(groupedByVarValue)) {

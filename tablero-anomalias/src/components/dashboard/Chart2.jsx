@@ -27,6 +27,8 @@ function Chart2() {
 		// Contadores por fecha de datos registrados y anomalías
 		let groupedByDate = {};
 		let listedDates = [];
+		let listedDatesFinal = []
+		let listedDatesFinal1 = []
 
 		for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
 			// Filtra por el rango de fechas
@@ -47,12 +49,33 @@ function Chart2() {
 
 		
 		// Traduce los datos a una lista que pueda procesar el app
+		var reducedDate
+		var dateObject1
 		for (const [key, value] of Object.entries(groupedByDate)) {
-			listedDates.push({ "Fecha": key, "Registros": value["registros"], "Anomalías": value["anomalias"] });
+			dateObject1 = new Date (key);
+			//reducedDate = dateObject1.toLocaleDateString()
+			listedDates.push({ "Fecha": dateObject1, "Registros": value["registros"], "Anomalías": value["anomalias"] });
+
 		}
-		setGraphData(listedDates);
+
+		listedDatesFinal = listedDates.slice().sort((a, b) => a.Fecha - b.Fecha);
+		//console.log(listedDatesFinal[1].Fecha)
+		//  for (var i = 0; listedDatesFinal.length - 1; i++){
+		//     	dateObject1 = listedDatesFinal[i].Fecha;
+		//     	reducedDate = dateObject1.toLocaleDateString()
+		//     	listedDatesFinal1.push({ "Fecha": reducedDate, "Registros": listedDatesFinal[i].Registros, "Anomalías": listedDatesFinal[i].Anomalías });
+		//     }
+		//  for (const [key, value] of Object.entries(groupedByDate)) {
+		//  	dateObject1 = new Date (key);
+		//  	reducedDate = dateObject1.toLocaleDateString()
+		//  	listedDatesFinal.push({ "Fecha": reducedDate, "Registros": value["registros"], "Anomalías": value["anomalias"] });
+
+		// // }
+
+		setGraphData(listedDatesFinal);
 	}, [anomalyData, config]);
 
+	//console.log(graphData[1].Fecha);
 
 	if (graphData.length > 0) {
 		return (

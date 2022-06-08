@@ -29,6 +29,9 @@ def slice_columns(df, columns_kept):
 def categorize(df, AI_columns):
     for column in df:
         if column in AI_columns:
+            # Evita problemas con el tipo de dato datetime64 de numpy
+            if str(df[column].dtype) == "datetime64[ns]":
+                df[column] = df[column].astype("object") 
             if is_string_dtype(df[column]):
                 # Crea la nueva columna con el sufijo num
                 df[str(column) + "_IA"] = LabelEncoder().fit_transform(df[column].astype(str))

@@ -50,7 +50,24 @@ export function getCarga(idUsuario, idCarga) {
         },
     }).then((response) => {
         if (response.status === 200) {
-            return [response.json(), response.status];
+            return [
+                response.json(),
+                response.status,
+                {
+                    fecha_min: response.headers.get("fecha_min"),
+                    fecha_max: response.headers.get("fecha_max"),
+                    fecha_inicio: response.headers.get("fecha_inicio"),
+                    fecha_fin: response.headers.get("fecha_fin"),
+                    filtro_g4: response.headers.get("filtro_g4"),
+                    filtro_g5_1: response.headers.get("filtro_g5_1"),
+                    filtro_g5_2: response.headers.get("filtro_g5_2"),
+                    filtro_g6_1: response.headers.get("filtro_g6_1"),
+                    filtro_g6_2: response.headers.get("filtro_g6_2"),
+                    umbral_anomalia: response.headers.get("umbral_anomalia"),
+                    min_score: response.headers.get("min_score"),
+                    max_score: response.headers.get("max_score"),
+                },
+            ];
         } else {
             return [response.text(), response.status];
         }
@@ -77,7 +94,6 @@ export function deleteCarga(idUsuario, idCarga) {
 
 // POST - Guarda un tablero en la base de datos
 export async function postTablero(idUsuario, idCarga, nombre, config) {
-    console.log(config);
     return await fetch(`http://127.0.0.1:5000/tableros/`, {
         method: "POST",
         headers: {
@@ -89,7 +105,11 @@ export async function postTablero(idUsuario, idCarga, nombre, config) {
         body: JSON.stringify(config),
     }).then((response) => {
         if (response.status === 200) {
-            return [response.json(), response.status];
+            return [
+                response.text(),
+                response.status,
+                response.headers.get("id_nueva"),
+            ];
         } else {
             return [response.text(), response.status];
         }
@@ -105,7 +125,30 @@ export async function getTablero(idUsuario, idTablero) {
             id_usuario: idUsuario,
             id_tablero: idTablero,
         },
-    }).then((response) => response.json());
+    }).then((response) => {
+        if (response.status === 200) {
+            return [
+                response.json(),
+                response.status,
+                {
+                    fecha_min: response.headers.get("fecha_min"),
+                    fecha_max: response.headers.get("fecha_max"),
+                    fecha_inicio: response.headers.get("fecha_inicio"),
+                    fecha_fin: response.headers.get("fecha_fin"),
+                    filtro_g4: response.headers.get("filtro_g4"),
+                    filtro_g5_1: response.headers.get("filtro_g5_1"),
+                    filtro_g5_2: response.headers.get("filtro_g5_2"),
+                    filtro_g6_1: response.headers.get("filtro_g6_1"),
+                    filtro_g6_2: response.headers.get("filtro_g6_2"),
+                    umbral_anomalia: response.headers.get("umbral_anomalia"),
+                    min_score: response.headers.get("min_score"),
+                    max_score: response.headers.get("max_score"),
+                },
+            ];
+        } else {
+            return [response.text(), response.status];
+        }
+    });
 }
 
 // DELETE - Elimina un tablero de la base de datos

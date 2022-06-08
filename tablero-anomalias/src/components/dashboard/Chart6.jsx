@@ -9,19 +9,22 @@ import {
 	Tooltip,
 	Legend,
 	ResponsiveContainer,
+  Label
 } from 'recharts';
 import { DataContext, ConfigContext } from "./Dashboard";
+import { dateInRange } from "./auxMethods";
 
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
 function Chart6() {
 	// Contextos necesarios para las gráficas
-	const { config, setConfig } = useContext(ConfigContext);
 	const { anomalyData } = useContext(DataContext);
+	const { config, setConfig } = useContext(ConfigContext);
 
 	// Datos necesarios para la lista de opciones en el filtro
 	const [dropDownData, setDropDownData] = useState([]);
+	const [graphData, setGraphData] = useState([]);
 
 	const data01 = [
 		{ tipo: "Regulares", x: 100, y: 200, z: 200 },
@@ -51,6 +54,49 @@ function Chart6() {
 		setDropDownData(variableNames);
 	}, [anomalyData]);
 
+	// Actualización de los datos que alimentan a la gráfica de barras
+	useEffect(() => {
+		// Depende de que haya una selección en el filtro
+		if (!config["seleccion_g5_1"] || !config["seleccion_g5_2"]) return;
+
+		// Contadores por valor único de la variable elegida
+		let groupedByVarsValue = {};
+		let listedBars = [];
+
+		for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
+			// Filtra por el rango de fechas
+			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
+				// De ser necesario, inicializa los objetos
+				if (!groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]]) {
+					groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]] = { "normales": 0, "anomalias": 0 };
+				}
+
+				// Incrementa por uno según si es o no una anomalía para la variable elegida
+				if (anomalyData.scores[i] <= config["umbral_anomalia"]) {
+					groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]]["anomalias"] += 1;
+				}
+				else {
+					groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]]["normales"] += 1;
+				}
+			}
+		}
+
+		// Traduce los datos a una lista que pueda procesar el app
+		for (const [key, value] of Object.entries(groupedByVarsValue)) {
+			listedBars.push({ "Variables": key, "Normales": value["normales"], "Anomalías": value["anomalias"] });
+		}
+
+		// Ordena y hace slice para limitar la cantidad de barras acumuladas
+		listedBars.sort((a, b) => {
+			if (a["Normales"] + a["Anomalías"] < b["Normales"] + b["Anomalías"]) return 1;
+			else if (a["Normales"] + a["Anomalías"] > b["Normales"] + b["Anomalías"]) return - 1;
+			else if (a["Anomalías"] < b["Anomalías"]) return 1;
+			else if (a["Anomalías"] > b["Anomalías"]) return -1;
+			else return 0;
+		})
+		setGraphData(listedBars.slice(0, Math.min(10, listedBars.length)));
+	}, [anomalyData, config]);
+
 
 	return (
 
@@ -60,11 +106,11 @@ function Chart6() {
 			</div>
 			<div className="d-flex">
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
-					onChange={ (e) => setConfig({ ...config, seleccion_g6_1: e.target.value }) }>
+					onChange={ (e) => setConfig({ ...config, filtro_g6_1: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 1</option>
 					{
 						dropDownData.map(variable => {
-							if (variable !== config["seleccion_g6_2"]) {
+							if (variable !== config["filtro_g6_2"]) {
 								return <option key={ variable + "filer6-1" } value={ variable }>{ variable }</option>
 							}
 							return null;
@@ -72,11 +118,11 @@ function Chart6() {
 					}
 				</select>
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
-					onChange={ (e) => setConfig({ ...config, seleccion_g6_2: e.target.value }) }>
+					onChange={ (e) => setConfig({ ...config, filtro_g6_2: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 2</option>
 					{
 						dropDownData.map(variable => {
-							if (variable !== config["seleccion_g6_1"]) {
+							if (variable !== config["filtro_g6_1"]) {
 								return <option key={ variable + "filer6-2" } value={ variable }>{ variable }</option>
 							}
 							return null;
@@ -96,13 +142,18 @@ function Chart6() {
 					} }
 				>
 					<CartesianGrid />
-					<XAxis type="number" dataKey="x" name="stature" unit="" />
-					<YAxis type="number" dataKey="y" name="weight" unit="" />
+					<XAxis type="number" />
+					<YAxis tick={ false } type="category" dataKey="Variables">
+            <Label value={
+							!config["seleccion_g5_1"] || !config["seleccion_g5_2"] ? "" :
+								`${config["seleccion_g5_1"]} x ${config["seleccion_g5_2"]}`
+						} angle={ -90 }></Label>
+          </YAxis>
 					<ZAxis type="number" dataKey="z" range={ [60, 400] } name="score" unit="km" />
 					<Tooltip cursor={ { strokeDasharray: '3 3' } } />
 					<Legend />
-					<Scatter dataKey="tipo" name="Anomalia_1" data={ data01 } fill={ grisNormal } shape="circle" />
-					<Scatter dataKey="tipo" name="Anomalia_2" data={ data02 } fill={ naranjaAnomalia } shape="circle" />
+					<Scatter dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" data={ data01 } shape="circle" />
+					<Scatter dataKey="Normales" fill={ grisNormal } stackId="stack" data={ data02 } shape="circle" />
 					<Legend />
 				</ScatterChart>
 			</ResponsiveContainer>

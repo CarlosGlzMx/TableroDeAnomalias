@@ -23,9 +23,11 @@ function Actions() {
 	const [type, setType] = useState("");
 	const [show, setShow] = useState(false);
 	const handleClose = () => {
+		setNombre("");
 		setShow(false);
 		setError(undefined);
 	};
+
 	const handleShow = (type) => {
 		if (type === "delete") {
 			setType("delete");
@@ -35,7 +37,7 @@ function Actions() {
 		setShow(true);
 	}
 
-	const [nombre, setName] = useState("");
+	const [nombre, setNombre] = useState("");
 	const [deleted, setDeleted] = useState(false);
 
 	const navegador = useNavigate();
@@ -53,7 +55,6 @@ function Actions() {
 		if (ids.tablero === undefined && ids.carga !== undefined) {
 			response = await deleteCarga(ids.usuario, ids.carga);
 		} else if (ids.tablero !== undefined && ids.carga !== undefined) {
-			//Revisar que funcione
 			response = await deleteTablero(ids.usuario, ids.tablero);
 		}
 
@@ -68,6 +69,7 @@ function Actions() {
 		const solvedPromise = await response[0];
 		if (response[1] === 200) {
 			sessionStorage.removeItem("anomalyData");
+			sessionStorage.removeItem("config");
 			sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
 			setIds(undefined);
 			setDeleted(true);
@@ -76,15 +78,34 @@ function Actions() {
 		}
 	}
 
-	async function handleClickPost(e) {
+	function checkFilters(e) {
 		e.preventDefault();
+
+		let continueCheck = true;
+		Object.entries(config).forEach(element => {
+			if (element[1] === undefined || element[1] === "") {
+				continueCheck = false;
+			}
+		});
+
+		if (continueCheck) {
+			handleClickPost();
+		} else {
+			setError("Faltan campos por completar");
+		}
+	}
+
+	async function handleClickPost() {
 		const response = await postTablero(ids.usuario, ids.carga, nombre, config);
 		const solvedPromise = await response[0];
+		const id = parseInt(await response[2]);
 
 		if (response[1] === 200) {
-			handleClose();
+			setIds({ ...ids, tablero: id });
 			sessionStorage.setItem("config", JSON.stringify(config));
-			sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario, tablero: response[0] }));
+			sessionStorage.setItem("ids", JSON.stringify({ ...ids, tablero: id }));
+			setIds(undefined);
+			handleClose();
 		} else {
 			setError(solvedPromise + ". Intente de nuevo o recargue la pagina.");
 		}
@@ -184,39 +205,39 @@ function Actions() {
 				backdrop="static"
 				keyboard={ false }
 			>
-				<Modal.Header closeButton>
-					<Modal.Title>{ type === "delete" ? "Eliminar" : "Guardar Tablero" }</Modal.Title>
+				<Modal.Header>
+					<Modal.Title>{ type === "delete" ? "Eliminar datos" : "Guardar un tablero" }</Modal.Title>
 				</Modal.Header>
-				<Modal.Body>
-					{ type === "delete" ?
-						error === undefined ? "¿Seguro que quieres eliminar este elemento?" : error
-						:
-						error === undefined ?
-							<Form>
+				<Form>
+					<Modal.Body>
+						{ type === "delete" ?
+							error === undefined ? "¿Seguro que quieres eliminar este elemento?" : error
+							:
+							error === undefined ?
 								<Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-									<Form.Label>Nombre Tablero</Form.Label>
+									<Form.Label>Ingrese un nombre para el tablero</Form.Label>
 									<Form.Control
 										type="text"
 										placeholder="Nombre"
 										autoFocus
-										onChange={ (e) => setName(e.target.value) }
+										onChange={ (e) => setNombre(e.target.value) }
 									/>
 								</Form.Group>
-							</Form>
+								:
+								error
+						}
+					</Modal.Body>
+					<Modal.Footer>
+						<Button className="secondary-button" onClick={ handleClose }>
+							Cancelar
+						</Button>
+						{ error === undefined ?
+							<Button type="submit" disabled={ (type === "post" && nombre === "") ? true : false } className="primary-button" onClick={ type === "delete" ? handleClickDelete : checkFilters }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
 							:
-							error
-					}
-				</Modal.Body>
-				<Modal.Footer>
-					<Button className="secondary-button" onClick={ handleClose }>
-						Cancelar
-					</Button>
-					{ error === undefined ?
-						<Button disabled={ (type === "post" && nombre === "") ? true : false } className="primary-button" onClick={ type === "delete" ? handleClickDelete : handleClickPost }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
-						:
-						<></>
-					}
-				</Modal.Footer>
+							<></>
+						}
+					</Modal.Footer>
+				</Form>
 			</Modal>
 		</div >
 	);

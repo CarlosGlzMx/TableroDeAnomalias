@@ -38,7 +38,7 @@ function Chart5() {
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
 		// Depende de que haya una selección en el filtro
-		if (!config["seleccion_g5_1"] || !config["seleccion_g5_2"]) return;
+		if (!config["filtro_g5_1"] || !config["filtro_g5_2"]) return;
 
 		// Contadores por valor único de la variable elegida
 		let groupedByVarsValue = {};
@@ -48,16 +48,16 @@ function Chart5() {
 			// Filtra por el rango de fechas
 			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
 				// De ser necesario, inicializa los objetos
-				if (!groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]]) {
-					groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]] = { "normales": 0, "anomalias": 0 };
+				if (!groupedByVarsValue[anomalyData[config["filtro_g5_1"]][i] + " x " + anomalyData[config["filtro_g5_2"]][i]]) {
+					groupedByVarsValue[anomalyData[config["filtro_g5_1"]][i] + " x " + anomalyData[config["filtro_g5_2"]][i]] = { "normales": 0, "anomalias": 0 };
 				}
 
 				// Incrementa por uno según si es o no una anomalía para la variable elegida
 				if (anomalyData.scores[i] <= config["umbral_anomalia"]) {
-					groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]]["anomalias"] += 1;
+					groupedByVarsValue[anomalyData[config["filtro_g5_1"]][i] + " x " + anomalyData[config["filtro_g5_2"]][i]]["anomalias"] += 1;
 				}
 				else {
-					groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]]["normales"] += 1;
+					groupedByVarsValue[anomalyData[config["filtro_g5_1"]][i] + " x " + anomalyData[config["filtro_g5_2"]][i]]["normales"] += 1;
 				}
 			}
 		}
