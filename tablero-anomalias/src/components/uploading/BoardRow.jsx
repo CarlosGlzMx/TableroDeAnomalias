@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { deleteCarga, deleteTablero, getCarga } from '../../api/requests';
+import { deleteCarga, deleteTablero, getCarga, getTablero } from '../../api/requests';
 import { IdsContext } from "../../App";
 import { AvailableDataContext } from './Upload';
+import { parseFilters } from "./parseFilters";
 
 function BoardRow(props) {
 
@@ -47,10 +48,9 @@ function BoardRow(props) {
 		let response = undefined;
 
 		if (props.type === "carga") {
-			setIds({ ...ids, carga: props.id });
-			response = await getCarga(ids["usuario"], props.id);
+			response = await getCarga(ids.usuario, props.id);
 		} else if (props.type === "tablero") {
-			setIds({ ...ids, tablero: props.id });
+			response = await getTablero(ids.usuario, props.id);
 		}
 
 		errorHandler(response, "get");
@@ -63,12 +63,15 @@ function BoardRow(props) {
 				if (props.id === ids.carga || props.id === ids.tablero) {
 					sessionStorage.setItem("ids", JSON.stringify({ usuario: ids.usuario }));
 					sessionStorage.removeItem("anomalyData");
+					sessionStorage.removeItem("config");
 					setIds(undefined);
 				}
 				setCargas(undefined);
 				setTableros(undefined);
 			} else if (requestType === "get") {
+				const filters = parseFilters(response[2]);
 				sessionStorage.setItem("anomalyData", JSON.stringify(solvedPromise));
+				sessionStorage.setItem("config", JSON.stringify(filters));
 				sessionStorage.setItem("ids", JSON.stringify(props.type === "carga" ?
 					{ ...ids, carga: props.id, tablero: undefined } : { ...ids, tablero: props.id, carga: undefined }
 				));
@@ -86,7 +89,7 @@ function BoardRow(props) {
 		<>
 			<li
 				className="h6 d-flex justify-content-between align-items baseline"
-				style={ { paddingRight: '10px'} }>
+				style={ { paddingRight: '10px' } }>
 				{ props.name }
 				<div>
 					<Button

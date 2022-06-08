@@ -5,6 +5,7 @@ import Column from './Column';
 import Loading from "./Loading";
 import { Form, Button, Modal } from 'react-bootstrap';
 import { postCarga, getCarga } from "../../api/requests";
+import { parseFilters } from "./parseFilters";
 import * as XLSX from "xlsx";
 import { IdsContext } from "../../App";
 
@@ -101,16 +102,18 @@ function SelectColumn() {
 
 		setLoading(true);
 		const response = await postCarga(fileData, columnas, ids["usuario"])
-		console.log(response);
 		const solvedPromise = await response[0];
+		const id = parseInt(await response[2]);
 
 		if (response[1] === 200) {
-			const responseGet = await getCarga(ids.usuario, response[2]);
+			const responseGet = await getCarga(ids.usuario, id);
 			const carga = await responseGet[0];
 			if (responseGet[1] === 200) {
-				setIds({ ...ids, carga: parseInt(solvedPromise[2]) });
+				const filters = parseFilters(responseGet[2]);
+				setIds({ ...ids, carga: id });
 				sessionStorage.setItem("anomalyData", JSON.stringify(carga));
-				sessionStorage.setItem("ids", JSON.stringify({ ...ids, carga: parseInt(solvedPromise[2]) }));
+				sessionStorage.setItem("config", JSON.stringify(filters));
+				sessionStorage.setItem("ids", JSON.stringify({ ...ids, carga: id }));
 				setSaveData(true);
 			} else {
 				handleShow();

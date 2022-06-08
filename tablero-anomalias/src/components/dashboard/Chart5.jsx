@@ -38,7 +38,7 @@ function Chart5() {
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
 		// Depende de que haya una selección en el filtro
-		if (!config["seleccion_g5_1"] || !config["seleccion_g5_2"]) return;
+		if (!config["filtro_g5_1"] || !config["filtro_g5_2"]) return;
 
 		// Contadores por valor único de la variable elegida
 		let groupedByVarsValue = {};
@@ -48,16 +48,16 @@ function Chart5() {
 			// Filtra por el rango de fechas
 			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
 				// De ser necesario, inicializa los objetos
-				if (!groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]]) {
-					groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]] = { "normales": 0, "anomalias": 0 };
+				if (!groupedByVarsValue[anomalyData[config["filtro_g5_1"]][i] + " x " + anomalyData[config["filtro_g5_2"]][i]]) {
+					groupedByVarsValue[anomalyData[config["filtro_g5_1"]][i] + " x " + anomalyData[config["filtro_g5_2"]][i]] = { "normales": 0, "anomalias": 0 };
 				}
 
 				// Incrementa por uno según si es o no una anomalía para la variable elegida
 				if (anomalyData.scores[i] <= config["umbral_anomalia"]) {
-					groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]]["anomalias"] += 1;
+					groupedByVarsValue[anomalyData[config["filtro_g5_1"]][i] + " x " + anomalyData[config["filtro_g5_2"]][i]]["anomalias"] += 1;
 				}
 				else {
-					groupedByVarsValue[anomalyData[config["seleccion_g5_1"]][i] + " x " + anomalyData[config["seleccion_g5_2"]][i]]["normales"] += 1;
+					groupedByVarsValue[anomalyData[config["filtro_g5_1"]][i] + " x " + anomalyData[config["filtro_g5_2"]][i]]["normales"] += 1;
 				}
 			}
 		}
@@ -87,11 +87,11 @@ function Chart5() {
 			<div className="d-flex">
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
 					onChange={ (e) =>
-						setConfig({ ...config, seleccion_g5_1: e.target.value }) }>
+						setConfig({ ...config, filtro_g5_1: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 1</option>
 					{
 						dropDownData.map(variable => {
-							if (variable !== config["seleccion_g5_2"]) {
+							if (variable !== config["filtro_g5_2"]) {
 								return <option key={ variable + "filer5-1" } value={ variable }>{ variable }</option>
 							}
 							return null;
@@ -100,11 +100,11 @@ function Chart5() {
 				</select>
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
 					onChange={ (e) =>
-						setConfig({ ...config, seleccion_g5_2: e.target.value }) }>
+						setConfig({ ...config, filtro_g5_2: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 2</option>
 					{
 						dropDownData.map(variable => {
-							if (variable !== config["seleccion_g5_1"]) {
+							if (variable !== config["filtro_g5_1"]) {
 								return <option key={ variable + "filer5-2" } value={ variable }>{ variable }</option>
 							}
 							return null;
@@ -126,8 +126,8 @@ function Chart5() {
 					<XAxis type="number" />
 					<YAxis tick={ false } type="category" dataKey="Variables">
 						<Label value={
-							!config["seleccion_g5_1"] || !config["seleccion_g5_2"] ? "" :
-								`${config["seleccion_g5_1"]} x ${config["seleccion_g5_2"]}`
+							!config["filtro_g5_1"] || !config["filtro_g5_2"] ? "" :
+								`${config["filtro_g5_1"]} x ${config["filtro_g5_2"]}`
 						} angle={ -90 }></Label>
 					</YAxis>
 					<Tooltip />

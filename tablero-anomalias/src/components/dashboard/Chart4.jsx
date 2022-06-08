@@ -38,7 +38,7 @@ function Chart4() {
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
 		// Depende de que haya una selección en el filtro
-		if (!config["seleccion_g4"]) return;
+		if (!config["filtro_g4"]) return;
 
 		// Contadores por valor único de la variable elegida
 		let groupedByVarValue = {};
@@ -48,16 +48,16 @@ function Chart4() {
 			// Filtra por el rango de fechas
 			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
 				// De ser necesario, inicializa los objetos
-				if (!groupedByVarValue[anomalyData[config["seleccion_g4"]][i]]) {
-					groupedByVarValue[anomalyData[config["seleccion_g4"]][i]] = { "normales": 0, "anomalias": 0 };
+				if (!groupedByVarValue[anomalyData[config["filtro_g4"]][i]]) {
+					groupedByVarValue[anomalyData[config["filtro_g4"]][i]] = { "normales": 0, "anomalias": 0 };
 				}
 
 				// Incrementa por uno según si es o no una anomalía para la variable elegida
 				if (anomalyData.scores[i] <= config["umbral_anomalia"]) {
-					groupedByVarValue[anomalyData[config["seleccion_g4"]][i]]["anomalias"] += 1;
+					groupedByVarValue[anomalyData[config["filtro_g4"]][i]]["anomalias"] += 1;
 				}
 				else {
-					groupedByVarValue[anomalyData[config["seleccion_g4"]][i]]["normales"] += 1;
+					groupedByVarValue[anomalyData[config["filtro_g4"]][i]]["normales"] += 1;
 				}
 			}
 		}
@@ -85,7 +85,7 @@ function Chart4() {
 			</div>
 			<div className="d-flex">
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
-					onChange={ (e) => setConfig({ ...config, seleccion_g4: e.target.value }) }>
+					onChange={ (e) => setConfig({ ...config, filtro_g4: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro</option>
 					{
 						dropDownData.map(variable =>
@@ -108,7 +108,7 @@ function Chart4() {
 					<CartesianGrid />
 					<XAxis type="number" />
 					<YAxis tick={ false } type="category" dataKey="Variable 1">
-						<Label value={ config["seleccion_g4"] } angle={ -90 }></Label>
+						<Label value={ config["filtro_g4"] } angle={ -90 }></Label>
 					</YAxis>
 					<Tooltip />
 					<Legend />
