@@ -4,20 +4,21 @@ import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
- 
+
 function Chart3() {
 	// Contextos necesarios para las gráficas
 	const { config } = useContext(ConfigContext);
 	const { anomalyData } = useContext(DataContext);
 
 	// Datos que alimentan la gráfica de pastel
-	const [graphData, setGraphData] = useState([{}]);
+	const [graphData, setGraphData] = useState([]);
 	const [NUM_BARRAS, INICIO, FIN] = [20, config["min_score"], config["max_score"]]
 
 	// Observa cualquier cambio en la configuración
 	useEffect(() => {
 		// Constantes de parametrización
 		const INTERVAL = (FIN - INICIO) / NUM_BARRAS;
+		let dataExists = false;
 
 		// Crea las barras con un contador en 0 para las gráficas
 		let bars = {};
@@ -30,81 +31,73 @@ function Chart3() {
 			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
 				for (const bar_limit of Object.keys(bars)) {
 					if (anomalyData["scores"][i] >= parseFloat(bar_limit) && anomalyData["scores"][i] < parseFloat(bar_limit) + INTERVAL) {
+						dataExists = true;
 						bars[bar_limit] += 1;
 					}
 				}
 			}
 		}
 
-		// Pasa los datos al formato que espera Recharts
-		const processesData = [];
-		for (const [scoreGroup, count] of Object.entries(bars)) {
-			processesData.push({ "Grupo": Math.round(parseFloat(scoreGroup) * 1000) / 1000, "Cantidad de anomalías": count });
+		if (dataExists) {
+			// Pasa los datos al formato que espera Recharts
+			const processesData = [];
+			for (const [scoreGroup, count] of Object.entries(bars)) {
+				processesData.push({ "Grupo": Math.round(parseFloat(scoreGroup) * 1000) / 1000, "Cantidad de anomalías": count });
+			}
+			processesData.sort((a, b) => {
+				if (a["Grupo"] > b["Grupo"]) return 1;
+				else return -1;
+			})
+			setGraphData(processesData);
 		}
-		processesData.sort((a, b) => {
-			if (a["Grupo"] > b["Grupo"]) return 1;
-			else return -1;
-		})
-		setGraphData(processesData);
+		else {
+			setGraphData([])
+		}
 	}, [anomalyData, config, NUM_BARRAS, INICIO, FIN]);
 
-	if (graphData.length > 0) {
-		return (
-
-			<div className="chart c3">
-				<div className="chart_title">
-					Comportamiento de los datos
-				</div>
-	
+	return (
+		<div className="chart c3">
+			<div className="chart_title">Comportamiento de los datos</div>
+			{(graphData.length > 0) ? (
 				<ResponsiveContainer width="100%" height="100%">
 					<BarChart
-						width={ 150 }
-						height={ 40 }
-						data={ graphData }
-						margin={ {
+						width={150}
+						height={40}
+						data={graphData}
+						margin={{
 							top: 15,
 							right: 10,
 							left: 20,
 							bottom: 32,
-						} }
+						}}
 					>
-						<Bar dataKey="Cantidad de anomalías" fill={ naranjaAnomalia }>
-							{ graphData.map((entry, i) => (
-								<Cell key={ `cell-${i}` } fill={ entry["Grupo"] <= config["umbral_anomalia"] ? naranjaAnomalia : grisNormal } />
-							)) }
-	
+						<Bar dataKey="Cantidad de anomalías" fill={naranjaAnomalia}>
+							{graphData.map((entry, i) => (
+								<Cell key={`cell-${i}`} fill={entry["Grupo"] <= config["umbral_anomalia"] ? naranjaAnomalia : grisNormal} />
+							))}
+
 						</Bar>
-						<XAxis dataKey="Grupo" interval={ NUM_BARRAS - 1 }><Label value="Puntaje de anomalía" position={ "insideBottom" }></Label></XAxis>
-						<YAxis tickCount={ 2 }><Label value="Observaciones" angle={ -90 }></Label></YAxis>
+						<XAxis dataKey="Grupo" interval={NUM_BARRAS - 1}><Label value="Puntaje de anomalía" position={"insideBottom"}></Label></XAxis>
+						<YAxis tickCount={2}><Label value="Observaciones" angle={-90}></Label></YAxis>
 						<Line
 							type="monotone"
 							dataKey="Registros"
-							stroke={ grisNormal }
-							dot={ false }
+							stroke={grisNormal}
+							dot={false}
 						/>
 						<Legend />
 						<Tooltip />
-						
+
 						<Legend />
 					</BarChart >
 				</ResponsiveContainer >
-			</div >
-	
-		);
-		
-	} else {
-		return (
-			<div className="chart c2">
-				<div className="chart_title">Anomalías por fecha</div>
-				<ResponsiveContainer width="100%" height="100%">
-					<div className="chartError">
-						<h3>No fue posible mostrar gráfica debido a que no existe información suficiente</h3>
-					</div>
-				</ResponsiveContainer>
-			</div>
-		);
-	}
-
+			) : (
+				<div className="card-blue p-4 m-4 text-center">
+					<h3>No se encontraron datos para generar la gráfica</h3>
+				</div>
+			)}
+		</div>
+	);
 }
 
 export default Chart3;

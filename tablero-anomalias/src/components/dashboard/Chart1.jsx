@@ -11,7 +11,7 @@ function Chart1() {
 	const { anomalyData } = useContext(DataContext);
 
 	// Datos que alimentan la gráfica de pastel
-	const [graphData, setGraphData] = useState([{}]);
+	const [graphData, setGraphData] = useState([]);
 	const [anomalyPct, setAnomalyPct] = useState(0);
 
 	// Observa cualquier cambio en la configuración
@@ -24,56 +24,55 @@ function Chart1() {
 			}
 		}
 
-		// Actualiza y recarga la gráfica
-		setGraphData([{ name: "Datos regulares", value: normales }, { name: "Anomalías", value: anomalias }])
-		setAnomalyPct(Math.round(anomalias / (normales + anomalias) * 100));
+		// Prepara el caso de una gráfica vacía
+		if (normales + anomalias === 0) {
+			setGraphData([])
+		}
+		else {
+			// Actualiza y recarga la gráfica
+			setGraphData([{ name: "Datos regulares", value: normales }, { name: "Anomalías", value: anomalias }])
+			setAnomalyPct(Math.round(anomalias / (normales + anomalias) * 100));
+		}
 	}, [anomalyData, config]);
-	if (graphData.length > 0) {
-		return (
-			<div className="chart c2">
-				<div className="chart_title">
-					Cantidad de anomalías
-				</div>
+
+	return (
+		<div className="chart c1">
+			<div className="chart_title">Cantidad de anomalías</div>
+			{(graphData.length > 0) ? (
+
 				<ResponsiveContainer className="d-flex justify-content-center">
 					<PieChart>
 						<Pie
-							data={ graphData }
-							innerRadius={ 90 }
-							outerRadius={ 130 }
-							labelLine={ false }
+							data={graphData}
+							innerRadius={90}
+							outerRadius={130}
+							labelLine={false}
 							fill="#fe9000"
-							paddingAngle={ 5 }
+							paddingAngle={5}
 							dataKey="value"
 							nameKey="name"
-							startAngle={ 90 }
-							endAngle={ 450 }
-							wrapperStyle={ { position: 'relative' } }
+							startAngle={90}
+							endAngle={450}
+							wrapperStyle={{ position: 'relative' }}
 						>
-							{ graphData.map((entry, index) => (
-								<Cell key={ `cell-${index}` } fill={ index ? naranjaAnomalia : grisNormal } />
-							)) }
-							<Label id = "anomaly-pct-label" value={ `${anomalyPct}%` } position="center"></Label>
+							{graphData.map((entry, index) => (
+								<Cell key={`cell-${index}`} fill={index ? naranjaAnomalia : grisNormal} />
+							))}
+							<Label id="anomaly-pct-label" value={`${anomalyPct}%`} position="center"></Label>
 						</Pie>
 						<Tooltip />
 						<Legend />
 					</PieChart>
 				</ResponsiveContainer>
-			</div>
-		);
-		
-	} else {
-		return (
-			<div className="chart c2">
-				<div className="chart_title">Anomalías por fecha</div>
-				<ResponsiveContainer width="100%" height="100%">
-					<div className="chartError">
-						<h3>No fue posible mostrar gráfica debido a que no existe información suficiente</h3>
-					</div>
-				</ResponsiveContainer>
-			</div>
-		);
-	}
-	
+			)
+				:
+				(
+				<div className = "card-blue p-4 m-4 text-center">
+					<h3>No se encontraron datos para generar la gráfica</h3>
+				</div>
+				)}
+		</div>
+	);
 }
 
 export default Chart1;

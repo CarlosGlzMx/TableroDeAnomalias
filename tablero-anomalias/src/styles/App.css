@@ -10,6 +10,12 @@ h4 {
     padding-top: 25px;
 }
 
+.card-blue {
+    height: 320px;
+    display: flex;
+    align-items: center;
+}
+
 .full-center {
     display: flex;
     justify-content: center;
@@ -35,29 +41,13 @@ h4 {
 
 
 .chart {
-    min-width: 400px;
-    height: 78vh;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    padding: 28px;
-}
-
-.chartError{
     min-width: 33%;
-    height: 78vh;
+    min-height: 400px;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     padding: 28px;
-} */
-
-.chartError h3{
-    text-align: center !important;
-    vertical-align: middle !important;
 }
-
-
 
 @media (min-width: 600px) {
     .chart {

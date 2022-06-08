@@ -45,14 +45,14 @@ function Chart2() {
 				}
 			}
 		}
-		
 
-		
+
+
 		// Traduce los datos a una lista que pueda procesar el app
 		var reducedDate
 		var dateObject1
 		for (const [key, value] of Object.entries(groupedByDate)) {
-			dateObject1 = new Date (key);
+			dateObject1 = new Date(key);
 			//reducedDate = dateObject1.toLocaleDateString()
 			listedDates.push({ "Fecha": dateObject1, "Registros": value["registros"], "Anomalías": value["anomalias"] });
 
@@ -77,48 +77,41 @@ function Chart2() {
 
 	//console.log(graphData[1].Fecha);
 
-	if (graphData.length > 0) {
-		return (
-			<div className="chart c2">
-				<div className="chart_title">Anomalías por fecha</div>
+	return (
+		<div className="chart c2">
+			<div className="chart_title">Anomalías por fecha</div>
+			{(graphData.length > 0) ? (
 				<ResponsiveContainer width="100%" height="100%">
-					<LineChart width={ 500 } height={ 300 } data={ graphData }>
-						<XAxis dataKey="Fecha" interval={ graphData.length - 2 }>
-							<Label value="Fecha" position={ "insideBottom" }></Label>
+					<LineChart width={500} height={300} data={graphData}>
+						<XAxis dataKey="Fecha" interval={graphData.length - 2}>
+							<Label value="Fecha" position={"insideBottom"}></Label>
 						</XAxis>
-						<YAxis tickCount={ 2 }><Label value="Cantidad" angle={ -90 }></Label></YAxis>
-						<Tooltip /> 
+						<YAxis tickCount={2}><Label value="Cantidad" angle={-90}></Label></YAxis>
+						<Tooltip />
 						<Line
 							type="monotone"
 							dataKey="Registros"
-							stroke={ grisNormal }
-							dot={ false }
+							stroke={grisNormal}
+							dot={false}
 						/>
 						<Line
 							type="monotone"
 							dataKey="Anomalías"
-							stroke={ naranjaAnomalia }
-							dot={ false }
+							stroke={naranjaAnomalia}
+							dot={false}
 						/>
 						<Legend />
-						
+
 					</LineChart>
 				</ResponsiveContainer>
-			</div>
-		);
-		
-	} else {
-		return (
-			<div className="chart c2">
-				<div className="chart_title">Anomalías por fecha</div>
-				<ResponsiveContainer width="100%" height="100%">
-					<div className="chartError">
-						<h3>No fue posible mostrar gráfica debido a que no existe información suficiente</h3>
-					</div>
-				</ResponsiveContainer>
-			</div>
-		);
-	}
+			) : (
+				<div className="card-blue p-4 m-4 text-center">
+					<h3>No se encontraron datos para generar la gráfica</h3>
+				</div>
+
+			)}
+		</div>
+	);
 }
 
 export default Chart2;
