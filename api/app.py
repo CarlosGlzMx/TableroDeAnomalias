@@ -156,10 +156,16 @@ def methods_boards():
             return Response("No se ha proporcionado un id de usuario o un id de tablero", 400)
         
         # Obtiene en un dataframe de Pandas los datos almacenados en la base de datos
-        try: headers, rows, info = db_manager.get_board(board_id, user_id)
+        try: headers, data_types, rows, info = db_manager.get_board(board_id, user_id)
         except Exception as e: return Response("Error en la obtención de datos: " + str(e), 500)
-        records_df = pd.DataFrame(rows, columns = headers)
-
+        
+        # Reconstruye un data frame que sirva a la hora de recastear a tipos de datos originales
+        try:
+            records_df = pd.DataFrame(rows, columns = headers)
+            for h, d in zip(headers, data_types):
+                records_df[h] = records_df[h].astype(d)
+        except Exception as e: return Response("Error en la reconstrucción de datos: " + str(e), 500)
+        
         # Configura la respuesta al sitio web
         response_to_web = Response(records_df.to_json(), 200)
         response_to_web.headers["Content-Type"] = "text/csv"

@@ -141,15 +141,20 @@ def get_board(board, user_id):
         # Primer resultado esperado: Encabezados
         if i == 0:
             headers = result.fetchall()[0][0].split(",")
-        # Segundo resultado esperado: Registros separados por comas
-        elif i == 1:
-            rows = [row[0].split(",") for row in result.fetchall()]
-        # Tercer resultado esperado: Información adicional
+        # Segundo resultado esperado: Tipos de datos
+        if i == 1:
+            data_types = result.fetchall()[0][0].split(",")
+        # Tercer resultado esperado: Registros separados por comas
         elif i == 2:
-            info = {key : value for key, value in zip(result.column_names, result.fetchall()[0])}
+            rows = [row[0].split(",") for row in result.fetchall()]
+        # Cuarto resultado esperado: Información adicional
+        elif i == 3:
+            info_keys = [header[0] for header in result.description]
+            info_values = result.fetchall()[0]
+            info = dict(zip(info_keys, info_values))
     cursor.close()
     cnx.close()
-    return headers, rows, info
+    return headers, data_types, rows, info
 
 # Llama a un Stored Procedure que borra un solo tablero, su configuración, y no los datos de la carga
 def delete_board(board_id, user_id):
