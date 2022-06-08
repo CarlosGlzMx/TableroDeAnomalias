@@ -1,5 +1,4 @@
 from sklearn.ensemble import IsolationForest
-import pandas as pd
 
 # Recibe los datos preparados para correr el modelo artificial
 # El resultado lo agrega a los datos preparados para mandarse al App

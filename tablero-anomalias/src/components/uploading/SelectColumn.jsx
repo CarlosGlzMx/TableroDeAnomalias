@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import Papa from "papaparse";
 import { useLocation, useNavigate } from "react-router-dom";
 import Column from './Column';
-import Loading from "../components/Loading";
-import { Form, Button } from 'react-bootstrap';
-import { postCarga } from "../api/requests";
+import Loading from "./Loading";
+import { Form, Button, Modal } from 'react-bootstrap';
+import { postCarga, getCarga } from "../../api/requests";
 import * as XLSX from "xlsx";
-import { DataContext, IdsContext } from "../App";
+import { IdsContext } from "../../App";
 
 
 function SelectColumn() {
@@ -18,7 +18,7 @@ function SelectColumn() {
 	const fileType = location.state?.type;
 
 	//User id
-	const { ids } = useContext(IdsContext);
+	const { ids, setIds } = useContext(IdsContext);
 
 	//State to store table Column name
 	const [tableRows, setTableRows] = useState([]);
@@ -26,8 +26,16 @@ function SelectColumn() {
 	//State to set loading
 	const [loading, setLoading] = useState(false);
 
-	//State to store processed data. Update when API sends response
-	const { anomalyData, setAnomalyData } = useContext(DataContext);
+	//State to set error message
+	const [show, setShow] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
+	const handleShow = () => setShow(true);
+	const handleClose = () => {
+		setShow(false);
+		navegador("/upload", { replace: true });
+	}
+
+	const [saveData, setSaveData] = useState(false);
 
 	const navegador = useNavigate();
 
@@ -69,7 +77,11 @@ function SelectColumn() {
 				reader.readAsBinaryString(fileData);
 			}
 		}
-	}, [fileData, fileType]);
+
+		if (saveData && (ids.carga !== undefined || ids.tablero !== undefined)) {
+			navegador("/dashboard", { replace: true });
+		}
+	}, [fileData, fileType, ids, saveData, navegador]);
 
 
 	async function submitHandler(event) {
@@ -88,8 +100,26 @@ function SelectColumn() {
 		}
 
 		setLoading(true);
-		setAnomalyData(await postCarga(fileData, columnas, ids["usuario"]));
-		navegador("/dashboard", { replace: true });
+		const response = await postCarga(fileData, columnas, ids["usuario"])
+		console.log(response);
+		const solvedPromise = await response[0];
+
+		if (response[1] === 200) {
+			const responseGet = await getCarga(ids.usuario, response[2]);
+			const carga = await responseGet[0];
+			if (responseGet[1] === 200) {
+				setIds({ ...ids, carga: parseInt(solvedPromise[2]) });
+				sessionStorage.setItem("anomalyData", JSON.stringify(carga));
+				sessionStorage.setItem("ids", JSON.stringify({ ...ids, carga: parseInt(solvedPromise[2]) }));
+				setSaveData(true);
+			} else {
+				handleShow();
+				setErrorMessage(carga);
+			}
+		} else {
+			handleShow();
+			setErrorMessage(solvedPromise);
+		}
 	}
 
 	const onChangeValue = (event) => {
@@ -101,7 +131,6 @@ function SelectColumn() {
 					if (refForm.current[(index * 3) + 2].value && refForm.current[(index * 3) + 2].id !== event.target.id) {
 						refForm.current[(index * 3) + 2].value = false;
 						refForm.current[(index * 3) + 2].checked = false;
-
 					}
 				}
 			}
@@ -111,9 +140,9 @@ function SelectColumn() {
 	return (
 		<div className="SelectColumn" style={ { minHeight: "82vh" } }>
 			<div style={ { height: "20vh", padding: "5vh 0", textAlign: "center" } }>
-				<h2>{ (loading || anomalyData) ? "Aplicando Inteligencia Artificial" : "Define los actores para entrenar el modelo" }</h2>
+				<h2>{ (loading || saveData) ? "Aplicando Inteligencia Artificial" : "Define los actores para entrenar el modelo" }</h2>
 			</div>
-			{ (tableRows.length !== 0 && !loading && anomalyData === undefined) ?
+			{ (tableRows.length !== 0 && !loading && !saveData) ?
 				<Form
 					ref={ refForm }
 					onSubmit={ submitHandler }
@@ -140,12 +169,7 @@ function SelectColumn() {
 						}
 					</div>
 					<div className="mb-4 d-flex justify-content-center">
-						<Button
-							style={ {
-								backgroundColor: "#ff8300",
-								border: "none"
-							} }
-							className="mx-auto"
+						<Button className="primary-button mx-auto"
 							type={ 'submit' }
 							size="lg">
 							Seleccionar Columnas
@@ -155,7 +179,21 @@ function SelectColumn() {
 				:
 				<Loading message={ "Procesando Información..." } />
 			}
-
+			<Modal
+				show={ show }
+				backdrop="static"
+				keyboard={ false }
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>Error de carga</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					{ errorMessage }. Volver a la pantalla de upload para intentarlo de nuevo.
+				</Modal.Body>
+				<Modal.Footer>
+					<Button className="primary-button" onClick={ handleClose }>Volver a Upload</Button>
+				</Modal.Footer>
+			</Modal>
 		</div>
 	);
 };

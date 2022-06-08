@@ -1,5 +1,4 @@
 import mysql.connector
-import pandas as pd
 import json
 
 # Constantes de desarrollo - Cambian por cada computadora
@@ -40,12 +39,16 @@ def save_data(upload_name, user_id, df, base_columns, date_column):
     cnx = db_connect()
     cursor = cnx.cursor()
 
+    # Guarda los tipos de datos para poder hacer un cast de regreso
+    data_types = df[df.columns.intersection(base_columns)].dtypes
+    for i in range(len(data_types)): data_types[i] = str(data_types[i])
+
     # Ejecuta el stored procedure de MySQL que guarda la carga
-    cursor.callproc("crea_carga", (user_id, upload_name, ",".join(base_columns)))
+    cursor.callproc("crea_carga", (user_id, upload_name, ",".join(base_columns), ",".join(data_types)))
     created_id = next(cursor.stored_results()).fetchall()[0][0]
 
     # Prepara el formato de cada registro y lo guarda con un stored procedure
-    df["variables"] = df[base_columns].astype(str).agg(",".join, axis = 1)
+    df["variables"] = df[df.columns.intersection(base_columns)].astype(str).agg(",".join, axis = 1)
     for index, row in df.iterrows():
         row[date_column] = None if row[date_column] == "2000-01-01" else row[date_column]
         cursor.callproc("crea_registro", (created_id, index, row[date_column], row["scores"], row["variables"]))
@@ -70,16 +73,19 @@ def get_data(upload_id, user_id):
         # Primer resultado esperado: Encabezados
         if i == 0:
             headers = result.fetchall()[0][0].split(",")
-        # Segundo resultado esperado: Registros separados por comas
-        elif i == 1:
-            rows = [row[0].split(",") for row in result.fetchall()]
-        # Tercer resultado esperado: Información adicional
+        # Segundo resultado esperado: Tipos de datos
+        if i == 1:
+            data_types = result.fetchall()[0][0].split(",")
+        # Tercer resultado esperado: Registros separados por comas
         elif i == 2:
+            rows = [row[0].split(",") for row in result.fetchall()]
+        # Cuarto resultado esperado: Información adicional
+        elif i == 3:
             info_list = result.fetchall()[0]
             info = {"fecha_inicio" : info_list[0], "fecha_fin" : info_list[1]}
     cursor.close()
     cnx.close()
-    return headers, rows, info
+    return headers, data_types, rows, info
 
 # Llama a un Stored Procedure que borra una carga junto con todos sus tableros asociados
 def delete_data(upload_id, user_id):

@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
-import AnomalyBg from "../components/images/AnomalyBG.png";
-import BoardRow from "../components/BoardRow";
-import Loading from "../components/Loading";
-import { getDatosDisponibles } from "../api/requests";
-import { IdsContext } from "../App";
+import BoardRow from "./BoardRow";
+import Loading from "./Loading";
+import { getDatosDisponibles } from "../../api/requests";
+import { IdsContext } from "../../App";
 
 export const AvailableDataContext = createContext([[], () => { }]);
 
@@ -28,7 +27,7 @@ function Upload() {
 	useEffect(() => {
 
 		async function handleRequest() {
-			const datosDisponibles = await getDatosDisponibles(ids["usuario"]);
+			const datosDisponibles = await getDatosDisponibles(ids.usuario);
 			const solvedPromise = await datosDisponibles[0]
 			if (datosDisponibles[1] === 200) {
 				setCargas(solvedPromise.cargas);
@@ -40,7 +39,9 @@ function Upload() {
 			}
 		}
 
-		if (listaCargas === undefined || listaTableros === undefined) handleRequest();
+		if ((listaCargas === undefined || listaTableros === undefined) && ids !== undefined) {
+			handleRequest();
+		}
 
 		if (type !== "") {
 			setIsValid(type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || type === "text/csv");
@@ -51,15 +52,12 @@ function Upload() {
 	}, [type, isValid, file, listaCargas, listaTableros, ids, error]);
 
 	return (
-		<div className="Upload" style={ { display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `url(${AnomalyBg})`, backgroundRepeat: "no-repeat", backgroundSize: "cover" } }>
-			<div className="p-4" style={ {
-				width: "40%", height: "66vh", margin: "8vh", border: "0.3rem dashed #6C757D",
-				borderRadius: "0.5rem", backgroundColor: "#EEEEEE"
-			} }>
+		<div className="full-center standard-bg">
+			<div className="card-gray p-4" style={ {
+				width: "40%", height: "66vh", margin: "8vh"} }>
 				<Form validated={ isValid } >
 					<Form.Group controlId="formFile" className="mb-3">
 						<Form.Label>Carga un archivo de tipo .csv o .xlsx</Form.Label>
-
 						<Form.Control
 							isInvalid={ isValid === undefined ? null : !isValid }
 							accept=".csv, .xlsx"
@@ -73,33 +71,24 @@ function Upload() {
 						</Form.Control.Feedback>
 					</Form.Group>
 				</Form>
-				<Link
+				<Button className="primary-button"
+					as={ Link }
 					to="/selectColumn"
-					state={ { file, type } }>
-					<Button
-						style={ { backgroundColor: "#ff8300", border: "none" } }
-						size="sm"
-						disabled={ isValid === undefined ? true : !isValid } >
-						Seleccionar Columnas
-					</Button>
-				</Link>
+					state={ { file, type } }
+					size="sm"
+					disabled={ isValid === undefined ? true : !isValid } >
+					Seleccionar Columnas
+				</Button>
 			</div>
-			<AvailableDataContext.Provider value={ { listaCargas, setCargas, listaTableros, setTableros } }>
-				<div style={ {
+			<AvailableDataContext.Provider value={ { setCargas, listaTableros, setTableros, setError } }>
+				<div className="card-light" style={ {
 					width: "40%",
 					height: "66vh",
-					margin: "8vh",
-					border: "0.3rem dashed #ff8300",
-					borderRadius: "0.5rem",
-					backgroundColor: "white"
+					margin: "8vh"
 				} }>
-					<div className="w-100 h-50 p-4">
-						<div className="h4">Cargas disponibles</div>
-						<ul style={ {
-							overflow: 'scroll',
-							maxHeight: '22vh',
-							overflowX: 'hidden'
-						} }>
+					<div className = "w-100 h-50 p-4">
+						<div className = "h4">Cargas disponibles</div>
+						<ul className = "available-data-list">
 							{ (listaCargas === undefined || error) ?
 								error ?
 									<h5>{ "Error: " + listaCargas }</h5>
@@ -114,11 +103,7 @@ function Upload() {
 					</div>
 					<div className="w-100 h-50 p-4">
 						<div className="h4">Tableros guardados</div>
-						<ul style={ {
-							overflow: 'scroll',
-							maxHeight: '22vh',
-							overflowX: 'hidden'
-						} }>
+						<ul className = "available-data-list">
 							{ (listaTableros === undefined || error) ?
 								error ?
 									<h5>{ "Error: " + listaTableros }</h5>

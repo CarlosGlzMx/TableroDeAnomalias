@@ -1,0 +1,113 @@
+/* Archivo CSS exclusivo para los colores de la aplicación (y los bordes por conveniencia */
+:root {
+    --acero-ternium: #485458;
+    --azul-marino-ternium: #003366;
+    --blanco-ternium: #FFFFFF;
+    --gris-ternium: #666666;
+    --gris-claro-ternium: #D4D4D4;
+    --naranja-ternium: #FF8400;
+    --naranja-claro-ternium: #FF9900;
+    --negro-ternium: #000000;
+}
+
+/* Básicos */
+.light-text {
+    color: var(--blanco-ternium);
+}
+
+.menu-route-options:hover {
+    color: var(--naranja-ternium);
+}
+
+.icon-dark {
+    color: var(--negro-ternium);
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.row-separator {
+    border-top: 1px solid var(--gris-ternium);
+}
+
+/* Dashboard */
+.chart {
+    background-color: var(--blanco-ternium);
+}
+
+.dropdown-toggle {
+    background-color: var(--acero-ternium);
+    border-color: var(--acero-ternium);
+}
+
+/* Barra de acciones */
+.action-bar {
+    background-color: var(--naranja-ternium);
+}
+
+.action-left, .action-center {
+    color: var(--blanco-ternium);
+}
+
+/* Contenedores de tipo tarjeta */
+.card-dark {
+    background-color: var(--acero-ternium);
+}
+
+.card-gray {
+    background-color: var(--gris-claro-ternium);
+    border: 0.3rem dashed var(--acero-ternium);
+    border-radius: 0.5rem;
+}
+
+.card-light {
+    background-color: var(--blanco-ternium);
+    border: 0.3rem dashed var(--acero-ternium);
+    border-radius: 0.5rem;
+}
+
+/* Botones */
+.primary-button {
+    background-color: var(--naranja-ternium);
+    border: none;
+}
+
+.primary-button:disabled {
+    background-color: var(--naranja-ternium);
+}
+
+.primary-button:hover {
+    background-color: var(--naranja-ternium);
+    filter: brightness(0.8);
+}
+
+.primary-button:focus, .primary-button:active {
+    background-color: var(--naranja-ternium);
+    box-shadow: none;
+}
+
+.secondary-button {
+    background-color: var(--gris-ternium);
+    border: none;
+}
+
+.secondary-button:hover {
+    background-color: var(--gris-ternium);
+    filter: brightness(0.8);
+}
+
+/* Componentes únicos en la aplicación */
+#header {
+    background-color: var(--naranja-ternium);
+}
+
+#footer {
+    background-color: var(--acero-ternium);
+}
+
+#navbar-hidden-menu {
+    background-color: var(--azul-marino-ternium);
+}
+
+#anomaly-pct-label {
+    fill: var(--naranja-claro-ternium); 
+}

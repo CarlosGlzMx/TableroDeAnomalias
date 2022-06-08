@@ -11,9 +11,8 @@ const Column = (props) => {
 
 	return (
 		<div
-			className="p-3 d-flex justify-content-between mx-5"
-			style={ { borderTop: "solid grey 1px"} } >
-			<div style={ { width: '30vw', display: "flex", alignItems: "center" } } >
+			className="row-separator p-3 d-flex justify-content-between mx-5">
+			<div className = "d-flex align-items-center" style = { { width: '30vw' }} >
 				<h6>{ props.index }  { props.name }</h6>
 			</div>
 			<Form.Group className="d-flex flex-row justify-content-between">

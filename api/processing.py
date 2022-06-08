@@ -1,24 +1,24 @@
 from sklearn.preprocessing import LabelEncoder
-import datetime
 import json
-
-import numpy as np
 import pandas as pd
 from pandas.api.types import is_string_dtype
 pd.options.mode.chained_assignment = None
 
 # Limpia del documento subido las columnas de datos inadecuadas
-def clean(df, date_column):
+def clean(df,  base_columns, date_column):
     for column in df:
         # Eliminación de columnas elegidas como innecesarias o redundantes
         if column == date_column:
             df[column] = df[column].fillna("2000-01-01")
         elif "anomaly" in column.lower() or "score" in column.lower() or "id" == column.lower():
             df.drop(columns = column, inplace = True)
+            if column in base_columns: base_columns.remove(column)
         # Reemplazo de valores vacíos por un valor común
         elif df[column].isna().sum() > 0:
             df[column] = df[column].fillna("NA")
-    return df
+    # Remplaza las comas por ; para evitar errores de .csv
+    df = df.replace(',','', regex=True) 
+    return df, base_columns
 
 # Elimina las columnas no requeridas para el modelo de Inteligencia Artificial
 def slice_columns(df, columns_kept):
@@ -31,7 +31,7 @@ def categorize(df, AI_columns):
         if column in AI_columns:
             if is_string_dtype(df[column]):
                 # Crea la nueva columna con el sufijo num
-                df[str(column) + "_IA"] = LabelEncoder().fit_transform(df[column])
+                df[str(column) + "_IA"] = LabelEncoder().fit_transform(df[column].astype(str))
                 df.drop(columns = column, inplace = True)
         else:
             df.drop(columns = column, inplace = True)
