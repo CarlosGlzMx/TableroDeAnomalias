@@ -89,7 +89,11 @@ export async function postTablero(idUsuario, idCarga, nombre, config) {
         body: JSON.stringify(config),
     }).then((response) => {
         if (response.status === 200) {
-            return [response.json(), response.status];
+            return [
+                response.json(),
+                response.status,
+                response.headers.get("id_nueva"),
+            ];
         } else {
             return [response.text(), response.status];
         }

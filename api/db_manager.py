@@ -110,6 +110,7 @@ def save_board(parameters):
     expected_columns = [row[0] for row in cursor.fetchall()]      
     expected_columns.remove("id")
     expected_columns.remove("fecha_creacion")
+    expected_columns.sort()
     for column_name in expected_columns:
         if column_name not in parameters:
             raise Exception ("Columna no encontrada: " + str(column_name))

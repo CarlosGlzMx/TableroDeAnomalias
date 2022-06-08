@@ -23,9 +23,9 @@ export const IdsContext = createContext([[], () => {}]);
 // -- Pendientes Leyva --
 
 function App() {
-    // Dos variables que deben de ser accesibles desde toda la aplicación
     // Variable que contiene ids de usuario, de cargas
     const [ids, setIds] = useState(undefined);
+    console.log(ids);
 
     useEffect(() => {
         if (sessionStorage.getItem("ids") && ids === undefined) {
