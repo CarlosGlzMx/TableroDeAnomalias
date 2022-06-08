@@ -13,7 +13,11 @@ import processing
 import db_manager
 
 app = Flask(__name__)
+
 cors = CORS(app)
+HEADERS_CORS = ["id_nueva", "fecha_min", "fecha_max", "fecha_inicio", "fecha_fin", 
+    "filtro_g4", "filtro_g5_1", "filtro_g5_2", "filtro_g6_1", "filtro_g6_2", "umbral_anomalia",
+    "min_score", "max_score"]
 
 # Se numeran las rutas según su orden de uso por la aplicación
 # 1 - GET - Ruta por defecto con instrucciones de uso
@@ -42,7 +46,7 @@ def list_available_data():
 # 4 - GET - Devuelve todos los datos asociados con una carga
 # 5 - DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
 @app.route("/cargas/", methods = ["POST", "GET", "DELETE"])
-@cross_origin(expose_headers="id_nueva")
+@cross_origin(expose_headers = HEADERS_CORS)
 def methods_uploads():
     if request.method == "POST":
         # Verifica que venga un usuario y una clasificación de columnas del archivo
@@ -122,7 +126,7 @@ def methods_uploads():
 # 7 - GET - Devuelve un tablero guardado previamente
 # 8 - DELETE - Elimina un tablero de la base de datos
 @app.route("/tableros/", methods = ['POST', 'GET', 'DELETE'])
-@cross_origin()
+@cross_origin(expose_headers = HEADERS_CORS)
 def methods_boards():
     if request.method == 'POST':
         # Lee el cuerpo y pasa a un diccionario de Python

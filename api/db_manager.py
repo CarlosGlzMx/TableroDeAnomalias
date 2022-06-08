@@ -81,8 +81,9 @@ def get_data(upload_id, user_id):
             rows = [row[0].split(",") for row in result.fetchall()]
         # Cuarto resultado esperado: Información adicional
         elif i == 3:
-            info_list = result.fetchall()[0]
-            info = {"fecha_inicio" : info_list[0], "fecha_fin" : info_list[1]}
+            info_keys = [header[0] for header in result.description]
+            info_values = result.fetchall()[0]
+            info = dict(zip(info_keys, info_values))
     cursor.close()
     cnx.close()
     return headers, data_types, rows, info
@@ -121,11 +122,9 @@ def save_board(parameters):
     # Ejecuta el stored procedure de MySQL que borra la carga
     cursor.callproc("guarda_tablero", sorted_params)
     created_id = next(cursor.stored_results()).fetchall()[0][0]
-    print(created_id)
     cnx.commit()
     cursor.close()
     cnx.close()
-
     return created_id
 
 # Llama a un Stored Procedure que devuelve un tablero, que es una carga más parámetros de configuración
