@@ -77,7 +77,8 @@ function Chart5() {
 		})
 		setGraphData(listedBars.slice(0, Math.min(10, listedBars.length)));
 	}, [anomalyData, config]);
-
+	console.log(graphData);
+	
 	if (graphData.length > 0) {
 		return (
 

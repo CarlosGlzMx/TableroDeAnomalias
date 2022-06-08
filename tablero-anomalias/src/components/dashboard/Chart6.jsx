@@ -96,7 +96,7 @@ function Chart6() {
 		})
 		setGraphData(listedBars.slice(0, Math.min(10, listedBars.length)));
 	}, [anomalyData, config]);
-
+  console.log(graphData);
 
 	return (
 

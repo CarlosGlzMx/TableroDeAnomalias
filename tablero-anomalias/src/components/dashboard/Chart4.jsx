@@ -82,8 +82,9 @@ function Chart4() {
       else return 0;
     });
     setGraphData(listedBars.slice(0, Math.min(10, listedBars.length)));
+    
   }, [anomalyData, config]);
-
+  
   return (
     <div className="chart c4 d-flex flex-column justify-content-start">
       <div className="chart_title">Anomalías por una variable</div>
