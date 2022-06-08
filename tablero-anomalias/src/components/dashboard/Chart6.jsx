@@ -90,9 +90,8 @@ function Chart6() {
       <ZAxis type = "number" dataKey = "z" range = {[60, 400]} name = "score" unit = "km" />
       <Tooltip cursor = {{ strokeDasharray: '3 3' }} />
       <Legend />
-      <Scatter dataKey = "tipo" name = "Anomalia_1" data = {data01} fill = {grisNormal} shape = "circle" />
-      <Scatter dataKey = "tipo" name = "Anomalia_2" data = {data02} fill = {naranjaAnomalia} shape = "circle" />
-			<Legend />
+      <Scatter name = "Anomalia_1" data = {data01} fill = {grisNormal} shape = "circle" />
+      <Scatter name = "Anomalia_2" data = {data02} fill = {naranjaAnomalia} shape = "circle" />
     </ScatterChart>
   </ResponsiveContainer>
     </div>

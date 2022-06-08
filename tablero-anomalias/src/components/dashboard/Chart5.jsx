@@ -59,8 +59,8 @@ function Chart5() {
 		setDropDownData(variableName);
 	}, [dropDownData, anomalyData]);
 
-
-
+ 
+ 
 	return (
 
 		<div className="chart c5">
@@ -104,9 +104,9 @@ function Chart5() {
 					<XAxis type="number" hide />
 					<YAxis type="category" width={ 150 } padding={ { left: 20 } } dataKey="name" />
 					<Tooltip />
-					<Legend />
 					<Bar dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" />
 					<Bar dataKey="Registros" fill={ grisNormal } stackId="stack" />
+					<Legend/>
 				</BarChart>
 			</ResponsiveContainer>
 		</div>

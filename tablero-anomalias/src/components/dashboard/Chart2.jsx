@@ -58,7 +58,7 @@ function Chart2() {
 						<Label value="Fecha" position={ "insideBottom" }></Label>
 					</XAxis>
 					<YAxis tickCount={ 2 }><Label value="Cantidad" angle={ -90 }></Label></YAxis>
-					<Tooltip />
+					<Tooltip /> 
 					<Line
 						type="monotone"
 						dataKey="Registros"
