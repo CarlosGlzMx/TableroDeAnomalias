@@ -65,6 +65,12 @@
     border-radius: 0.5rem;
 }
 
+.card-blue {
+    color: var(--azul-marino-ternium);
+    border: 0.3rem dashed var(--azul-marino-ternium);
+    border-radius: 0.5rem;
+}
+
 /* Botones */
 .primary-button {
     background-color: var(--naranja-ternium);

@@ -38,6 +38,7 @@ function Chart4() {
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
 		// Depende de que haya una selección en el filtro
+    console.log(config);
 		if (!config["filtro_g4"]) return;
 
     // Contadores por valor único de la variable elegida
@@ -94,7 +95,7 @@ function Chart4() {
           aria-label="Default select example"
           defaultValue={""}
           onChange={(e) =>
-            setConfig({ ...config, seleccion_g4: e.target.value })
+            setConfig({ ...config, filtro_g4: e.target.value })
           }
         >
           <option value="" disabled hidden>
@@ -121,7 +122,7 @@ function Chart4() {
             <CartesianGrid />
             <XAxis type="number" />
             <YAxis tick={false} type="category" dataKey="Variable 1">
-              <Label value={config["seleccion_g4"]} angle={-90}></Label>
+              <Label value={config["filtro_g4"]} angle={-90}></Label>
             </YAxis>
             <Tooltip />
             <Legend />
@@ -130,16 +131,9 @@ function Chart4() {
           </BarChart>
         </ResponsiveContainer>
       ) : (
-        <div className="chart c4">
-          <ResponsiveContainer width="100%" height="100%">
-            
-              <h3>
-                No fue posible mostrar gráfica debido a que no existe
-                información suficiente
-              </h3>
-           
-          </ResponsiveContainer>
-        </div>
+        <div className = "card-blue p-4 m-4 text-center">
+					<h3>No se encontraron datos para generar la gráfica</h3>
+				</div>
       )}
     </div>
   );
