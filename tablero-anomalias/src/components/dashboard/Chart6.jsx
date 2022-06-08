@@ -25,6 +25,7 @@ function Chart6() {
 	// Datos necesarios para la lista de opciones en el filtro
 	const [dropDownData, setDropDownData] = useState([]);
 	const [graphData, setGraphData] = useState([]);
+  const [array1234, setArray1234] = useState([]);
 
 	const data01 = [
 		{ tipo: "Regulares", x: 100, y: 200, z: 200 },
@@ -54,11 +55,54 @@ function Chart6() {
 		setDropDownData(variableNames);
 	}, [anomalyData]);
 
+  
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
+    var Name = [];
+    var access = [];
+    var ARRAY123 = [];
+    for (var i = 0; i < Object.keys(anomalyData); i++) {
+      console.log(1);
+      
+    }
+    
+      
+      
+      
+      // const repeatedData = anomalyData.Name.filter((number, i) => i == 0 ? true : anomalyData.Name[i - 1] != number);
+      // const counterRepeatedData = repeatedData.map(spec => {
+      //   return {number: spec, count: 0};
+      // });
+
+      // counterRepeatedData.map((countSpec, i) => {
+      // const actualSpecLength = anomalyData.Name.filter(number => number === countSpec.number).length;
+      // countSpec.count = actualSpecLength;
+      // ARRAY123.push(counterRepeatedData);
+      // })  
+    
+
+    // for (const column_name of Object.keys(anomalyData)) {
+		// 	access.push(column_name);
+		// 	}
+    //   for (var i = 0; i < access.length; i++){
+    //        Name = access[i]; 
+    //       console.log(anomalyData["fecha"][i]);
+    //       // const repeatedData = anomalyData.Name.filter((number, i) => i == 0 ? true : anomalyData.Name[i - 1] != number);
+    //       // const counterRepeatedData = repeatedData.map(spec => {
+    //       //   return {number: spec, count: 0};
+    //       // });
+    
+    //       // counterRepeatedData.map((countSpec, i) => {
+    //       // const actualSpecLength = anomalyData.Name.filter(number => number === countSpec.number).length;
+    //       // countSpec.count = actualSpecLength;
+    //       // ARRAY123.push(counterRepeatedData);
+    //       // })  
+    //     }
+		
+
+    setArray1234(Name);
 		// Para generar los datos futuros
 	}, [anomalyData, config]);
-  console.log(graphData);
 
 	return (
 		<div className="chart c6">
