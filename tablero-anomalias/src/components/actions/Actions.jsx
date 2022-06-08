@@ -185,7 +185,7 @@ function Actions() {
 				keyboard={ false }
 			>
 				<Modal.Header closeButton>
-					<Modal.Title>{ type === "delete" ? "Eliminar" : "Guardar Tablero" }</Modal.Title>
+					<Modal.Title>{ type === "delete" ? "Eliminar datos" : "Guardar un tablero" }</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					{ type === "delete" ?
@@ -194,7 +194,7 @@ function Actions() {
 						error === undefined ?
 							<Form>
 								<Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-									<Form.Label>Nombre Tablero</Form.Label>
+									<Form.Label>Ingrese un nombre para el tablero</Form.Label>
 									<Form.Control
 										type="text"
 										placeholder="Nombre"

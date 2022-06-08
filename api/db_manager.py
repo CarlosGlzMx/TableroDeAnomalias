@@ -105,22 +105,27 @@ def save_board(parameters):
     cnx = db_connect()
     cursor = cnx.cursor()
 
-    # Verifica que se hayan incluido todos los parametros
+    # Verifica que se hayan incluido todos los parametros, devuelve las columnas en "tableros" en order alfabetico
     cursor.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = 'tableros';")
-    expected_columns = [row[0] for row in cursor.fetchall()]
-    if len(parameters) + 2 != len(expected_columns):
-        raise Exception("No se proveen todos los filtros de tableros")
+    expected_columns = [row[0] for row in cursor.fetchall()]      
+    expected_columns.remove("id")
+    expected_columns.remove("fecha_creacion")
     for column_name in expected_columns:
-        if column_name not in parameters and column_name not in ["id", "fecha_creacion"]:
+        if column_name not in parameters:
             raise Exception ("Columna no encontrada: " + str(column_name))
-    sorted_keys = sorted(parameters.keys(), key = lambda column_name: column_name.lower())
-    sorted_params = tuple(parameters[key] for key in sorted_keys)
+    
+    # Reordena para poder llamar el stored procedure con cada entrada en el orden esperado
+    sorted_params = [parameters[column] for column in expected_columns]
 
     # Ejecuta el stored procedure de MySQL que borra la carga
     cursor.callproc("guarda_tablero", sorted_params)
+    created_id = next(cursor.stored_results()).fetchall()[0][0]
+    print(created_id)
     cnx.commit()
     cursor.close()
     cnx.close()
+
+    return created_id
 
 # Llama a un Stored Procedure que devuelve un tablero, que es una carga más parámetros de configuración
 def get_board(board, user_id):

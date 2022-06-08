@@ -60,11 +60,11 @@ function Chart6() {
 			</div>
 			<div className="d-flex">
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
-					onChange={ (e) => setConfig({ ...config, seleccion_g6_1: e.target.value }) }>
+					onChange={ (e) => setConfig({ ...config, filtro_g6_1: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 1</option>
 					{
 						dropDownData.map(variable => {
-							if (variable !== config["seleccion_g6_2"]) {
+							if (variable !== config["filtro_g6_2"]) {
 								return <option key={ variable + "filer6-1" } value={ variable }>{ variable }</option>
 							}
 							return null;
@@ -72,11 +72,11 @@ function Chart6() {
 					}
 				</select>
 				<select className="form-select" aria-label="Default select example" defaultValue={ "" }
-					onChange={ (e) => setConfig({ ...config, seleccion_g6_2: e.target.value }) }>
+					onChange={ (e) => setConfig({ ...config, filtro_g6_2: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 2</option>
 					{
 						dropDownData.map(variable => {
-							if (variable !== config["seleccion_g6_1"]) {
+							if (variable !== config["filtro_g6_1"]) {
 								return <option key={ variable + "filer6-2" } value={ variable }>{ variable }</option>
 							}
 							return null;

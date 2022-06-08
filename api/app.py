@@ -77,7 +77,6 @@ def methods_uploads():
         except Exception as e:
           return Response("Error en el guardado de datos: " + str(e), 500)
 
-        # Regreso de datos
         # Configura la respuesta al sitio web
         response_to_web = Response("Se cargó correctamente" , 200)
         response_to_web.headers["id_nueva"] = new_id
@@ -137,10 +136,13 @@ def methods_boards():
             return Response("No se ha proporcionado un id de usuario, id de carga o un nombre de tablero", 400)
         
         # Guarda el tablero en la base de datos
-        try: db_manager.save_board(parameters)
+        try: new_id = db_manager.save_board(parameters)
         except Exception as e: return Response("Error en la base de datos: " + str(e), 500)
 
-        return Response("Tablero guardado correctamente", 200)
+        # Configura la respuesta al sitio web
+        response_to_web = Response("Tablero guardado correctamente" , 200)
+        response_to_web.headers["id_nueva"] = new_id
+        return response_to_web
     elif request.method == 'GET':
         # Verifica que venga un usuario y un identificador de carga
         user_id = request.headers.get("id_usuario")
