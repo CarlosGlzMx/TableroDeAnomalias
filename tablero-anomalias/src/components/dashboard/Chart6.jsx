@@ -9,7 +9,7 @@ import {
 	Tooltip,
 	Legend,
 	ResponsiveContainer,
-  Label
+	Label
 } from 'recharts';
 import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
@@ -144,11 +144,11 @@ function Chart6() {
 					<CartesianGrid />
 					<XAxis type="number" />
 					<YAxis tick={ false } type="category" dataKey="Variables">
-            <Label value={
+						<Label value={
 							!config["seleccion_g5_1"] || !config["seleccion_g5_2"] ? "" :
 								`${config["seleccion_g5_1"]} x ${config["seleccion_g5_2"]}`
 						} angle={ -90 }></Label>
-          </YAxis>
+					</YAxis>
 					<ZAxis type="number" dataKey="z" range={ [60, 400] } name="score" unit="km" />
 					<Tooltip cursor={ { strokeDasharray: '3 3' } } />
 					<Legend />

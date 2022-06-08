@@ -45,14 +45,12 @@ function Chart2() {
 				}
 			}
 		}
-		
 
-		
 		// Traduce los datos a una lista que pueda procesar el app
 		var reducedDate
 		var dateObject1
 		for (const [key, value] of Object.entries(groupedByDate)) {
-			dateObject1 = new Date (key);
+			dateObject1 = new Date(key);
 			//reducedDate = dateObject1.toLocaleDateString()
 			listedDates.push({ "Fecha": dateObject1, "Registros": value["registros"], "Anomalías": value["anomalias"] });
 
@@ -87,7 +85,7 @@ function Chart2() {
 							<Label value="Fecha" position={ "insideBottom" }></Label>
 						</XAxis>
 						<YAxis tickCount={ 2 }><Label value="Cantidad" angle={ -90 }></Label></YAxis>
-						<Tooltip /> 
+						<Tooltip />
 						<Line
 							type="monotone"
 							dataKey="Registros"
@@ -101,12 +99,12 @@ function Chart2() {
 							dot={ false }
 						/>
 						<Legend />
-						
+
 					</LineChart>
 				</ResponsiveContainer>
 			</div>
 		);
-		
+
 	} else {
 		return (
 			<div className="chart c2">

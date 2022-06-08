@@ -78,9 +78,8 @@ function Chart5() {
 		setGraphData(listedBars.slice(0, Math.min(10, listedBars.length)));
 	}, [anomalyData, config]);
 
-	if (graphData.length > 0) {
-		return (
-
+	return (
+		<>
 			<div className="chart c5 d-flex flex-column justify-content-start">
 				<div className="chart_title">
 					Anomalías por dos variables
@@ -88,11 +87,11 @@ function Chart5() {
 				<div className="d-flex">
 					<select className="form-select" aria-label="Default select example" defaultValue={ "" }
 						onChange={ (e) =>
-							setConfig({ ...config, seleccion_g5_1: e.target.value }) }>
+							setConfig({ ...config, filtro_g5_1: e.target.value }) }>
 						<option value="" disabled hidden>Variable filtro 1</option>
 						{
 							dropDownData.map(variable => {
-								if (variable !== config["seleccion_g5_2"]) {
+								if (variable !== config["filtro_g5_2"]) {
 									return <option key={ variable + "filer5-1" } value={ variable }>{ variable }</option>
 								}
 								return null;
@@ -101,11 +100,11 @@ function Chart5() {
 					</select>
 					<select className="form-select" aria-label="Default select example" defaultValue={ "" }
 						onChange={ (e) =>
-							setConfig({ ...config, seleccion_g5_2: e.target.value }) }>
+							setConfig({ ...config, filtro_g5_2: e.target.value }) }>
 						<option value="" disabled hidden>Variable filtro 2</option>
 						{
 							dropDownData.map(variable => {
-								if (variable !== config["seleccion_g5_1"]) {
+								if (variable !== config["filtro_g5_1"]) {
 									return <option key={ variable + "filer5-2" } value={ variable }>{ variable }</option>
 								}
 								return null;
@@ -113,47 +112,49 @@ function Chart5() {
 						}
 					</select>
 				</div>
-				<ResponsiveContainer width={ "100%" } aspect={ 1 }>
-					<BarChart
-						data={ graphData }
-						layout="vertical"
-						barCategoryGap={ 5 }
-						margin={ {
-							top: 30,
-							bottom: 60,
-						} }
-					>
-						<CartesianGrid />
-						<XAxis type="number" />
-						<YAxis tick={ false } type="category" dataKey="Variables">
-							<Label value={
-								!config["seleccion_g5_1"] || !config["seleccion_g5_2"] ? "" :
-									`${config["seleccion_g5_1"]} x ${config["seleccion_g5_2"]}`
-							} angle={ -90 }></Label>
-						</YAxis>
-						<Tooltip />
-						<Bar dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" />
-						<Bar dataKey="Normales" fill={ grisNormal } stackId="stack" />
-						<Legend/>
-					</BarChart>
-				</ResponsiveContainer>
-			</div>
-		);
-		
-	} else {
-		return (
-			<div className="chart c2">
-				<div className="chart_title">Anomalías por fecha</div>
-				<ResponsiveContainer width="100%" height="100%">
-					<div className="chartError">
-						<h3>No fue posible mostrar gráfica debido a que no existe información suficiente</h3>
+				{ graphData.length > 0 ?
+					<ResponsiveContainer width={ "100%" } aspect={ 1 }>
+						<BarChart
+							data={ graphData }
+							layout="vertical"
+							barCategoryGap={ 5 }
+							margin={ {
+								top: 30,
+								bottom: 60,
+							} }
+						>
+							<CartesianGrid />
+							<XAxis type="number" />
+							<YAxis tick={ false } type="category" dataKey="Variables">
+								<Label value={
+									!config["seleccion_g5_1"] || !config["seleccion_g5_2"] ? "" :
+										`${config["seleccion_g5_1"]} x ${config["seleccion_g5_2"]}`
+								} angle={ -90 }></Label>
+							</YAxis>
+							<Tooltip />
+							<Bar dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" />
+							<Bar dataKey="Normales" fill={ grisNormal } stackId="stack" />
+							<Legend />
+						</BarChart>
+					</ResponsiveContainer>
+
+					:
+					<div className="chart c2">
+						<div className="chart_title">Anomalías por fecha</div>
+						<ResponsiveContainer width="100%" height="100%">
+							<div className="chartError">
+								<h3>No fue posible mostrar gráfica, no existe
+									información suficiente. Seleccione una variable de los filtros.
+								</h3>
+							</div>
+						</ResponsiveContainer>
 					</div>
-				</ResponsiveContainer>
+				}
 			</div>
-		);
-	}
-	
-	
+		</>
+	);
+
+
 }
 
 export default Chart5;
