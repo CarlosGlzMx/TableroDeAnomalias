@@ -91,7 +91,7 @@ function Chart4() {
         <select
           className="form-select m-2"
           aria-label="Default select example"
-          defaultValue={""}
+          defaultValue = {""}
           onChange={(e) =>
             setConfig({ ...config, filtro_g4: e.target.value })
           }
@@ -100,7 +100,7 @@ function Chart4() {
             Variable filtro
           </option>
           {dropDownData.map((variable) => (
-            <option key={variable} value={variable}>
+            <option key={variable} value={variable} selected={variable === config["filtro_g4"]}>
               {variable}
             </option>
           ))}

@@ -106,7 +106,7 @@ function Chart6() {
 
 	function bubblesChart() {
 		return (
-			<ResponsiveContainer >
+			<ResponsiveContainer width={"100%"} aspect={viewModal ? undefined : 1}>
 				<ScatterChart  onClick={() => { if (!viewModal) setViewModal(true) }}
 					margin={{
 						top: 30,
@@ -146,7 +146,8 @@ function Chart6() {
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g6_2"]) {
-								return <option key={variable + "filer6-1"} value={variable}>{variable}</option>
+								return <option key={variable + "filer6-1"} value={variable}
+								selected={variable === config["filtro_g6_1"]}>{variable}</option>
 							}
 							return null;
 						})
@@ -158,7 +159,8 @@ function Chart6() {
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g6_1"]) {
-								return <option key={variable + "filer6-2"} value={variable}>{variable}</option>
+								return <option key={variable + "filer6-2"} value={variable}
+								selected={variable === config["filtro_g6_2"]}>{variable}</option>
 							}
 							return null;
 						})

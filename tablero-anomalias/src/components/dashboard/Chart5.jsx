@@ -89,7 +89,8 @@ function Chart5() {
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g5_2"]) {
-								return <option key={variable + "filer5-1"} value={variable}>{variable}</option>
+								return <option key={variable + "filer5-1"} value={variable}
+									selected={variable === config["filtro_g5_1"]}>{variable}</option>
 							}
 							return null;
 						})
@@ -102,7 +103,8 @@ function Chart5() {
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g5_1"]) {
-								return <option key={variable + "filer5-2"} value={variable}>{variable}</option>
+								return <option key={variable + "filer5-2"} value={variable}
+								selected={variable === config["filtro_g5_2"]}>{variable}</option>
 							}
 							return null;
 						})
