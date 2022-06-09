@@ -25,7 +25,6 @@ function Chart6() {
 	// Datos necesarios para la lista de opciones en el filtro
 	const [dropDownData, setDropDownData] = useState([]);
 	const [graphData, setGraphData] = useState([]);
-  const [array1234, setArray1234] = useState([]);
 
 	const data01 = [
 		{ tipo: "Regulares", x: 100, y: 200, z: 200 },
@@ -57,53 +56,65 @@ function Chart6() {
 
   
 	// Actualización de los datos que alimentan a la gráfica de barras
+	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
-    var Name = [];
-    var access = [];
-    var ARRAY123 = [];
-    for (var i = 0; i < Object.keys(anomalyData); i++) {
-      console.log(1);
-      
-    }
-    
-      
-      
-      
-      // const repeatedData = anomalyData.Name.filter((number, i) => i == 0 ? true : anomalyData.Name[i - 1] != number);
-      // const counterRepeatedData = repeatedData.map(spec => {
-      //   return {number: spec, count: 0};
-      // });
+		// Depende de que haya una selección en el filtro
+		if (!config["filtro_g6_1"] || !config["filtro_g6_2"]) return;
 
-      // counterRepeatedData.map((countSpec, i) => {
-      // const actualSpecLength = anomalyData.Name.filter(number => number === countSpec.number).length;
-      // countSpec.count = actualSpecLength;
-      // ARRAY123.push(counterRepeatedData);
-      // })  
-    
+		// Contadores por valor único de la variable elegida
+		let groupedByVarsValue = [];
+		let listedBars = [];
 
-    // for (const column_name of Object.keys(anomalyData)) {
-		// 	access.push(column_name);
-		// 	}
-    //   for (var i = 0; i < access.length; i++){
-    //        Name = access[i]; 
-    //       console.log(anomalyData["fecha"][i]);
-    //       // const repeatedData = anomalyData.Name.filter((number, i) => i == 0 ? true : anomalyData.Name[i - 1] != number);
-    //       // const counterRepeatedData = repeatedData.map(spec => {
-    //       //   return {number: spec, count: 0};
-    //       // });
-    
-    //       // counterRepeatedData.map((countSpec, i) => {
-    //       // const actualSpecLength = anomalyData.Name.filter(number => number === countSpec.number).length;
-    //       // countSpec.count = actualSpecLength;
-    //       // ARRAY123.push(counterRepeatedData);
-    //       // })  
-    //     }
+		for (var i = 0; i < Object.keys(anomalyData.scores).length; i++) {
+			// Filtra por el rango de fechas
+			if (dateInRange(anomalyData["fecha"][i], config["fecha_inicio"], config["fecha_fin"])) {
+				// De ser necesario, inicializa los objetos
+				if (!groupedByVarsValue[anomalyData[config["filtro_g6_1"]][i] + " x " + anomalyData[config["filtro_g6_2"]][i]]) {
+					groupedByVarsValue[anomalyData[config["filtro_g6_1"]][i] + " x " + anomalyData[config["filtro_g6_2"]][i]] = { "normales": 0, "anomalias": 0 , "variable1": anomalyData[config["filtro_g6_1"]][i], "variable2": anomalyData[config["filtro_g6_2"]][i]};
+				}
+
+				// Incrementa por uno según si es o no una anomalía para la variable elegida
+				if (anomalyData.scores[i] <= config["umbral_anomalia"]) {
+					groupedByVarsValue[anomalyData[config["filtro_g6_1"]][i] + " x " + anomalyData[config["filtro_g6_2"]][i]]["anomalias"] += 1;
+					groupedByVarsValue[anomalyData[config["filtro_g6_1"]][i] + " x " + anomalyData[config["filtro_g6_2"]][i]]["variable1"] = anomalyData[config["filtro_g6_1"]][i];
+				    groupedByVarsValue[anomalyData[config["filtro_g6_1"]][i] + " x " + anomalyData[config["filtro_g6_2"]][i]]["variable2"] = anomalyData[config["filtro_g6_2"]][i];
+				}
+				else {
+					groupedByVarsValue[anomalyData[config["filtro_g6_1"]][i] + " x " + anomalyData[config["filtro_g6_2"]][i]]["normales"] += 1;
+					groupedByVarsValue[anomalyData[config["filtro_g6_1"]][i] + " x " + anomalyData[config["filtro_g6_2"]][i]]["variable1"] = anomalyData[config["filtro_g6_1"]][i];
+				    groupedByVarsValue[anomalyData[config["filtro_g6_1"]][i] + " x " + anomalyData[config["filtro_g6_2"]][i]]["variable2"] = anomalyData[config["filtro_g6_2"]][i];
+				}
+			}
+		}
+
+		// variable_1: "djkhkdhas",
+		// variable_2: "dhdsk0",
+		// anomalias: 12,
+		// normales:3
+		//groupedByVarsValue.map(value => {console.log(value) })
+		console.log(groupedByVarsValue);
+		// Traduce los datos a una lista que pueda procesar el app
 		
 
-    setArray1234(Name);
-		// Para generar los datos futuros
+
+		for (const [key, value] of Object.entries(groupedByVarsValue)) {
+			console.log(groupedByVarsValue[key].variable1);
+			listedBars.push({ "x": value["normales"], "y": value["anomalias"], "z": value["anomalias"] });
+		}
+
+		// Ordena y hace slice para limitar la cantidad de barras acumuladas
+		listedBars.sort((a, b) => {
+			if (a["Normales"] + a["Anomalías"] < b["Normales"] + b["Anomalías"]) return 1;
+			else if (a["Normales"] + a["Anomalías"] > b["Normales"] + b["Anomalías"]) return - 1;
+			else if (a["Anomalías"] < b["Anomalías"]) return 1;
+			else if (a["Anomalías"] > b["Anomalías"]) return -1;
+			else return 0;
+		})
+		setGraphData(listedBars.slice(0, Math.min(10, listedBars.length)));
 	}, [anomalyData, config]);
+
 	console.log(graphData);
+
 
 	return (
 		<div className="chart c6">
@@ -148,18 +159,18 @@ function Chart6() {
 					} }
 				>
 					<CartesianGrid />
-					<XAxis type="number" />
-					<YAxis tick={ false } type="category" dataKey="Variables">
+					<XAxis dataKey="x" type="number" />
+					<YAxis tick={ false } type="category" dataKey="y">
 						<Label value={
-							!config["seleccion_g5_1"] || !config["seleccion_g5_2"] ? "" :
-								`${config["seleccion_g5_1"]} x ${config["seleccion_g5_2"]}`
+							!config["filtro_g6_1"] || !config["filtro_g6_2"] ? "" :
+								`${config["filtro_g6_1"]} x ${config["filtro_g6_2"]}`
 						} angle={ -90 }></Label>
 					</YAxis>
 					<ZAxis type="number" dataKey="z" range={ [60, 400] } name="score" unit="km" />
 					<Tooltip cursor={ { strokeDasharray: '3 3' } } />
 					<Legend />
-					<Scatter dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" data={ data01 } shape="circle" />
-					<Scatter dataKey="Normales" fill={ grisNormal } stackId="stack" data={ data02 } shape="circle" />
+					<Scatter dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" data={ graphData } shape="circle" />
+					{/* <Scatter dataKey="Normales" fill={ grisNormal } stackId="stack" data={ graphData } shape="circle" /> */}
 					<Legend />
 				</ScatterChart>
 			</ResponsiveContainer>
