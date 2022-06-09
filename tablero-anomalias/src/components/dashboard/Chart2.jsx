@@ -75,7 +75,7 @@ function Chart2() {
 	return (
 		<div className="chart c2">
 			<div className="chart_title">Anomalías por fecha</div>
-			{(graphData.length > 0) ? (
+			{ (graphData.length > 0) ? (
 				<ResponsiveContainer width="100%" height="100%">
 					<LineChart width={500} height={300} data={graphData}
 						margin = {{right:50, bottom: 10, top: 20}}
@@ -89,15 +89,15 @@ function Chart2() {
 						<Line
 							type="monotone"
 							dataKey="Registros"
-							stroke={grisNormal}
-							dot={false}
+							stroke={ grisNormal }
+							dot={ false }
 						/>
 						
 						<Line
 							type="monotone"
 							dataKey="Anomalías"
-							stroke={naranjaAnomalia}
-							dot={false}
+							stroke={ naranjaAnomalia }
+							dot={ false }
 						/>
 						<Legend />
 					</LineChart>
@@ -106,7 +106,6 @@ function Chart2() {
 				<div className="card-blue p-4 m-4 text-center">
 					<h3>No se encontraron datos para generar la gráfica</h3>
 				</div>
-
 			)}
 		</div>
 	);

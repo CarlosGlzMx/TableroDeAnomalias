@@ -34,7 +34,7 @@ function Chart5() {
 		}
 		setDropDownData(variableNames);
 	}, [anomalyData]);
-
+ 
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
 		// Depende de que haya una selección en el filtro
@@ -77,9 +77,8 @@ function Chart5() {
 		})
 		setGraphData(listedBars.slice(0, Math.min(10, listedBars.length)));
 	}, [anomalyData, config]);
-
+	console.log(graphData);
 	return (
-
 		<div className="chart c5 d-flex flex-column justify-content-start">
 			<div className="chart_title">Anomalías por dos variables</div>
 			<div className="d-flex">
@@ -142,6 +141,8 @@ function Chart5() {
 			)}
 		</div>
 	);
+
+
 }
 
 export default Chart5;
