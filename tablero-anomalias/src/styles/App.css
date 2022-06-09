@@ -7,7 +7,6 @@
 h4 { 
     margin: 20px !important;
     text-align: center;
-    padding-top: 25px;
 }
 
 .card-blue {
@@ -41,12 +40,16 @@ h4 {
 
 
 .chart {
-    min-width: 33%;
-    height: 400px;
+    width: 33%;
+    min-height: 400px;
     justify-content: center;
     align-items: center;
     overflow: visible;
     padding: 28px;
+}
+
+.c6 {
+    overflow: hidden;
 }
 
 @media (min-width: 600px) {

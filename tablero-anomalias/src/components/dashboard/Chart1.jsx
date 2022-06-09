@@ -61,8 +61,8 @@ function Chart1() {
 							<Label id="anomaly-pct-label" value={`${anomalyPct}%`} position="center"></Label>
 						</Pie>
 						<Tooltip />
-						<Legend />
-					</PieChart>
+						<Legend payload={[{value: "Anomalías", type:"circle", id:"1", color: naranjaAnomalia},
+								{value: "Datos regulares", type:"circle", id:"2", color: grisNormal}]}/>					</PieChart>
 				</ResponsiveContainer>
 			)
 				:

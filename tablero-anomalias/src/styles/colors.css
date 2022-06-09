@@ -34,6 +34,11 @@
     background-color: var(--blanco-ternium);
 }
 
+.full-screen-chart-header {
+    background-color: var(--azul-marino-ternium);
+    color: var(--blanco-ternium);
+}
+
 .dropdown-toggle {
     background-color: var(--acero-ternium);
     border-color: var(--acero-ternium);

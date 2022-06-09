@@ -37,7 +37,7 @@ function Chart5() {
  
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
-		// Depende de que haya una selección en el filtro
+		// Depende de que haya selecciones en los filtros
 		if (!config["filtro_g5_1"] || !config["filtro_g5_2"]) return;
 
 		// Contadores por valor único de la variable elegida
@@ -64,20 +64,20 @@ function Chart5() {
 
 		// Traduce los datos a una lista que pueda procesar el app
 		for (const [key, value] of Object.entries(groupedByVarsValue)) {
-			listedBars.push({ "Variables": key, "Normales": value["normales"], "Anomalías": value["anomalias"] });
+			listedBars.push({ "Variables": key, "Datos regulares": value["normales"], "Anomalías": value["anomalias"] });
 		}
 
 		// Ordena y hace slice para limitar la cantidad de barras acumuladas
 		listedBars.sort((a, b) => {
-			if (a["Normales"] + a["Anomalías"] < b["Normales"] + b["Anomalías"]) return 1;
-			else if (a["Normales"] + a["Anomalías"] > b["Normales"] + b["Anomalías"]) return - 1;
+			if (a["Datos regulares"] + a["Anomalías"] < b["Datos regulares"] + b["Anomalías"]) return 1;
+			else if (a["Datos regulares"] + a["Anomalías"] > b["Datos regulares"] + b["Anomalías"]) return - 1;
 			else if (a["Anomalías"] < b["Anomalías"]) return 1;
 			else if (a["Anomalías"] > b["Anomalías"]) return -1;
 			else return 0;
 		})
 		setGraphData(listedBars.slice(0, Math.min(10, listedBars.length)));
 	}, [anomalyData, config]);
-	console.log(graphData);
+
 	return (
 		<div className="chart c5 d-flex flex-column justify-content-start">
 			<div className="chart_title">Anomalías por dos variables</div>
@@ -114,10 +114,10 @@ function Chart5() {
 					<BarChart
 						data={graphData}
 						layout="vertical"
-						barCategoryGap={5}
+						barCategoryGap={2}
 						margin={{
 							top: 30,
-							bottom: 90,
+							bottom: 0,
 						}}
 					>
 						<CartesianGrid />
@@ -130,8 +130,9 @@ function Chart5() {
 						</YAxis>
 						<Tooltip />
 						<Bar dataKey="Anomalías" fill={naranjaAnomalia} stackId="stack" />
-						<Bar dataKey="Normales" fill={grisNormal} stackId="stack" />
-						<Legend />
+						<Bar dataKey="Datos regulares" fill={grisNormal} stackId="stack" />
+						<Legend payload={[{value: "Anomalías", type:"circle", id:"1", color: naranjaAnomalia},
+								{value: "Datos regulares", type:"circle", id:"2", color: grisNormal}]}/>
 					</BarChart>
 				</ResponsiveContainer>
 			) : (

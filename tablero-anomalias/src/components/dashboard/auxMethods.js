@@ -17,6 +17,9 @@ export function dateInRange(mainDate, lowDate, highDate) {
 
 // Convierte un objeto Date de JavaScript a una cadena en formato "YYYY-MM-DD"
 export function formatDate(date) {
+    // Corrige zona horaria para tener la fecha adecuada
+    date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000 );
+
     // Extrae año, mes y día
     let y = date.getFullYear();
     let m = '' + (date.getMonth() + 1);

@@ -27,7 +27,7 @@ function ListedAnomaly(props) {
 			<Button className="primary-button" onClick={ () => { if (!viewModal) setViewModal(true) } }>Ver detalle</Button>
 			<Modal show={ viewModal } onHide={ () => setViewModal(false) }>
 				<Modal.Header closeButton>
-					<Modal.Title>Detalles de la anomalía { props.index }</Modal.Title>
+					<Modal.Title>Detalles de la anomalía { props.index + 1 }</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<ul>{ detailsArray }</ul>

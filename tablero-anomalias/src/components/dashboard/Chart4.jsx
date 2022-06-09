@@ -66,16 +66,16 @@ function Chart4() {
 		for (const [key, value] of Object.entries(groupedByVarValue)) {
 			listedBars.push({
 				"Variable 1": key,
-				Normales: value["normales"],
-				Anomalías: value["anomalias"],
+				"Datos regulares": value["normales"],
+				"Anomalías": value["anomalias"],
 			});
 		}
 
 		// Ordena y hace slice para limitar la cantidad de barras acumuladas
 		listedBars.sort((a, b) => {
-			if (a["Normales"] + a["Anomalías"] < b["Normales"] + b["Anomalías"])
+			if (a["Datos regulares"] + a["Anomalías"] < b["Datos regulares"] + b["Anomalías"])
 				return 1;
-			else if (a["Normales"] + a["Anomalías"] > b["Normales"] + b["Anomalías"])
+			else if (a["Datos regulares"] + a["Anomalías"] > b["Datos regulares"] + b["Anomalías"])
 				return -1;
 			else if (a["Anomalías"] < b["Anomalías"]) return 1;
 			else if (a["Anomalías"] > b["Anomalías"]) return -1;
@@ -113,8 +113,7 @@ function Chart4() {
             layout="vertical"
             barCategoryGap={2}
             margin={{
-              top: 30,
-              bottom: 90,
+              top: 30
             }}
           >
             <CartesianGrid />
@@ -123,9 +122,9 @@ function Chart4() {
               <Label value={config["filtro_g4"]} angle={-90}></Label>
             </YAxis>
             <Tooltip />
-            <Legend />
-            <Bar dataKey="Anomalías" fill={naranjaAnomalia} stackId="stack" />
-            <Bar dataKey="Normales" fill={grisNormal} stackId="stack" />
+			<Legend payload={[{value: "Anomalías", type:"circle", id:"1", color: naranjaAnomalia},
+								{value: "Datos regulares", type:"circle", id:"2", color: grisNormal}]}/>            <Bar dataKey="Anomalías" fill={naranjaAnomalia} stackId="stack" />
+            <Bar dataKey="Datos regulares" fill={grisNormal} stackId="stack" />
           </BarChart>
         </ResponsiveContainer>
       ) : (

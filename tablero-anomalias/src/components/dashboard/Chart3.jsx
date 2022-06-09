@@ -1,5 +1,5 @@
 import { React, useState, useContext, useEffect } from "react";
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Label, Cell } from "recharts";
+import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, Label, Cell, Legend } from "recharts";
 import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
 
@@ -64,8 +64,8 @@ function Chart3() {
 						margin = {{
 							top: 20,
 							left: 0,
-							right : 60,
-							bottom: 20
+							right : 40,
+							bottom: 10
 						}}
 					>
 						<Bar dataKey="Registros">
@@ -76,6 +76,8 @@ function Chart3() {
 						<XAxis dataKey="Grupo" interval={NUM_BARRAS - 1}><Label value="Puntaje de anomalía" position={"insideBottom"}></Label></XAxis>
 						<YAxis tickCount={2}><Label value="Observaciones" angle={-90}></Label></YAxis>
 						<Tooltip />
+						<Legend payload={[{value: "Anomalías", type:"circle", id:"1", color: naranjaAnomalia},
+								{value: "Datos regulares", type:"circle", id:"2", color: grisNormal}]}/>
 					</BarChart >
 				</ResponsiveContainer >
 			) : (
