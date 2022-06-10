@@ -39,7 +39,7 @@ function Header() {
 		<>
 			<Navbar id="header" expand={ false } >
 				<Container fluid>
-					<Navbar.Brand href="/">
+					<Navbar.Brand>
 						<img alt="Logo Ternium" src={ Logo } className="d-inline-block align-top" id="main-logo" width="100" />
 					</Navbar.Brand>
 					<Navbar.Text className="light-text fw-bold fs-5">

@@ -106,28 +106,28 @@ function Chart6() {
 
 	function bubblesChart() {
 		return (
-			<ResponsiveContainer width={"100%"} aspect={viewModal ? undefined : 1}>
-				<ScatterChart  onClick={() => { if (!viewModal) setViewModal(true) }}
-					margin={{
+			<ResponsiveContainer width={ "100%" } aspect={ viewModal ? undefined : 1 }>
+				<ScatterChart onClick={ () => { if (!viewModal) setViewModal(true) } }
+					margin={ {
 						top: 30,
 						right: 20,
 						bottom: 0,
 						left: 0,
-					}}
+					} }
 				>
-					<XAxis type="number" dataKey="x" tick={false} domain={graphDomains["x"]}>
-						<Label value={config["filtro_g6_1"]}></Label>
+					<XAxis type="number" dataKey="x" tick={ false } domain={ graphDomains["x"] }>
+						<Label value={ config["filtro_g6_1"] }></Label>
 					</XAxis>
-					<YAxis type="number" dataKey="y" tick={false} domain={graphDomains["y"]}>
-						<Label value={config["filtro_g6_2"]} angle={-90}></Label>
+					<YAxis type="number" dataKey="y" tick={ false } domain={ graphDomains["y"] }>
+						<Label value={ config["filtro_g6_2"] } angle={ -90 }></Label>
 					</YAxis>
-					<ZAxis type="number" dataKey="count" range={[20, 400]} />
-					<Tooltip cursor={{ strokeDasharray: '3 3' }} content={<BubblesTooltip />} />
+					<ZAxis type="number" dataKey="count" range={ [20, 400] } />
+					<Tooltip cursor={ { strokeDasharray: '3 3' } } content={ <BubblesTooltip /> } />
 
-					<Scatter dataKey="Datos regulares" fill={grisNormal} stackId="stack" data={regularBubbles} shape="circle" />
-					<Scatter dataKey="Anomalías" fill={naranjaAnomalia} stackId="stack" data={anomalyBubbles} shape="cross" />
-					<Legend payload={[{value: "Anomalías", type:"circle", id:"1", color: naranjaAnomalia},
-								{value: "Datos regulares", type:"circle", id:"2", color: grisNormal}]}/>
+					<Scatter dataKey="Datos regulares" fill={ grisNormal } stackId="stack" data={ regularBubbles } shape="circle" />
+					<Scatter dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" data={ anomalyBubbles } shape="cross" />
+					<Legend payload={ [{ value: "Anomalías", type: "circle", id: "1", color: naranjaAnomalia },
+					{ value: "Datos regulares", type: "circle", id: "2", color: grisNormal }] } />
 				</ScatterChart>
 			</ResponsiveContainer>
 		);
@@ -140,54 +140,54 @@ function Chart6() {
 				Dispersión de anomalías
 			</div>
 			<div className="d-flex">
-				<select className="form-select m-2" aria-label="Default select example" defaultValue={""}
-					onChange={(e) => setConfig({ ...config, filtro_g6_1: e.target.value })}>
+				<select className="form-select m-2" aria-label="Default select example" defaultValue={ config["filtro_g6_1"] }
+					onChange={ (e) => setConfig({ ...config, filtro_g6_1: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 1</option>
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g6_2"]) {
-								return <option key={variable + "filer6-1"} value={variable}
-								selected={variable === config["filtro_g6_1"]}>{variable}</option>
+								return <option key={ variable + "filer6-1" } value={ variable }>{ variable }</option>
 							}
 							return null;
 						})
 					}
 				</select>
-				<select className="form-select m-2" aria-label="Default select example" defaultValue={""}
-					onChange={(e) => setConfig({ ...config, filtro_g6_2: e.target.value })}>
+				<select className="form-select m-2" aria-label="Default select example" defaultValue={ config["filtro_g6_2"] }
+					onChange={ (e) => setConfig({ ...config, filtro_g6_2: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 2</option>
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g6_1"]) {
-								return <option key={variable + "filer6-2"} value={variable}
-								selected={variable === config["filtro_g6_2"]}>{variable}</option>
+								return <option key={ variable + "filer6-2" } value={ variable }>{ variable }</option>
 							}
 							return null;
 						})
 					}
 				</select>
 			</div>
-			{(regularBubbles.length || anomalyBubbles.length) ? (
-				<>
-					{bubblesChart()}
-					<Modal fullscreen={true} show={viewModal} onHide={() => setViewModal(false)}>
-						<Modal.Header className="full-screen-chart-header d-flex justify-content-between">
-							<Modal.Title>Gráfica de burbujas</Modal.Title>
-							<Button className="primary-button" onClick={() => setViewModal(false)}>
-								Cerrar
-							</Button>
-						</Modal.Header>
-						<Modal.Body>
-							{bubblesChart()}
-						</Modal.Body>
-					</Modal>
-				</>
-			) : (
-				<div className="card-blue p-4 m-4 text-center">
-					<h3>No se encontraron datos para generar la gráfica</h3>
-				</div>
-			)}
-		</div>
+			{
+				(regularBubbles.length || anomalyBubbles.length) ? (
+					<>
+						{ bubblesChart() }
+						<Modal fullscreen={ true } show={ viewModal } onHide={ () => setViewModal(false) }>
+							<Modal.Header className="full-screen-chart-header d-flex justify-content-between">
+								<Modal.Title>Gráfica de burbujas</Modal.Title>
+								<Button className="primary-button" onClick={ () => setViewModal(false) }>
+									Cerrar
+								</Button>
+							</Modal.Header>
+							<Modal.Body>
+								{ bubblesChart() }
+							</Modal.Body>
+						</Modal>
+					</>
+				) : (
+					<div className="card-blue p-4 m-4 text-center">
+						<h3>No se encontraron datos para generar la gráfica</h3>
+					</div>
+				)
+			}
+		</div >
 	);
 }
 

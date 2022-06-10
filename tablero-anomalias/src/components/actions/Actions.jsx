@@ -52,9 +52,11 @@ function Actions() {
 	async function handleClickDelete(e) {
 		e.preventDefault();
 		let response = undefined;
-		if (ids.tablero === undefined && ids.carga !== undefined) {
+		if (ids === undefined || (ids.tablero === undefined && ids.carga === undefined)) {
+			setError("No hay nada que eliminar");
+		} else if (ids.carga) {
 			response = await deleteCarga(ids.usuario, ids.carga);
-		} else if (ids.tablero !== undefined && ids.carga !== undefined) {
+		} else if (ids.tablero) {
 			response = await deleteTablero(ids.usuario, ids.tablero);
 		}
 
@@ -126,7 +128,7 @@ function Actions() {
 			</div>
 
 			<div className="action-right">
-				<button className="btn btn-default" onClick={() => handleShow("delete")}>
+				<button className="btn btn-default" onClick={ () => handleShow("delete") }>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="6vh"
@@ -142,7 +144,7 @@ function Actions() {
 					</svg>
 				</button>
 
-				<button className="btn btn-default" onClick={() => printPdf()}>
+				<button className="btn btn-default" onClick={ () => printPdf() }>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="6vh"
@@ -155,7 +157,7 @@ function Actions() {
 					</svg>
 				</button>
 
-				<button className="btn btn-default" onClick={() => handleShow("post")}>
+				<button className="btn btn-default" onClick={ () => handleShow("post") }>
 					<svg xmlns="http://www.w3.org/2000/svg" width="6vh" fill="currentColor" className="bi bi-save2" viewBox="0 0 16 16">
 						<path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
 					</svg>
@@ -163,7 +165,7 @@ function Actions() {
 
 				<button
 					className="btn btn-default"
-					onClick={() => (window.location.href = "/upload")}
+					onClick={ () => (window.location.href = "/upload") }
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +179,7 @@ function Actions() {
 					</svg>
 				</button>
 
-				<button className="btn btn-default" onClick={newTab}>
+				<button className="btn btn-default" onClick={ newTab }>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="6vh"
@@ -193,17 +195,17 @@ function Actions() {
 				</button>
 			</div>
 			<Modal
-				show={show}
-				onHide={handleClose}
+				show={ show }
+				onHide={ handleClose }
 				backdrop="static"
-				keyboard={false}
+				keyboard={ false }
 			>
 				<Modal.Header>
-					<Modal.Title>{type === "delete" ? "Eliminar datos" : "Guardar un tablero"}</Modal.Title>
+					<Modal.Title>{ type === "delete" ? "Eliminar datos" : "Guardar un tablero" }</Modal.Title>
 				</Modal.Header>
 				<Form>
 					<Modal.Body>
-						{type === "delete" ?
+						{ type === "delete" ?
 							error === undefined ? "¿Seguro que quieres eliminar este elemento?" : error
 							:
 							error === undefined ?
@@ -213,7 +215,7 @@ function Actions() {
 										type="text"
 										placeholder="Nombre"
 										autoFocus
-										onChange={(e) => setNombre(e.target.value)}
+										onChange={ (e) => setNombre(e.target.value) }
 									/>
 								</Form.Group>
 								:
@@ -221,11 +223,11 @@ function Actions() {
 						}
 					</Modal.Body>
 					<Modal.Footer>
-						<Button className="secondary-button" onClick={handleClose}>
+						<Button className="secondary-button" onClick={ handleClose }>
 							Cancelar
 						</Button>
-						{error === undefined ?
-							<Button type="submit" disabled={(type === "post" && nombre === "") ? true : false} className="primary-button" onClick={type === "delete" ? handleClickDelete : checkFilters}>{type === "delete" ? "Eliminar" : "Guardar"}</Button>
+						{ error === undefined ?
+							<Button type="submit" disabled={ (type === "post" && nombre === "") ? true : false } className="primary-button" onClick={ type === "delete" ? handleClickDelete : checkFilters }>{ type === "delete" ? "Eliminar" : "Guardar" }</Button>
 							:
 							<></>
 						}

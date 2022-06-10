@@ -34,7 +34,7 @@ function Chart5() {
 		}
 		setDropDownData(variableNames);
 	}, [anomalyData]);
- 
+
 	// Actualización de los datos que alimentan a la gráfica de barras
 	useEffect(() => {
 		// Depende de que haya selecciones en los filtros
@@ -82,66 +82,64 @@ function Chart5() {
 		<div className="chart c5 d-flex flex-column justify-content-start">
 			<div className="chart_title">Anomalías por dos variables</div>
 			<div className="d-flex">
-				<select className="form-select m-2" aria-label="Default select example" defaultValue={""}
-					onChange={(e) =>
-						setConfig({ ...config, filtro_g5_1: e.target.value })}>
+				<select className="form-select m-2" aria-label="Default select example" defaultValue={ config["filtro_g5_1"] }
+					onChange={ (e) =>
+						setConfig({ ...config, filtro_g5_1: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 1</option>
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g5_2"]) {
-								return <option key={variable + "filer5-1"} value={variable}
-									selected={variable === config["filtro_g5_1"]}>{variable}</option>
+								return <option key={ variable + "filer5-1" } value={ variable }>{ variable }</option>
 							}
 							return null;
 						})
 					}
 				</select>
-				<select className="form-select m-2" aria-label="Default select example" defaultValue={""}
-					onChange={(e) =>
-						setConfig({ ...config, filtro_g5_2: e.target.value })}>
+				<select className="form-select m-2" aria-label="Default select example" defaultValue={ config["filtro_g5_2"] }
+					onChange={ (e) =>
+						setConfig({ ...config, filtro_g5_2: e.target.value }) }>
 					<option value="" disabled hidden>Variable filtro 2</option>
 					{
 						dropDownData.map(variable => {
 							if (variable !== config["filtro_g5_1"]) {
-								return <option key={variable + "filer5-2"} value={variable}
-								selected={variable === config["filtro_g5_2"]}>{variable}</option>
+								return <option key={ variable + "filer5-2" } value={ variable }>{ variable }</option>
 							}
 							return null;
 						})
 					}
 				</select>
 			</div>
-			{(graphData.length > 0) ? (
-				<ResponsiveContainer width={"100%"} aspect={1}>
+			{ (graphData.length > 0) ? (
+				<ResponsiveContainer width={ "100%" } aspect={ 1 }>
 					<BarChart
-						data={graphData}
+						data={ graphData }
 						layout="vertical"
-						barCategoryGap={2}
-						margin={{
+						barCategoryGap={ 2 }
+						margin={ {
 							top: 30,
 							bottom: 0,
-						}}
+						} }
 					>
 						<CartesianGrid />
 						<XAxis type="number" />
-						<YAxis tick={false} type="category" dataKey="Variables">
+						<YAxis tick={ false } type="category" dataKey="Variables">
 							<Label value={
 								!config["filtro_g5_1"] || !config["filtro_g5_2"] ? "" :
 									`${config["filtro_g5_1"]} x ${config["filtro_g5_2"]}`
-							} angle={-90}></Label>
+							} angle={ -90 }></Label>
 						</YAxis>
 						<Tooltip />
-						<Bar dataKey="Anomalías" fill={naranjaAnomalia} stackId="stack" />
-						<Bar dataKey="Datos regulares" fill={grisNormal} stackId="stack" />
-						<Legend payload={[{value: "Anomalías", type:"circle", id:"1", color: naranjaAnomalia},
-								{value: "Datos regulares", type:"circle", id:"2", color: grisNormal}]}/>
+						<Bar dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" />
+						<Bar dataKey="Datos regulares" fill={ grisNormal } stackId="stack" />
+						<Legend payload={ [{ value: "Anomalías", type: "circle", id: "1", color: naranjaAnomalia },
+						{ value: "Datos regulares", type: "circle", id: "2", color: grisNormal }] } />
 					</BarChart>
 				</ResponsiveContainer>
 			) : (
 				<div className="card-blue p-4 m-4 text-center">
 					<h3>No se encontraron datos para generar la gráfica</h3>
 				</div>
-			)}
+			) }
 		</div>
 	);
 

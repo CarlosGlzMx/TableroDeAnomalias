@@ -84,51 +84,51 @@ function Chart4() {
 		setGraphData(listedBars.slice(0, Math.min(10, listedBars.length)));
 	}, [anomalyData, config]);
 
-  return (
-    <div className="chart c4 d-flex flex-column justify-content-start">
-      <div className="chart_title">Anomalías por una variable</div>
-      <div className="d-flex">
-        <select
-          className="form-select m-2"
-          aria-label="Default select example"
-          defaultValue = {""}
-          onChange={(e) =>
-            setConfig({ ...config, filtro_g4: e.target.value })
-          }
-        >
-          <option value="" disabled hidden>
-            Variable filtro
-          </option>
-          {dropDownData.map((variable) => (
-            <option key={variable} value={variable} selected={variable === config["filtro_g4"]}>
-              {variable}
-            </option>
-          ))}
-        </select>
-      </div>
-      {graphData.length > 0 ? (
-        <ResponsiveContainer width={"100%"} aspect={1}>
-          <BarChart
-            data={graphData}
-            layout="vertical"
-            barCategoryGap={2}
-            margin={{
-              top: 30
-            }}
-          >
-            <CartesianGrid />
-            <XAxis type="number" />
-            <YAxis tick={false} type="category" dataKey="Variable 1">
-              <Label value={config["filtro_g4"]} angle={-90}></Label>
-            </YAxis>
-            <Tooltip />
-			<Legend payload={[{value: "Anomalías", type:"circle", id:"1", color: naranjaAnomalia},
-								{value: "Datos regulares", type:"circle", id:"2", color: grisNormal}]}/>            <Bar dataKey="Anomalías" fill={naranjaAnomalia} stackId="stack" />
-            <Bar dataKey="Datos regulares" fill={grisNormal} stackId="stack" />
-          </BarChart>
-        </ResponsiveContainer>
-      ) : (
-        <div className = "card-blue p-4 m-4 text-center">
+	return (
+		<div className="chart c4 d-flex flex-column justify-content-start">
+			<div className="chart_title">Anomalías por una variable</div>
+			<div className="d-flex">
+				<select
+					className="form-select m-2"
+					aria-label="Default select example"
+					defaultValue={ config["filtro_g4"] }
+					onChange={ (e) =>
+						setConfig({ ...config, filtro_g4: e.target.value })
+					}
+				>
+					<option value="" disabled hidden>
+						Variable filtro
+					</option>
+					{ dropDownData.map((variable) => (
+						<option key={ variable } value={ variable } >
+							{ variable }
+						</option>
+					)) }
+				</select>
+			</div>
+			{ graphData.length > 0 ? (
+				<ResponsiveContainer width={ "100%" } aspect={ 1 }>
+					<BarChart
+						data={ graphData }
+						layout="vertical"
+						barCategoryGap={ 2 }
+						margin={ {
+							top: 30
+						} }
+					>
+						<CartesianGrid />
+						<XAxis type="number" />
+						<YAxis tick={ false } type="category" dataKey="Variable 1">
+							<Label value={ config["filtro_g4"] } angle={ -90 }></Label>
+						</YAxis>
+						<Tooltip />
+						<Legend payload={ [{ value: "Anomalías", type: "circle", id: "1", color: naranjaAnomalia },
+						{ value: "Datos regulares", type: "circle", id: "2", color: grisNormal }] } />            <Bar dataKey="Anomalías" fill={ naranjaAnomalia } stackId="stack" />
+						<Bar dataKey="Datos regulares" fill={ grisNormal } stackId="stack" />
+					</BarChart>
+				</ResponsiveContainer>
+			) : (
+				<div className="card-blue p-4 m-4 text-center">
 					<h3>No se encontraron datos para generar la gráfica</h3>
 				</div>
 			) }
