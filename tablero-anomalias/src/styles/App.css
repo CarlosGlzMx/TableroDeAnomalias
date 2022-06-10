@@ -38,6 +38,9 @@ h4 {
     overflow-x: hidden;
 }
 
+.popover-arrow {
+    display: none !important;
+}
 
 .chart {
     width: 33%;

@@ -14,6 +14,7 @@ import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange } from "./auxMethods";
 import BubblesTooltip from "./BubblesTooltip";
 import { Modal, Button } from "react-bootstrap";
+import ChartHelp from "./Popover";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
@@ -137,7 +138,7 @@ function Chart6() {
 	return (
 		<div className="chart c6 d-flex flex-column justify-content-start">
 			<div className="chart_title">
-				Dispersión de anomalías
+				Dispersión de anomalías <ChartHelp number={6}/>
 			</div>
 			<div className="d-flex">
 				<select className="form-select m-2" aria-label="Default select example" defaultValue={ config["filtro_g6_1"] }

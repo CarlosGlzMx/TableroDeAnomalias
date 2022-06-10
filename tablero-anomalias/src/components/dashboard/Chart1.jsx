@@ -2,7 +2,6 @@ import { React, useState, useContext, useEffect } from "react";
 import { DataContext, ConfigContext } from "./Dashboard";
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend, Label } from "recharts";
 import { dateInRange } from "./auxMethods";
-import ChartHelp from "./Popover";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 

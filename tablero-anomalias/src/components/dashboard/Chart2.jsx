@@ -13,6 +13,7 @@ import DateTooltip from "./DateTooltip";
 import { DataContext, ConfigContext } from "./Dashboard";
 import { dateInRange, formatDate, dateTickFormatter } from "./auxMethods";
 import { Modal, Button } from "react-bootstrap";
+import ChartHelp from "./Popover";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
@@ -111,7 +112,7 @@ function Chart2() {
 
 	return (
 		<div className="chart c2">
-			<div className="chart_title">Anomalías por fecha</div>
+			<div className="chart_title">Anomalías por fecha <ChartHelp number={2}/></div>
 			{(graphData.length > 0) ? (
 				<>
 					{datesChart()}
