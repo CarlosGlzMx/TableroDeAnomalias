@@ -9,6 +9,7 @@ import Actions from "../actions/Actions";
 import AnomaliesTable from "./AnomaliesTable";
 import Loading from "../uploading/Loading";
 import { dateParser } from "./auxMethods";
+import { useNavigate } from "react-router-dom";
 
 export const DataContext = createContext([[], () => { }]);
 export const ConfigContext = createContext([[], () => { }]);
@@ -20,12 +21,23 @@ function Dashboard() {
 	// Variable que contiene los filtros seleccionados para las gráficas
 	const [config, setConfig] = useState(undefined);
 
+	// Redirecciona a la página de login si no hay datos cargados
+	const navigate = useNavigate();
+
 	useEffect(() => {
+		if (sessionStorage.getItem("ids")) {
+			if (!sessionStorage.getItem("anomalyData")) {
+				navigate("/upload");
+			}
+		} else {
+			navigate("/");
+		}
+
 		if (anomalyData === undefined || config === undefined) {
 			setAnomalyData(dateParser(JSON.parse(sessionStorage.getItem("anomalyData"))));
 			setConfig(JSON.parse(sessionStorage.getItem("config")));
 		}
-	}, [anomalyData, setAnomalyData, config]);
+	}, [anomalyData, setAnomalyData, config, navigate]);
 
 	return (
 		<>
