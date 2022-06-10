@@ -2,6 +2,7 @@ import { React, useState, useContext, useEffect } from "react";
 import { DataContext, ConfigContext } from "./Dashboard";
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend, Label } from "recharts";
 import { dateInRange } from "./auxMethods";
+import ChartHelp from "./Popover";
 
 const [grisNormal, naranjaAnomalia] = ['#485458', '#FF9900'];
 
@@ -70,7 +71,7 @@ function Chart1() {
 				<div className = "card-blue p-4 m-4 text-center">
 					<h3>No se encontraron datos para generar la gráfica</h3>
 				</div>
-				)}
+				) }
 		</div>
 	);
 }
