@@ -15,7 +15,7 @@ export function printPdf() {
     })
 
     // Define los valores de tamaños y margenes para colocar las 6 gráficas
-    const [chart_w, chart_h, margin_hor, margin_ver] = [220, 220, 57.3, 24.75];
+    const [chart_w, chart_h, margin_hor, margin_ver] = [220, 220, 57.3, 16];
 
     // Itera los objetos HTML de gráficas
     let charts = document.querySelectorAll(".chart");
@@ -29,9 +29,16 @@ export function printPdf() {
             const new_y = header_h + (Math.floor(i / 2) + 1) * margin_ver + (Math.floor(i / 2)) * chart_h;
             pdf.addImage(imagen, "JPEG", new_x, new_y, chart_w, chart_h);
 
-            // Guarda el pdf hasta terminar de recorrer la lista
-            const finished = charts.length === i + 1;
-            if (finished) { pdf.save("reporte.pdf"); }
+
         })
+    })
+
+    // Agrega la barra de configuración ajustado a un pdf tamaño carta
+    const [actions_w, actions_h] = [612, 33]
+    const bar = document.querySelector(".action-bar");
+    html2canvas(bar).then((canvas) => {
+        const imagen = canvas.toDataURL("image/jpeg");
+        pdf.addImage(imagen, "JPEG", 0, 759, actions_w, actions_h);
+        pdf.save("reporte.pdf");
     })
 }
