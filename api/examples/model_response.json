@@ -1,0 +1,8 @@
+{
+	"id_carga" : "1",
+	"n_registros" : "5000",
+	"n_anomalias" : "1234",
+	"precision_ia" : "0.87",
+	"fecha_inicio" : "2018-04-04 14:00:00",
+	"fecha_fin" : "2019-10-04 14:00:00"
+}

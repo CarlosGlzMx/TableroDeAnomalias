@@ -1,53 +1,46 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { useState, createContext, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import {
     Header,
     Login,
+    Upload,
+    SelectColumn,
     Dashboard,
     Footer,
-    Session,
-    Upload,
 } from "./components";
-import "./App.css";
+
+// Importante mantener este orden para la prioridad de nuestro CSS sobre Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./styles/colors.css";
+import "./styles/App.css";
+
+// Creación de contextos desde el componente mayor de la aplicación para acceso compartido
+export const IdsContext = createContext([[], () => {}]);
 
 function App() {
-    if (Session.getSession()) {
-        return (
-            /*
-      <div className="App">
+    // Variable que contiene ids de usuario, de cargas
+    const [ids, setIds] = useState(undefined);
+
+    useEffect(() => {
+        if (sessionStorage.getItem("ids") && ids === undefined) {
+            setIds(JSON.parse(sessionStorage.getItem("ids")));
+        }
+    }, [ids, setIds]);
+
+    return (
         <Router>
-          <Header />
-          <Route path="/" exact component={() => <Dashboard />} />
-          <Footer />
+            <Header />
+            <IdsContext.Provider value={{ ids, setIds }}>
+                <Routes>
+                    <Route path="/" element={<Login />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/upload" element={<Upload />} />
+                    <Route path="/selectColumn" element={<SelectColumn />} />
+                </Routes>
+            </IdsContext.Provider>
+            <Footer />
         </Router>
-      </div>
-      */
-            <div>
-                <Header />
-                <h1>App - Session</h1>
-                <Footer />
-            </div>
-        );
-    } else {
-        return (
-            /*
-      <div className="App">
-        <Router>
-          <Header />
-          <Route path="/" exact component={() => <Login />} />
-          <Footer />
-        </Router>
-      </div>
-      */
-            <div>
-                <Header />
-                {/* <h1>App - No session</h1> */}
-                <Dashboard />
-                <Footer />
-            </div>
-        );
-    }
+    );
 }
 
 export default App;
