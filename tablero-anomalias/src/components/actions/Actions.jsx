@@ -165,7 +165,9 @@ function Actions() {
 
 				<button
 					className="btn btn-default"
-					onClick={ () => (window.location.href = "/TableroDeAnomalias/upload") }
+					onClick={ () => {
+						navegador("/TableroDeAnomalias/upload", { replace: false });
+					}}
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
