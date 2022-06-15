@@ -59,7 +59,7 @@ function Chart3() {
 		<div className="chart c3">
 			<div className="chart_title">Comportamiento de los datos</div>
 			{(graphData.length > 0) ? (
-				<ResponsiveContainer width="100%" height="100%">
+				<ResponsiveContainer width={ "100%" } aspect={ 1 }>
 					<BarChart data={graphData}
 						margin = {{
 							top: 20,

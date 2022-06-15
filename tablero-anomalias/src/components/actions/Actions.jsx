@@ -44,7 +44,7 @@ function Actions() {
 
 	useEffect(() => {
 		if (deleted === true) {
-			navegador("/TableroDeAnomalias/upload", { replace: true });
+			navegador("/TableroDeAnomalias/upload", { replace: false });
 		}
 	}, [deleted, navegador]);
 

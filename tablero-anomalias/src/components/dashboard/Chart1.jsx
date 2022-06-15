@@ -40,7 +40,7 @@ function Chart1() {
 			<div className="chart_title">Cantidad de anomalías</div>
 			{(graphData.length > 0) ? (
 
-				<ResponsiveContainer className="d-flex justify-content-center">
+				<ResponsiveContainer className="d-flex justify-content-center" width={ "100%" } aspect={ 1 }>
 					<PieChart>
 						<Pie
 							data={graphData}

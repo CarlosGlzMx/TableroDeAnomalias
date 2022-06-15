@@ -81,7 +81,7 @@ function Chart2() {
 
 	function datesChart() {
 		return (
-			<ResponsiveContainer width="100%" height="100%">
+			<ResponsiveContainer width={ "100%" } aspect={ 1 }>
 				<LineChart data={graphData}
 					margin={{ right: 50, bottom: 10, top: 20}}
 					onClick={() => { if (!viewModal) setViewModal(true) }}

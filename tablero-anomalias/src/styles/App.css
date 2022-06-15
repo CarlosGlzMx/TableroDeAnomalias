@@ -45,7 +45,6 @@ h4 {
 .chart {
     width: 33%;
     min-height: 400px;
-    max-height: 80%;
     justify-content: center;
     align-items: center;
     overflow: visible;
