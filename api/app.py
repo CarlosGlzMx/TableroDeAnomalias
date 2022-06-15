@@ -186,4 +186,4 @@ def methods_boards():
             return Response("Error en la eliminación del tablero: " + str(e), 500)
 
 if __name__ == "__main__":
-    app.run(debug = False)
+    app.run(debug = True)

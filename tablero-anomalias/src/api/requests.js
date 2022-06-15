@@ -1,6 +1,6 @@
 // GET - Obtiene las cargas y los tableros de la base de dato
 export async function getDatosDisponibles(idUsuario) {
-    return await fetch(`http://127.0.0.1:5000/datos-disponibles/`, {
+    return await fetch(`https://ternium-anomalias.herokuapp.com/datos-disponibles/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export function postCarga(archivo, columnas, idUsuario) {
     const formData = new FormData();
     formData.append("archivo_registros", archivo);
     formData.append("columnas", JSON.stringify(columnas));
-    return fetch(`http://127.0.0.1:5000/cargas/`, {
+    return fetch(`https://ternium-anomalias.herokuapp.com/cargas/`, {
         method: "POST",
         headers: {
             id_usuario: idUsuario,
@@ -41,7 +41,7 @@ export function postCarga(archivo, columnas, idUsuario) {
 
 // GET - Devuelve la totalidad de datos asociados con una carga
 export function getCarga(idUsuario, idCarga) {
-    return fetch(`http://127.0.0.1:5000/cargas/`, {
+    return fetch(`https://ternium-anomalias.herokuapp.com/cargas/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export function getCarga(idUsuario, idCarga) {
 
 // DELETE - Borra una carga de la base de datos, incluyendo sus tableros y registros asociados
 export function deleteCarga(idUsuario, idCarga) {
-    return fetch(`http://127.0.0.1:5000/cargas/`, {
+    return fetch(`https://ternium-anomalias.herokuapp.com/cargas/`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export function deleteCarga(idUsuario, idCarga) {
 
 // POST - Guarda un tablero en la base de datos
 export async function postTablero(idUsuario, idCarga, nombre, config) {
-    return await fetch(`http://127.0.0.1:5000/tableros/`, {
+    return await fetch(`https://ternium-anomalias.herokuapp.com/tableros/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -118,7 +118,7 @@ export async function postTablero(idUsuario, idCarga, nombre, config) {
 
 // GET - Devuelve un tablero guardado previamente
 export async function getTablero(idUsuario, idTablero) {
-    return await fetch(`http://127.0.0.1:5000/tableros/`, {
+    return await fetch(`https://ternium-anomalias.herokuapp.com/tableros/`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -153,7 +153,7 @@ export async function getTablero(idUsuario, idTablero) {
 
 // DELETE - Elimina un tablero de la base de datos
 export async function deleteTablero(idUsuario, idTablero) {
-    return await fetch(`http://127.0.0.1:5000/tableros/`, {
+    return await fetch(`https://ternium-anomalias.herokuapp.com/tableros/`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",

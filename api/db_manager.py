@@ -2,10 +2,10 @@ import mysql.connector
 import json
 
 # Constantes de desarrollo - Cambian por cada computadora
-DB_USER = "root"
-DB_PWD = "G4yylh&h!miyec2a"
-DB_IP = "127.0.0.1"
-DB_NAME = "ternium_anomalias"
+DB_USER = "b61a1543eb137b"
+DB_PWD = "497c7be3"
+DB_IP = "us-cdbr-east-05.cleardb.net"
+DB_NAME = "heroku_9d4ea51303bb77d"
 
 # Crea una conexión con una base de datos local de MySQL
 def db_connect():
