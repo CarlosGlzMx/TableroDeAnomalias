@@ -114,7 +114,7 @@ function Actions() {
 	}
 
 	function newTab() {
-		window.open("https://carlosglzmx.github.io/").focus()
+		window.open("https://carlosglzmx.github.io/TableroDeAnomalias/").focus()
 	}
 
 	return (
