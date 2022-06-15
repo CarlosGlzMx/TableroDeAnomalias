@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {
     Header,
     Login,
@@ -28,18 +28,18 @@ function App() {
     }, [ids, setIds]);
 
     return (
-        <Router>
+        <BrowserRouter>
             <Header />
             <IdsContext.Provider value={{ ids, setIds }}>
                 <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/upload" element={<Upload />} />
-                    <Route path="/selectColumn" element={<SelectColumn />} />
+                    <Route path="/TableroDeAnomalias/" element={<Login />} />
+                    <Route path="/TableroDeAnomalias/dashboard" element={<Dashboard />} />
+                    <Route path="/TableroDeAnomalias/upload" element={<Upload />} />
+                    <Route path="/TableroDeAnomalias/selectColumn" element={<SelectColumn />} />
                 </Routes>
             </IdsContext.Provider>
             <Footer />
-        </Router>
+        </BrowserRouter>
     );
 }
 
