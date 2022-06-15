@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/TableroDeAnomalias/static/css/main.03ab0391.css",
-    "main.js": "/TableroDeAnomalias/static/js/main.072ce979.js",
+    "main.css": "/TableroDeAnomalias/static/css/main.bf68d4cd.css",
+    "main.js": "/TableroDeAnomalias/static/js/main.76c3759b.js",
     "static/js/703.66b2e830.chunk.js": "/TableroDeAnomalias/static/js/703.66b2e830.chunk.js",
     "static/js/423.9620e419.chunk.js": "/TableroDeAnomalias/static/js/423.9620e419.chunk.js",
     "static/media/AnomalyBG.png": "/TableroDeAnomalias/static/media/AnomalyBG.2eb4283b8f759e53b272.png",
     "index.html": "/TableroDeAnomalias/index.html",
-    "main.03ab0391.css.map": "/TableroDeAnomalias/static/css/main.03ab0391.css.map",
-    "main.072ce979.js.map": "/TableroDeAnomalias/static/js/main.072ce979.js.map",
+    "main.bf68d4cd.css.map": "/TableroDeAnomalias/static/css/main.bf68d4cd.css.map",
+    "main.76c3759b.js.map": "/TableroDeAnomalias/static/js/main.76c3759b.js.map",
     "703.66b2e830.chunk.js.map": "/TableroDeAnomalias/static/js/703.66b2e830.chunk.js.map",
     "423.9620e419.chunk.js.map": "/TableroDeAnomalias/static/js/423.9620e419.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.03ab0391.css",
-    "static/js/main.072ce979.js"
+    "static/css/main.bf68d4cd.css",
+    "static/js/main.76c3759b.js"
   ]
 }
