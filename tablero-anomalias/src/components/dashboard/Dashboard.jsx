@@ -27,10 +27,10 @@ function Dashboard() {
 	useEffect(() => {
 		if (sessionStorage.getItem("ids")) {
 			if (!sessionStorage.getItem("anomalyData")) {
-				navigate("/upload");
+				navigate("/TableroDeAnomalias/upload");
 			}
 		} else {
-			navigate("/");
+			navigate("/TableroDeAnomalias/");
 		}
 
 		if (anomalyData === undefined || config === undefined) {

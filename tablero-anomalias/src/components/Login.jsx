@@ -13,7 +13,7 @@ const Login = () => {
 
 		// Si ya existe una sesión activa, no pide completar el Login
 		if (ids !== undefined) {
-			navegador('/upload', { replace: true })
+			navegador('/TableroDeAnomalias/upload', { replace: true })
 		}
 
 		// Variable por reemplazar por la respuesta del login
@@ -21,7 +21,7 @@ const Login = () => {
 		if (validSession) {
 			sessionStorage.setItem('ids', JSON.stringify({ ...ids, usuario: "Charlie" }));
 			setIds({ ...ids, usuario: "Charlie" });
-			navegador('/upload', { replace: true });
+			navegador('/TableroDeAnomalias/upload', { replace: true });
 		}
 		else {
 			window.alert("Error en el inicio de sesión");

@@ -44,7 +44,7 @@ function Actions() {
 
 	useEffect(() => {
 		if (deleted === true) {
-			navegador("/upload", { replace: true });
+			navegador("/TableroDeAnomalias/upload", { replace: true });
 		}
 	}, [deleted, navegador]);
 
@@ -114,7 +114,7 @@ function Actions() {
 	}
 
 	function newTab() {
-		window.open("http://localhost:3000/").focus()
+		window.open("https://carlosglzmx.github.io/").focus()
 	}
 
 	return (
@@ -165,7 +165,7 @@ function Actions() {
 
 				<button
 					className="btn btn-default"
-					onClick={ () => (window.location.href = "/upload") }
+					onClick={ () => (window.location.href = "/TableroDeAnomalias/upload") }
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

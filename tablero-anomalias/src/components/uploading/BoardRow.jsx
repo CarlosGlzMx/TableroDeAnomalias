@@ -24,7 +24,7 @@ function BoardRow(props) {
 
 	useEffect(() => {
 		if (saveData) {
-			navegador("/dashboard", { replace: true });
+			navegador("/TableroDeAnomalias/dashboard", { replace: true });
 		}
 	}, [ids, navegador, saveData]);
 

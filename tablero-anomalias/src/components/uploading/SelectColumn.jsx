@@ -33,7 +33,7 @@ function SelectColumn() {
 	const handleShow = () => setShow(true);
 	const handleClose = () => {
 		setShow(false);
-		navegador("/upload", { replace: true });
+		navegador("/TableroDeAnomalias/upload", { replace: true });
 	}
 
 	const [saveData, setSaveData] = useState(false);
@@ -80,7 +80,7 @@ function SelectColumn() {
 		}
 
 		if (saveData && (ids.carga !== undefined || ids.tablero !== undefined)) {
-			navegador("/dashboard", { replace: true });
+			navegador("/TableroDeAnomalias/dashboard", { replace: true });
 		}
 	}, [fileData, fileType, ids, saveData, navegador]);
 

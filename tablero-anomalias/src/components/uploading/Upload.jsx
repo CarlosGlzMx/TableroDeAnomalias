@@ -32,7 +32,7 @@ function Upload() {
 
 		// Redirección a login si no hay identificadores de usuario
 		if (!sessionStorage.getItem("ids")) {
-			navegador("/", { replace: true });
+			navegador("/TableroDeAnomalias/", { replace: true });
 		}
 
 		async function handleRequest() {
@@ -83,7 +83,7 @@ function Upload() {
 				</Form>
 				<Button className="primary-button"
 					as={ Link }
-					to="/selectColumn"
+					to="/TableroDeAnomalias/selectColumn"
 					state={ { file, type } }
 					size="sm"
 					disabled={ isValid === undefined ? true : !isValid } >
