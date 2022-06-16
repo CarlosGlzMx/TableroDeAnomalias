@@ -28,13 +28,17 @@ const Login = () => {
 		}
 	}
 
+	function openTutorial() {
+		window.open("https://youtu.be/YGBG1FMV_ng").focus()
+	}
+
 	return (
 		<div className="full-center standard-bg">
 			<div className="card-dark full-center h-75 w-25 rounded-3 flex-column">
 				<div className="light-text h1">Bienvenido</div>
 				<Button className="primary-button w-75 mt-4" size="lg" onClick={ () => login() }><b>Iniciar sesión</b></Button>
 				<small className="light-text">con credenciales corporativas</small>
-				<Button className="primary-button w-75 mt-4" size="lg" href="https://www.youtube.com/watch?v=8YGlzSl6cxU"><b>Guía de usuario</b></Button>
+				<Button className="primary-button w-75 mt-4" size="lg" onClick={ () => openTutorial() }><b>Guía de usuario</b></Button>
 				<small className="light-text mb-2">con videos y manuales</small>
 			</div>
 		</div>
