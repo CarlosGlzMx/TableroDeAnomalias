@@ -8,15 +8,21 @@ const DateTooltip = props => {
 		const itemData = payload && payload.length ? payload[0].payload : null;
 		return (
 			<div className="date-tooltip p-2">
-				<p className="m-1">
-					{ itemData.Fecha }
-				</p>
-				<p className="m-1" style={ { color: grisNormal } }>
-					Registros: { itemData["Registros totales"] }
-				</p>
-				<p className="m-1" style={ { color: naranjaAnomalia } }>
-					Anomalías: { itemData["Anomalías"] }
-				</p>
+				{(itemData) ? (
+				<>
+					<p className="m-1">
+						{ itemData.Fecha }
+					</p>
+					<p className="m-1" style={ { color: grisNormal } }>
+						Registros: { itemData["Registros totales"] }
+					</p>
+					<p className="m-1" style={ { color: naranjaAnomalia } }>
+						Anomalías: { itemData["Anomalías"] }
+					</p>
+				</>
+				) : (
+				<p className="m-1">Cargando datos...</p>
+			)}
 			</div>
 		);
 	}
