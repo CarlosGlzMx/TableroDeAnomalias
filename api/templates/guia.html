@@ -5,9 +5,13 @@
 <body>
     <h2>API para la aplicación Web: Tablero de Visualización de Anomalías</h2>
     <ul>
-        <li>POST /cargas + datos + usuario - Sube registros a la base de datos</li>
-        <li>POST /tableros + configuración + usuario - Guarda un tablero a la base de datos</li>
-        <li>GET /tableros + id + usuario - Consulta uno de los tableros guardados</li>
-        <li>DELETE /tableros + id + usuario - Borra uno de los tableros guardados</li>
+        <li>GET / - Ventana actual con instrucciones del API</li>
+        <li>GET /datos-disponibles + id_usuario - Consulta las cargas y tableros de este usuario</li>
+        <li>POST /cargas + datos + columnas + id_usuario - Suben registros a la base de datos</li>
+        <li>GET /cargas + id_carga + id_usuario - Se consultan los registros de la base de datos</li>
+        <li>DELETE /cargas + id_carga + id_usuario - Se borra una carga de datos con sus tableros asociados</li>
+        <li>POST /tableros + configuración + id_carga + id_usuario - Guarda una configuración de tablero a la base de datos</li>
+        <li>GET /tableros + id_tablero + id_usuario - Consulta uno de los tableros guardados</li>
+        <li>DELETE /tableros + id_tablero + id_usuario - Se borra un tablero de datos, su configuración</li>
     </ul>
 </body>
